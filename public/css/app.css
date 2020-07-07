@@ -1,0 +1,9 @@
+#page_header .logo img{
+    height: 120px;
+    width:40px;
+}
+
+.tab-panel-border{
+    border: 1px solid #DDDDDD;
+    border-top: none;
+}
