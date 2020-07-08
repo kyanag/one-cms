@@ -59,8 +59,11 @@
                         <p class="lead">任意一张带有正脸人物头像的照片，即可轻松处理为证件照</p>
                     </div>
                     <div class="row">
-                        <div class="col-md-12" id="image-face">
-                            <img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22250%22%20height%3D%22350%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20250%20350%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_158bd1d28ef%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A16pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_158bd1d28ef%22%3E%3Crect%20width%3D%22250%22%20height%3D%22350%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%0A%3Ctext%20x%3D%2250%25%22%20y%3D%2245%25%22%20dy%3D%22.3em%22%20text-anchor%3D%22middle%22%20font-family%3D%22MSYH%22%3E%E7%82%B9%E5%87%BB%20%5B%E9%80%89%E6%8B%A9%E5%9B%BE%E7%89%87%5D%3C%2Ftext%3E%0A%3Ctext%20x%3D%2250%25%22%20y%3D%2255%25%22%20dy%3D%22.3em%22%20text-anchor%3D%22middle%22%20font-family%3D%22MSYH%22%3E%20%E4%B8%8A%E4%BC%A0%E4%BB%BB%E6%84%8F%E6%AD%A3%E9%9D%A2%E5%9B%BE%3C%2Ftext%3E%0A%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" class="img-fluid m-auto" style="width: 250px;height: 350px;background-color: #dee2e6" id="image-face-img"></img>
+                        <div class="col-md-12">
+                            <div id="image-face" class="d-flex mx-auto align-items-end" style="width: 250px;height: 350px;background-color: #dee2e6">
+                                <img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22250%22%20height%3D%22350%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20250%20350%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_158bd1d28ef%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A16pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_158bd1d28ef%22%3E%3Crect%20width%3D%22250%22%20height%3D%22350%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%0A%3Ctext%20x%3D%2250%25%22%20y%3D%2245%25%22%20dy%3D%22.3em%22%20text-anchor%3D%22middle%22%20font-family%3D%22MSYH%22%3E%E7%82%B9%E5%87%BB%20%5B%E9%80%89%E6%8B%A9%E5%9B%BE%E7%89%87%5D%3C%2Ftext%3E%0A%3Ctext%20x%3D%2250%25%22%20y%3D%2255%25%22%20dy%3D%22.3em%22%20text-anchor%3D%22middle%22%20font-family%3D%22MSYH%22%3E%20%E4%B8%8A%E4%BC%A0%E4%BB%BB%E6%84%8F%E6%AD%A3%E9%9D%A2%E5%9B%BE%3C%2Ftext%3E%0A%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" class="img-fluid mx-auto" style="max-width: 100%; height: auto;" id="image-face-img"></img>
+                            </div>
+
 {{--                            <svg width="250" height="350" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 350">--}}
 {{--                                <defs><style type="text/css">#holder_158bd1d28ef text { fill:rgba(255,255,255,.75);font-weight:normal;font-family:Helvetica, monospace;font-size:16pt } </style></defs>--}}
 {{--                                <g id="holder_158bd1d28ef">--}}
@@ -74,18 +77,17 @@
                         </div>
                         <div class="col-md-12 m-0 pt-3">
                             <div class="btn-group btn-group-sm pt-1" aria-label="Basic example">
-                                <button type="button" class="btn btn-info ml-1">背景色</button>
-                                <button type="button" class="btn btn-primary head-back-color-btn head-back-btn-white" style="">白</button>
-                                <button type="button" class="btn btn-primary head-back-color-btn head-back-btn-red">红色</button>
-                                <button type="button" class="btn btn-primary head-back-color-btn head-back-btn-blue">蓝色</button>
+                                <button type="button" class="btn btn-default ml-1">背景色</button>
+                                <button type="button" class="btn btn-outline-primary matting-color" data-color="#FFFFFF">白</button>
+                                <button type="button" class="btn btn-outline-danger matting-color" data-color="#FF0000">红色</button>
+                                <button type="button" class="btn btn-primary matting-color"  data-color="#00BFF3">蓝色</button>
                             </div>
-                            <div class="btn-group btn-group-sm pt-1">
-                                <button type="button" class="btn btn-info" data-size="250*350">1寸</button>
-                                <button type="button" class="btn btn-info" data-size="350*490">2寸</button>
-                                <button type="button" class="btn btn-info" data-size="350*520">3寸</button>
-                                <button type="button" class="btn btn-info ml-1" data-size="250*350">港澳台</button>
-                                <button type="button" class="btn btn-info" data-size="350*490">2寸</button>
-                                <button type="button" class="btn btn-info" data-size="350*520">3寸</button>
+                            <div class="btn-group btn-group-sm pt-1 ml-2">
+                                <button type="button" class="btn btn-default">尺寸</button>
+                                <button type="button" class="btn btn-outline-info" data-size="250*350">1寸</button>
+                                <button type="button" class="btn btn-outline-info" data-size="350*490">2寸</button>
+                                <button type="button" class="btn btn-outline-info" data-size="350*520">3寸</button>
+                                <button type="button" class="btn btn-outline-info ml-1" data-size="250*350">港澳台</button>
                             </div>
                         </div>
                     </div>
@@ -138,9 +140,19 @@
 </div>
 <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
-<script src="https://cdn.bootcdn.net/ajax/libs/webuploader/0.1.1/webuploader.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/webuploader/0.1.1/webuploader.js"></script>
 <script>
-    var HeadMatting = function(){
+    var HeadMatting = function(options){
+        this.COLOR_RED = "#FF0000";
+        this.COLOR_WHITE = "#FFFFFF";
+        this.COLOR_BLUE = "#00BFF3";
+
+        this.SIZE_1 = {width:250, height:350};
+        this.SIZE_2 = {width: 350, height: 490};
+        this.SIZE_3 = {width:350,height: 520};
+        this.SIZE_G_A_T = {width:250, height: 350};
+
+
         var imageBlob;
 
         this.setImage = function(image){
@@ -151,43 +163,102 @@
             reader.onloadend = function() {
                 $("#image-face-img").attr("src", reader.result);
             };
+        };
 
+        this.setColor = function (color) {
+            $("#image-face").css("background-color", color);
+        };
+
+        this.showOpenDialog = function(){
+            return new Promise(function(resolve, reject) {
+                var input = document.createElement("INPUT");
+                input.setAttribute("type", "file");
+                input.style.display = "none";
+
+                document.body.appendChild(input);
+
+                $(input).change(() => {
+                    if(input.files.length === 0){
+                        reject('ERROR_NOT_SELECT_FILE');
+                    }else{
+                        resolve(input.files[0]);
+                    }
+                });
+                input.click();
+                setTimeout(function(){
+                    input.remove();
+                }, 2000); //5秒后删除
+            })
+        };
+
+        this.uploadFile = function(file){
+            return new Promise(function(resolve, reject){
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', "{{ route("image.headmatting") }}", true);
+                xhr.responseType = "blob";
+                //xhr.setRequestHeader("Content-Type","multipart/form-data");//设置请求内容类型
+
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState !== 4) {
+                        return;
+                    }
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        resolve(xhr.response);
+                    } else {
+                        reject('ERROR_UPLOAD_ERROR');
+                    }
+                };
+                var fd = new FormData();
+                fd.append("file", file);
+                fd.append("_token", "{{ csrf_token() }}");
+                xhr.send(fd);
+            });
         };
     };
 
     $(function () {
         let app = new HeadMatting();
 
-        let uploader = WebUploader.create({
-            server: "{{ route("image.headmatting") }}",
-            pick: '#file-select-btn',
-            resize: false,
-            chunked: false,
-            //chunkSize: 1024 * 1024,         //每次分片1M
-            fileNumLimit: 1,
-            auto: true,
-            duplicate: true,
-            //fileSizeLimit: 2 * 1024 * 1024,    //最大2M
-            accept: {
-                mimeTypes: 'image/*'
-            },
-            threads: 1,
-            fileVal:"{{ \App\Supports\Uploader::ATTR_VAL_FILE }}",
-            formData: {
-                _token:'{{ csrf_token() }}'
-            }
+        $("#file-select-btn").click(function(){
+            app.showOpenDialog().then(function(file){
+                return app.uploadFile(file);
+            }).then(function(response){
+                app.setImage(new Blob([response]));
+            });
         });
-        uploader.on("uploadStart", function () {
-            console.log(this)
+
+        $(".matting-color").click(function(){
+            app.setColor($(this).data("color"));
         });
-        uploader.on("beforeFileQueued", function(file){
-            file.id = WebUploader.Base.guid("file");
-            return file;
-        });
-        uploader.on("uploadSuccess", (file, response) => {
-            app.setImage(new Blob([response._raw]));
-        });
-        window.uploader = uploader;
+        {{--let uploader = WebUploader.create({--}}
+        {{--    server: "{{ route("image.headmatting") }}",--}}
+        {{--    pick: '#file-select-btn',--}}
+        {{--    resize: false,--}}
+        {{--    chunked: false,--}}
+        {{--    //chunkSize: 1024 * 1024,         //每次分片1M--}}
+        {{--    //fileNumLimit: 1,--}}
+        {{--    auto: true,--}}
+        {{--    duplicate: true,--}}
+        {{--    //fileSizeLimit: 2 * 1024 * 1024,    //最大2M--}}
+        {{--    accept: {--}}
+        {{--        //mimeTypes: 'image/*'--}}
+        {{--    },--}}
+        {{--    threads: 1,--}}
+        {{--    fileVal:"{{ \App\Supports\Uploader::ATTR_VAL_FILE }}",--}}
+        {{--    formData: {--}}
+        {{--        _token:'{{ csrf_token() }}'--}}
+        {{--    }--}}
+        {{--});--}}
+        {{--uploader.on("beforeXhrSend", function () {--}}
+        {{--    console.log(arguments);--}}
+        {{--});--}}
+        {{--uploader.on("uploadSuccess", (file, response) => {--}}
+        {{--    app.setImage(new Blob([response._raw]));--}}
+        {{--});--}}
+        {{--uploader.on("error", (type, file) => {--}}
+        {{--    console.log(type, file);--}}
+        {{--});--}}
+        {{--window.uploader = uploader;--}}
     });
 </script>
 </body>
