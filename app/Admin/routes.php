@@ -15,7 +15,7 @@ Route::group([], function () {
     Route::resource("group", "GroupController")->names("admin.group");
 
     Route::get("config/preview", "ConfigController@preview")->name("admin.config.preview");
-    Route::put("config/preview", "ConfigController@updateAll")->name("admin.config.updateAll");
+    Route::put("config/updateAll", "ConfigController@updateAll")->name("admin.config.updateAll");
     Route::resource("config", "ConfigController")
         ->names("admin.config")
         ->only(['create', "store", "destroy"]);

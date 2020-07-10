@@ -44,8 +44,10 @@ class Kernel extends HttpKernel
             'bindings',
         ],
         'admin' => [
+            \Illuminate\Session\Middleware\StartSession::class,
+            \App\Http\Middleware\VerifyCsrfToken::class,
             'admin.auth',
-            'admin.bootstrap'
+            'admin.bootstrap',
         ],
     ];
 

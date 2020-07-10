@@ -7,6 +7,7 @@ use App\Models\Config;
 use App\Admin\Grid\InspectorReader;
 use App\Models\Group;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ConfigController extends _InspectorController
 {
@@ -22,6 +23,8 @@ class ConfigController extends _InspectorController
 
 
     public function preview(Request $request){
+        /** @var \Illuminate\Session\Store $session */
+        $session = app("session")->driver();
         $inspector = new InspectorReader(new ConfigItems());
 
         $fields = $inspector->fields();
@@ -38,5 +41,23 @@ class ConfigController extends _InspectorController
             'fields' => $fields,
             'groups' => $groups,
         ]);
+    }
+
+    public function updateAll(Request $request){
+        $configs = Config::query()->get()->keyBy("name");
+        $params = $request->input();
+        try{
+            DB::transaction(function() use($configs, $params){
+                foreach ($configs as $name => $config){
+                    if(isset($params[$name])){
+                        $config->value = $params[$name];
+                        $config->save();
+                    }
+                }
+            });
+            return "修改成功";
+        }catch (\Exception $e){
+
+        }
     }
 }

@@ -16,6 +16,8 @@
                                 <div class="panel-heading"><i class="fa fa-cog"></i> {{ $title }}</div>
                                 <div class="panel-body">
                                     <form class="form-horizontal" role="form" method="POST" action="{{ route("admin.config.updateAll") }}">
+                                        {!! csrf_field() !!}
+                                        {!! method_field("put") !!}
                                         <div>
                                             <!-- Nav tabs -->
                                             <ul class="nav nav-tabs" role="tablist">
@@ -33,16 +35,17 @@
                                                 @foreach($groups as $group)
                                                     @if(count($group->configs) > 0)
                                                     <div role="tabpanel" class="tab-pane active" id="config-{{ $group['id'] }}">
-
-                                                            {!! csrf_field() !!}
                                                             @foreach($group->configs as $config)
                                                             @php
                                                                 $field = @$fields[$config['name']];
                                                                 if(is_null($field)){
                                                                     continue;
                                                                 }
+                                                                //$field->setValue($config['value']);
+                                                                $element = $field->toElement();
+                                                                $element->setValue($config['value']);
                                                             @endphp
-                                                            {!! $field->toElement()->render() !!}
+                                                            {!! $element->render() !!}
                                                             @endforeach
 
 
