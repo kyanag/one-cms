@@ -13,6 +13,7 @@
 {{--    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">--}}
     <link href="https://cdn.bootcdn.net/ajax/libs/bootswatch/4.5.0/cosmo/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/cropperjs/1.5.7/cropper.min.css" rel="stylesheet">
     <style>
         .head-back-color-btn{
             border: none;
@@ -71,7 +72,7 @@
                                 <button type="button" class="btn btn-default ml-1">背景色</button>
                             </div>
 
-                            <div class="btn-group btn-group-sm pt-1 ml-2" aria-label="裁剪" id="actionbar-size" style="display: none">
+                            <div class="btn-group btn-group-sm pt-1 ml-2" aria-label="裁剪" id="actionbar-size">
                                 <button type="button" class="btn btn-default btn-sm">裁剪</button>
                             </div>
                         </div>
@@ -125,7 +126,7 @@
 </div>
 <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
-<script src="https://cdn.bootcdn.net/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/cropperjs/1.5.7/cropper.min.js"></script>
 
 <script>
     var HeadMatting = function(options){
