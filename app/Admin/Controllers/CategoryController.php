@@ -2,19 +2,15 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Category;
-use App\Admin\Grid\InspectorReader;
+use App\Admin\Grid\ModelInspectorBuilder;
 
 class CategoryController extends _InspectorController
 {
 
-    protected function getModel()
-    {
-        return new Category();
-    }
-
     public function getInspector()
     {
-        return new InspectorReader(new \App\Admin\Inspectors\Category());
+        return app(\App\Admin\Grid\ModelInspectorBuilder::class)
+            ->from(new \App\Admin\Inspectors\Category())
+            ->built();
     }
 }

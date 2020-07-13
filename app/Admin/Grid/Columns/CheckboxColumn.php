@@ -14,15 +14,4 @@ class CheckboxColumn extends DataColumn
     public $inputName = "selection";
 
 
-    public function boot()
-    {
-        if (substr_compare($this->inputName, '[]', -2, 2)) {
-            $this->inputName .= '[]';
-        }
-        $this->content = function($model, $key, $index){
-            return "<label><input type=\"checkbox\" name=\"{$this->inputName}\" value='{$model[$this->getName()]}'></label>";
-        };
-        return parent::boot();
-    }
-
 }

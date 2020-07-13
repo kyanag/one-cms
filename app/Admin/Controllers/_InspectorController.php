@@ -5,14 +5,14 @@ namespace App\Admin\Controllers;
 
 
 use App\Admin\Annotations\FieldAttribute;
-use App\Admin\Grid\ColumnBuilder;
-use App\Admin\Grid\Interfaces\FieldInspectorInterface;
+use App\Admin\Grid\ColumnFactory;
+use App\Admin\Grid\Interfaces\AttributeInspectorInterface;
+use App\Admin\Grid\Interfaces\ModelInspectorInterface;
 use App\Components\ActionBar;
 use App\Components\GridView;
 use App\Http\Controllers\Controller;
 use App\Supports\Context;
 use App\Supports\FormBuilder;
-use App\Admin\Grid\InspectorReader;
 use App\Supports\UrlCreator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -23,15 +23,26 @@ use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 abstract class _InspectorController extends Controller
 {
 
+    /**
+     * @var ModelInspectorInterface
+     */
+    protected $modelInspector;
+
     public function __construct()
     {
-        app()->singleton(ColumnBuilder::class, function(){
-            $columnBuilder = new ColumnBuilder();
+        $this->modelInspector = $this->getInspector();
+
+        app()->singleton(ColumnFactory::class, function(){
+            $columnBuilder = new ColumnFactory();
             $columnBuilder->urlCreator = $this->getUrlCreator();
 
             return $columnBuilder;
         });
+
+
+
     }
+
 
     /**
      * @var UrlCreator
@@ -46,13 +57,13 @@ abstract class _InspectorController extends Controller
     /**
      * @return Model
      */
-    protected function getModel(){
-        $modelClass = $this->getInspector()->modelClass();
+    protected function newModel(){
+        $modelClass = $this->modelInspector->getModelClass();
         return new $modelClass();
     }
 
     /**
-     * @return InspectorReader
+     * @return ModelInspectorInterface
      */
     abstract protected function getInspector();
 
@@ -64,14 +75,14 @@ abstract class _InspectorController extends Controller
     public function index(Request $request)
     {
         $grid = $this->getGrid();
-        $title = " {$this->getInspector()->title()}列表";
-        $description = "{$this->getInspector()->title()}管理";
+        $title = " {$this->modelInspector->getTitle()}列表";
+        $description = "{$this->modelInspector->getTitle()}管理";
 
-        $actionBar = new ActionBar($this->getInspector(), $this->getUrlCreator());
+        $actionBar = new ActionBar($this->modelInspector, $this->getUrlCreator());
         $actionBar->setQuery($request->query());
 
         /** @var Paginator $paginator */
-        $paginator = $this->getModel()
+        $paginator = $this->newModel()
             ->newQuery()
             //->where($actionBar->toScope())
             ->withGlobalScope("__runtime__", $actionBar->toScope())
@@ -110,7 +121,7 @@ abstract class _InspectorController extends Controller
 
         $form = $formBuilder->built();
 
-        $title = "新增{$this->getInspector()->title()}";
+        $title = "新增{$this->modelInspector->getTitle()}";
         $description = "";
 
         return view("admin::common.create", compact("form", "title", "description"));
@@ -126,12 +137,12 @@ abstract class _InspectorController extends Controller
     {
         $attributes = $this->validate(
             $request,
-            $this->getInspector()->getRules(FieldAttribute::ABLE_CREATE),
+            $this->modelInspector->getRules(FieldAttribute::ABLE_CREATE),
             [],
-            $this->getInspector()->getLabels()
+            $this->modelInspector->getLabels()
         );
 
-        $model = $this->getModel();
+        $model = $this->newModel();
         $model->fill($attributes);
 
         if($model->saveOrFail()){
@@ -160,11 +171,11 @@ abstract class _InspectorController extends Controller
      */
     public function edit($id)
     {
-        $model = $this->getModel()
+        $model = $this->newModel()
             ->newQuery()->find($id);
 
         if(is_null($model)){
-            flash("不存在的{$this->getInspector()->title()}", "warning");
+            flash("不存在的{$this->modelInspector->getTitle()}", "warning");
             return back();
         }
 
@@ -179,7 +190,7 @@ abstract class _InspectorController extends Controller
 
         $form = $formBuilder->built();
 
-        $title = "{$model['title']} - 编辑{$this->getInspector()->title()}";
+        $title = "{$model['title']} - 编辑{$this->modelInspector->getTitle()}";
         $description = "";
 
         return view("admin::common.edit", compact("form", "title", "description"));
@@ -212,7 +223,7 @@ abstract class _InspectorController extends Controller
         $form = FormBuilder::newForm();
 
         /** @var FieldAttribute $field */
-        foreach ($this->getInspector()->fields() as $field){
+        foreach ($this->modelInspector->getAttributes() as $field){
             if($field->ableFor($scene)){
                 $form->addComponent($field->toElement());
             }
@@ -221,17 +232,17 @@ abstract class _InspectorController extends Controller
     }
 
     protected function getGrid(){
-        $fields = $this->getInspector()->fields();
+        $attributeInspectors = $this->modelInspector->getAttributes();
 
-        $fields = array_filter($fields, function(FieldInspectorInterface $fieldInspector){
+        $attributeInspectors = array_filter($attributeInspectors, function(AttributeInspectorInterface $fieldInspector){
             return $fieldInspector->ableFor(FieldAttribute::ABLE_SHOW);
         });
 
         $gridView = GridView::create([
-            'caption' => "{$this->getInspector()->title()} 列表",
-            'columns' => array_map(function(FieldInspectorInterface $fieldInspector){
+            'caption' => "{$this->modelInspector->getTitle()} 列表",
+            'columns' => array_map(function(AttributeInspectorInterface $fieldInspector){
                 return $fieldInspector->toColumn();
-            }, $fields),
+            }, $attributeInspectors),
         ]);
         return $gridView;
     }
@@ -240,7 +251,7 @@ abstract class _InspectorController extends Controller
     public function getContext(){
         if(is_null($this->context)){
             $context = new Context();
-            $context->set(UrlCreator::class, UrlCreator::createByModel($this->getModel()));
+            $context->set(UrlCreator::class, UrlCreator::createByModel($this->newModel()));
 
             $this->context = $context;
         }

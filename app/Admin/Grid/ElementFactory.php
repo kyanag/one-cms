@@ -4,29 +4,41 @@
 namespace App\Admin\Grid;
 
 
-use App\Admin\Grid\Interfaces\FieldInspectorInterface;
-use Kyanag\Form\Toolkits\Bootstrap3\Select;
+use App\Admin\Grid\Interfaces\AttributeInspectorInterface;
+
 use Kyanag\Form\Traits\Macroable;
+use Kyanag\Form\Interfaces\Renderable;
+use Kyanag\Form\Toolkits\Bootstrap3\Select;
 use Kyanag\Form\Toolkits\Bootstrap3\Radio;
 use Kyanag\Form\Toolkits\Bootstrap3\Text;
 
-class ElementBuilder
+class ElementFactory
 {
     use Macroable;
 
+    /**
+     * @param AttributeInspectorInterface $fieldInspector
+     * @param $inputType
+     * @param array $inputConfig
+     * @return Renderable
+     */
+    public function build(AttributeInspectorInterface $fieldInspector, $inputType, array $inputConfig = []){
+        return $this->{$inputType}($fieldInspector, $inputConfig);
+    }
 
-    public function text(FieldInspectorInterface $fieldInspector){
+
+    public function text(AttributeInspectorInterface $fieldInspector, array $inputConfig = []){
         $name = $fieldInspector->getName();
         $label = $fieldInspector->getLabel();
 
         return new Text($name, $label);
     }
 
-    public function radio(FieldInspectorInterface $fieldInspector){
+    public function radio(AttributeInspectorInterface $fieldInspector, array $inputConfig = []){
         $name = $fieldInspector->getName();
         $label = $fieldInspector->getLabel();
 
-        $options = $fieldInspector->getOriginAttributes()->inputConfig['options'];
+        $options = $inputConfig['options'];
         if (is_object($options) && method_exists($options, "toIterator")){
             $options = $options->toIterator();
         }
@@ -34,11 +46,11 @@ class ElementBuilder
         return new Radio($name, $label, $options);
     }
 
-    public function select(FieldInspectorInterface $fieldInspector){
+    public function select(AttributeInspectorInterface $fieldInspector, array $inputConfig = []){
         $name = $fieldInspector->getName();
         $label = $fieldInspector->getLabel();
 
-        $options = $fieldInspector->getOriginAttributes()->inputConfig['options'];
+        $options = $inputConfig['options'];
         if (is_object($options) && method_exists($options, "toIterator")){
             $options = $options->toIterator();
         }
@@ -47,13 +59,12 @@ class ElementBuilder
 
     /**
      * 外键字段
-     * @param FieldInspectorInterface $fieldInspector
+     * @param AttributeInspectorInterface $fieldInspector
      */
-    public function belongsTo(FieldInspectorInterface $fieldInspector){
+    public function belongsTo(AttributeInspectorInterface $fieldInspector, array $inputConfig = []){
         $name = $fieldInspector->getName();
         $label = $fieldInspector->getLabel();
 
-        $inputConfig = $fieldInspector->getOriginAttributes()->inputConfig['options'];
         $inputType = @$inputConfig['inputType'] ?: "select";
 
         $relationName = @$inputConfig['relationName'];

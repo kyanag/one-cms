@@ -6,13 +6,15 @@ use App\Admin\Annotations\FieldAttribute;
 use App\Admin\Grid\Decorators\LabelDecorator;
 use App\Admin\Grid\Options\Categories;
 use App\Admin\Annotations\SchemaAttribute;
+use App\Models\Category as CategoryModel;
 
 /**
  * Class Category
  * @package App\Admin\Inspectors
  * @SchemaAttribute(
  *     title="栏目",
- *     name="categories"
+ *     name="categories",
+ *     modelClass=CategoryModel::class
  * )
  */
 class Category{

@@ -12,7 +12,7 @@ use App\Supports\Tree;
  * @package App\Admin\Grid\Options
  * @Annotation
  */
-class Categories implements OptionProviderInterface
+class Categories
 {
 
     public function toArray(){

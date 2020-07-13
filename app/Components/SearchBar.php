@@ -5,9 +5,9 @@ namespace App\Components;
 
 
 use App\Admin\Annotations\FieldAttribute;
-use App\Admin\Grid\Interfaces\FieldInspectorInterface;
+use App\Admin\Grid\Interfaces\AttributeInspectorInterface;
 use App\Supports\FormBuilder;
-use App\Admin\Grid\InspectorReader;
+use App\Admin\Grid\Interfaces\ModelInspectorInterface;
 use Kyanag\Form\Interfaces\Renderable;
 
 
@@ -20,7 +20,7 @@ class SearchBar implements Renderable
 {
 
     /**
-     * @var InspectorReader
+     * @var ModelInspectorInterface
      */
     protected $inspector;
 
@@ -29,7 +29,7 @@ class SearchBar implements Renderable
      */
     protected $formBuilder;
 
-    public function __construct(InspectorReader $inspector)
+    public function __construct(ModelInspectorInterface $inspector)
     {
         $this->inspector = $inspector;
     }
@@ -38,9 +38,9 @@ class SearchBar implements Renderable
         if(!$this->formBuilder){
             $form = FormBuilder::newForm();
 
-            $fields = $this->inspector->fields();
+            $fields = $this->inspector->getAttributes();
 
-            /** @var FieldInspectorInterface $field */
+            /** @var AttributeInspectorInterface $field */
             foreach ($fields as $field){
                 if($field->ableFor(FieldAttribute::ABLE_SEARCH)){
                     $form->addComponent($field->toElement());
@@ -66,12 +66,12 @@ class SearchBar implements Renderable
      * @return \Closure
      */
     public function createScope($params = []){
-        $columns = array_map(function(FieldInspectorInterface $column){
+        $columns = array_map(function(AttributeInspectorInterface $column){
             return $column->ableFor(FieldAttribute::ABLE_SEARCH);
-        }, $this->inspector->fields());
+        }, $this->inspector->getAttributes());
 
         $scope = function($query) use($columns, $params){
-            /** @var FieldInspectorInterface $column */
+            /** @var AttributeInspectorInterface $column */
             foreach($columns as $column){
                 if(isset($params[$column->getName()]) && $params[$column->getName()] !== ""){
                     $query->where($column->getName(), "like", "%{$params[$column->getName()]}%");

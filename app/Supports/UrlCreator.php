@@ -4,11 +4,17 @@
 namespace App\Supports;
 
 
+use App\Admin\Grid\Interfaces\ModelInspectorInterface;
 use Illuminate\Support\Facades\URL;
 use function League\Uri\build;
 use League\Uri\Components\Query;
 use function League\Uri\parse;
 
+/**
+ * Class UrlCreator
+ * @package App\Supports
+ * @Annotation
+ */
 class UrlCreator
 {
 
@@ -23,6 +29,13 @@ class UrlCreator
         $static = new static();
         $static->routeMain = str_singular($table);
 
+        return $static;
+    }
+
+
+    public static function createByInspector(ModelInspectorInterface $modelInspector){
+        $static = new static();
+        $static->routeMain = str_singular($modelInspector->getName());
         return $static;
     }
 

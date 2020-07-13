@@ -4,30 +4,35 @@ namespace App\Admin\Controllers;
 
 use App\Admin\Inspectors\ConfigItems;
 use App\Models\Config;
-use App\Admin\Grid\InspectorReader;
+use App\Admin\Grid\Interfaces\ModelInspectorInterface;
 use App\Models\Group;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ConfigController extends _InspectorController
 {
-    protected function getModel()
+    protected function newModel()
     {
         return new Config();
     }
 
     public function getInspector()
     {
-        return new InspectorReader(new \App\Admin\Inspectors\Config());
+        return app(\App\Admin\Grid\ModelInspectorBuilder::class)
+            ->from(new \App\Admin\Inspectors\Config())
+            ->built();
     }
 
 
     public function preview(Request $request){
         /** @var \Illuminate\Session\Store $session */
         $session = app("session")->driver();
-        $inspector = new InspectorReader(new ConfigItems());
 
-        $fields = $inspector->fields();
+        $inspector = app(\App\Admin\Grid\ModelInspectorBuilder::class)
+            ->from(new ConfigItems())
+            ->built();
+
+        $fields = $inspector->getAttributes();
         $groups = Group::forConfig()
             ->with("configs")
             ->get();

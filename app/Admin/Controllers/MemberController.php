@@ -3,7 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Models\Member;
-use App\Admin\Grid\InspectorReader;
+use App\Admin\Grid\Interfaces\ModelInspectorInterface;
 
 class MemberController extends _InspectorController
 {
@@ -11,14 +11,14 @@ class MemberController extends _InspectorController
     /**
      * @return Member
      */
-    protected function getModel(){
+    protected function newModel(){
         return new Member();
     }
 
 
     public function getInspector()
     {
-        return new InspectorReader(new \App\Admin\Inspectors\Member());
+        return new ModelInspectorInterface(new \App\Admin\Inspectors\Member());
     }
 
 

@@ -5,8 +5,8 @@ namespace App\Components;
 
 
 use App\Admin\Annotations\FieldAttribute;
-use App\Admin\Grid\InspectorReader;
-use App\Admin\Grid\Interfaces\FieldInspectorInterface;
+use App\Admin\Grid\Interfaces\ModelInspectorInterface;
+use App\Admin\Grid\Interfaces\AttributeInspectorInterface;
 use App\Supports\UrlCreator;
 use Kyanag\Form\Interfaces\Renderable;
 
@@ -23,7 +23,7 @@ class ActionBar implements Renderable
 
     protected $query = [];
 
-    public function __construct(InspectorReader $inspector, UrlCreator $urlCreator)
+    public function __construct(ModelInspectorInterface $inspector, UrlCreator $urlCreator)
     {
         $this->urlCreator = $urlCreator;
         $this->inspector = $inspector;
@@ -41,7 +41,7 @@ class ActionBar implements Renderable
         return view("admin::components.action-bar", [
             'urlCreator' => $this->urlCreator,
             'searchBar' => $this->getSearchBar(),
-            'sortableFields' => array_filter($this->inspector->fields(), function(FieldInspectorInterface $fieldInspector){
+            'sortableFields' => array_filter($this->inspector->getAttributes(), function(AttributeInspectorInterface $fieldInspector){
                 return $fieldInspector->ableFor(FieldAttribute::ABLE_SORT);
             }),
         ])->render();
@@ -65,12 +65,12 @@ class ActionBar implements Renderable
     }
 
     public function toScope(){
-        $fields = array_filter($this->inspector->fields(), function(FieldInspectorInterface $column){
+        $fields = array_filter($this->inspector->getAttributes(), function(AttributeInspectorInterface $column){
             return $column->ableFor(FieldAttribute::ABLE_SEARCH);
         });
 
         $scope = function(\Illuminate\Database\Eloquent\Builder $query) use($fields){
-            /** @var FieldInspectorInterface $field */
+            /** @var AttributeInspectorInterface $field */
             foreach($fields as $field){
                 if(isset($this->query[$field->getName()]) && $this->query[$field->getName()] !== ""){
                     $query->where($field->getName(), "like", "%{$this->query[$field->getName()]}%");

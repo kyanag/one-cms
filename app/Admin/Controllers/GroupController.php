@@ -3,17 +3,17 @@
 namespace App\Admin\Controllers;
 
 use App\Models\Group;
-use App\Admin\Grid\InspectorReader;
+use App\Admin\Grid\Interfaces\ModelInspectorInterface;
 
 class GroupController extends _InspectorController
 {
-    protected function getModel()
+    protected function newModel()
     {
         return new Group();
     }
 
     public function getInspector()
     {
-        return new InspectorReader(new \App\Admin\Inspectors\Group());
+        return new ModelInspectorInterface(new \App\Admin\Inspectors\Group());
     }
 }

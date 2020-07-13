@@ -9,7 +9,7 @@ namespace App\Admin\Grid\Decorators;
  * @package App\Admin\Grid\Decorators
  * @Annotation
  */
-class LabelDecorator extends _AbstractDecorator
+class LabelDecorator
 {
 
     /**

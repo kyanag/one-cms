@@ -30,18 +30,6 @@ class DataColumn implements GridColumnInterface
     public $decorators = [];
 
 
-    public function boot(){
-        if(is_null($this->content)){
-            $this->content = function ($model, $key, $index){
-                $key = $this->getName() ?: $key;
-                return $model[$key];
-            };
-        }
-        if($this->content instanceof \Closure){
-            $this->content = $this->content->bindTo($this);
-        }
-    }
-
     public function __invoke($model, $key, $index)
     {
         return $this->applyDecorators(
@@ -51,6 +39,12 @@ class DataColumn implements GridColumnInterface
 
 
     protected function callContent(...$args){
+        if(is_null($this->content)){
+            $this->content = function ($model, $key, $index){
+                $key = $this->getName() ?: $key;
+                return $model[$key];
+            };
+        }
         if(!is_callable($this->content)){
             return $this->content;
         }else{

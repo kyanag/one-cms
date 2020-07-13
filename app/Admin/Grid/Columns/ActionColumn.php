@@ -22,7 +22,7 @@ class ActionColumn extends DataColumn
     public $urlCreator;
 
 
-    public function boot()
+    public function __construct()
     {
         $this->content = function($model, $key, $index){
             $view = $this->urlCreator->show([
@@ -46,6 +46,5 @@ data-type=\"delete\"
 >删除</a>"
             ]);
         };
-        parent::boot();
     }
 }
