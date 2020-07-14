@@ -76,6 +76,11 @@ class ModelAttributeAdapter implements AttributeInspectorInterface
     }
 
 
+    public function getRules()
+    {
+        return $this->fieldAttribute->rules;
+    }
+
     /**
      * 虚拟属性，没有真实的数据库字段
      * @return bool

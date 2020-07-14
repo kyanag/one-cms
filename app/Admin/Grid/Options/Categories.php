@@ -3,7 +3,6 @@
 
 namespace App\Admin\Grid\Options;
 
-use App\Admin\Grid\Interfaces\OptionProviderInterface;
 use App\Models\Category;
 use App\Supports\Tree;
 

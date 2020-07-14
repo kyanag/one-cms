@@ -8,7 +8,6 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-
 class TestCommand extends Command
 {
     /**
@@ -42,17 +41,14 @@ class TestCommand extends Command
      */
     public function handle()
     {
+        try{
+            var_dump(call_user_func("static::testCall"));
+        }catch (\BadMethodCallException $e){
+            var_dump(2);
+        }catch (\Exception $e){
+            var_dump(1);
+        }
 
-        $a = "a.exe";
-        var_dump(ext);
-        var_dump(range(0, 5));exit();
-
-        /** @var \Illuminate\Filesystem\FilesystemAdapter */
-        var_dump(get_class(Storage::disk("public")));
-//        $categoryBuilder = new Categories();
-//
-//        foreach ($categoryBuilder->toArray() as $item){
-//            echo str_repeat(" - ", $item['depth']) . "{$item['title']}\n";
-//        }
     }
+
 }

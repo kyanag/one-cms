@@ -188,4 +188,8 @@ class Category{
      * )
      */
     public $_actionBar;
+
+
+
+    //public static function
 }

@@ -36,6 +36,11 @@ class FieldAttribute
     public $ableTo = 15;
 
     /**
+     * @var array
+     */
+    public $rules = [];
+
+    /**
      * @var string
      */
     public $inputType = "text";

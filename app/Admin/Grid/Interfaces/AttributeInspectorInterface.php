@@ -32,6 +32,11 @@ interface AttributeInspectorInterface
 
 
     /**
+     * @return array
+     */
+    public function getRules();
+
+    /**
      * 虚拟属性，没有真实的数据库字段
      * @return bool
      */

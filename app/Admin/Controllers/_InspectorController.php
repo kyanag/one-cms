@@ -219,6 +219,17 @@ abstract class _InspectorController extends Controller
         //
     }
 
+    protected function getRules($scene){
+        $rules = [];
+        /** @var AttributeInspectorInterface $attribute */
+        foreach ($this->modelInspector->getAttributes() as $attribute){
+            if($attribute->ableFor($scene)){
+                $rules[$attribute->getName()] = $attribute->getRules();
+            }
+        }
+        return $rules;
+    }
+
     public function getForm($scene){
         $form = FormBuilder::newForm();
 

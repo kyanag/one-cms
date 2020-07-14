@@ -23,7 +23,15 @@ class ElementFactory
      * @return Renderable
      */
     public function build(AttributeInspectorInterface $fieldInspector, $inputType, array $inputConfig = []){
-        return $this->{$inputType}($fieldInspector, $inputConfig);
+        try{
+            $callable = [$this, $inputType];
+            if(is_callable($inputType)){
+                $callable = $inputType;
+            }
+            return call_user_func_array($callable, [$fieldInspector, $inputConfig]);
+        }catch (\BadMethodCallException $e){
+            throw new \Exception("{$fieldInspector->getModelInspector()->getName()} :: {$fieldInspector->getName()} 表单对象配置不正确！");
+        }
     }
 
 
