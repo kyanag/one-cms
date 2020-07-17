@@ -28,6 +28,12 @@ class ColumnFactory
         return $this->{$columnType}($fieldInspector, $columnConfig);
     }
 
+
+    public function belongTo(AttributeInspectorInterface $fieldInspector, array $columnConfig = []){
+
+    }
+
+
     public function checkbox(AttributeInspectorInterface $fieldInspector, array $columnConfig){
         $checkboxColumn = new CheckboxColumn();
 

@@ -15,7 +15,7 @@ class CreateCategoriesTable extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger("store_id")->comment("门店id");
+            $table->unsignedInteger("site_id")->comment("站点id");
             $table->string("title", 20)->nullable()->comment("栏目名称");
             $table->string("bg_img")->nullable()->comment("背景图片");
             $table->string("keywords", 100)->nullable()->comment("SEO 关键字");

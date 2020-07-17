@@ -15,7 +15,7 @@ class CreateMembersTable extends Migration
     {
         Schema::create('members', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger("store_id")->comment("门店id");
+            $table->unsignedInteger("site_id")->comment("门店id");
             $table->string("name", 20)->nullable()->comment("客户名称");
             $table->string("mobile", 20)->nullable()->comment("手机号");
             $table->string("remark")->nullable()->comment("客户备注");

@@ -137,9 +137,9 @@ abstract class _InspectorController extends Controller
     {
         $attributes = $this->validate(
             $request,
-            $this->modelInspector->getRules(FieldAttribute::ABLE_CREATE),
+            $this->getRules(FieldAttribute::ABLE_CREATE),
             [],
-            $this->modelInspector->getLabels()
+            $this->getLabels()
         );
 
         $model = $this->newModel();
@@ -228,6 +228,15 @@ abstract class _InspectorController extends Controller
             }
         }
         return $rules;
+    }
+
+    protected function getLabels(){
+        $labels = [];
+        /** @var AttributeInspectorInterface $attribute */
+        foreach ($this->modelInspector->getAttributes() as $attribute){
+            $labels[$attribute->getName()] = $attribute->getLabel();
+        }
+        return $labels;
     }
 
     public function getForm($scene){
