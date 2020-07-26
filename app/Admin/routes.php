@@ -20,4 +20,7 @@ Route::group([], function () {
         ->names("admin.config")
         ->only(['create', "store", "destroy"]);
 
+    Route::resource("post", "PostController")
+        ->names("admin.post");
+
 });
