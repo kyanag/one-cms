@@ -2,7 +2,9 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Grid\InspectorAdapter;
 use App\Models\Category;
+use App\Models\Post;
 
 class PostController extends _InspectorController
 {
@@ -12,6 +14,7 @@ class PostController extends _InspectorController
 
     protected function getInspector()
     {
+        /** @var InspectorAdapter $inspector */
         $inspector = app(\App\Admin\Grid\ModelInspectorBuilder::class)
             ->from(new \App\Admin\Inspectors\Post())
             ->built();
@@ -20,13 +23,21 @@ class PostController extends _InspectorController
         if(is_null($category)){
             throw new \Exception("不存在的栏目分类");
         }
-
         $this->category = $category;
 
-        $category->type;
+        $inspector->appendInspector();
+
         return $inspector;
     }
 
 
-    protected function
+    protected function newModel()
+    {
+        return new Post();
+    }
+
+    protected function newQuery()
+    {
+        return $this->newModel()->load($this->category['type']);
+    }
 }

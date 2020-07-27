@@ -21,6 +21,7 @@ class ElementFactory
      * @param $inputType
      * @param array $inputConfig
      * @return Renderable
+     * @throws \Exception
      */
     public function build(AttributeInspectorInterface $fieldInspector, $inputType, array $inputConfig = []){
         try{
@@ -34,7 +35,11 @@ class ElementFactory
         }
     }
 
-
+    /**
+     * @param AttributeInspectorInterface $fieldInspector
+     * @param array $inputConfig
+     * @return Renderable
+     */
     public function text(AttributeInspectorInterface $fieldInspector, array $inputConfig = []){
         $name = $fieldInspector->getName();
         $label = $fieldInspector->getLabel();
@@ -66,8 +71,9 @@ class ElementFactory
     }
 
     /**
-     * 外键字段
      * @param AttributeInspectorInterface $fieldInspector
+     * @param array $inputConfig
+     * @return Renderable
      */
     public function belongsTo(AttributeInspectorInterface $fieldInspector, array $inputConfig = []){
         $name = $fieldInspector->getName();

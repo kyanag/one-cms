@@ -35,6 +35,10 @@ class ModelInspectorBuilder
         return $this;
     }
 
+    public function with(){
+
+    }
+
     /**
      * @param $annotationName
      * @return SchemaAttribute
@@ -55,13 +59,6 @@ class ModelInspectorBuilder
             return $this->getAnnotationReader()
                 ->getPropertyAnnotation($property, $annotationName);
         }, $properties);
-    }
-
-    public function getPropertyAnnotation($propertyName, $annotationName){
-        $property = $this->reflectionObject->getProperty($propertyName);
-
-        return $this->getAnnotationReader()
-            ->getPropertyAnnotation($property, $annotationName);
     }
 
     /**
