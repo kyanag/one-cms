@@ -7,7 +7,7 @@ namespace App\Admin\Controllers;
 use App\Admin\Annotations\FieldAttribute;
 use App\Admin\Grid\ColumnFactory;
 use App\Admin\Grid\Interfaces\AttributeInspectorInterface;
-use App\Admin\Grid\Interfaces\ModelInspectorInterface;
+use App\Admin\Grid\Interfaces\InspectorInterface;
 use App\Components\ActionBar;
 use App\Components\GridView;
 use App\Http\Controllers\Controller;
@@ -24,13 +24,13 @@ abstract class _InspectorController extends Controller
 {
 
     /**
-     * @var ModelInspectorInterface
+     * @var InspectorInterface
      */
-    protected $modelInspector;
+    protected $inspector;
 
     public function __construct()
     {
-        $this->modelInspector = $this->getInspector();
+        $this->inspector = $this->getInspector();
 
         app()->singleton(ColumnFactory::class, function(){
             $columnBuilder = new ColumnFactory();
@@ -38,9 +38,6 @@ abstract class _InspectorController extends Controller
 
             return $columnBuilder;
         });
-
-
-
     }
 
 
@@ -57,13 +54,14 @@ abstract class _InspectorController extends Controller
     /**
      * @return Model
      */
-    protected function newModel(){
-        $modelClass = $this->modelInspector->getModelClass();
-        return new $modelClass();
+    abstract protected function newModel();
+
+    protected function newQuery(){
+        return $this->newModel()->newQuery();
     }
 
     /**
-     * @return ModelInspectorInterface
+     * @return InspectorInterface
      */
     abstract protected function getInspector();
 
@@ -75,10 +73,10 @@ abstract class _InspectorController extends Controller
     public function index(Request $request)
     {
         $grid = $this->getGrid();
-        $title = " {$this->modelInspector->getTitle()}列表";
-        $description = "{$this->modelInspector->getTitle()}管理";
+        $title = " {$this->inspector->getTitle()}列表";
+        $description = "{$this->inspector->getTitle()}管理";
 
-        $actionBar = new ActionBar($this->modelInspector, $this->getUrlCreator());
+        $actionBar = new ActionBar($this->inspector, $this->getUrlCreator());
         $actionBar->setQuery($request->query());
 
         /** @var Paginator $paginator */
@@ -121,7 +119,7 @@ abstract class _InspectorController extends Controller
 
         $form = $formBuilder->built();
 
-        $title = "新增{$this->modelInspector->getTitle()}";
+        $title = "新增{$this->inspector->getTitle()}";
         $description = "";
 
         return view("admin::common.create", compact("form", "title", "description"));
@@ -175,7 +173,7 @@ abstract class _InspectorController extends Controller
             ->newQuery()->find($id);
 
         if(is_null($model)){
-            flash("不存在的{$this->modelInspector->getTitle()}", "warning");
+            flash("不存在的{$this->inspector->getTitle()}", "warning");
             return back();
         }
 
@@ -190,7 +188,7 @@ abstract class _InspectorController extends Controller
 
         $form = $formBuilder->built();
 
-        $title = "{$model['title']} - 编辑{$this->modelInspector->getTitle()}";
+        $title = "{$model['title']} - 编辑{$this->inspector->getTitle()}";
         $description = "";
 
         return view("admin::common.edit", compact("form", "title", "description"));
@@ -222,7 +220,7 @@ abstract class _InspectorController extends Controller
     protected function getRules($scene){
         $rules = [];
         /** @var AttributeInspectorInterface $attribute */
-        foreach ($this->modelInspector->getAttributes() as $attribute){
+        foreach ($this->inspector->getAttributes() as $attribute){
             if($attribute->ableFor($scene)){
                 $rules[$attribute->getName()] = $attribute->getRules();
             }
@@ -233,7 +231,7 @@ abstract class _InspectorController extends Controller
     protected function getLabels(){
         $labels = [];
         /** @var AttributeInspectorInterface $attribute */
-        foreach ($this->modelInspector->getAttributes() as $attribute){
+        foreach ($this->inspector->getAttributes() as $attribute){
             $labels[$attribute->getName()] = $attribute->getLabel();
         }
         return $labels;
@@ -243,7 +241,7 @@ abstract class _InspectorController extends Controller
         $form = FormBuilder::newForm();
 
         /** @var FieldAttribute $field */
-        foreach ($this->modelInspector->getAttributes() as $field){
+        foreach ($this->inspector->getAttributes() as $field){
             if($field->ableFor($scene)){
                 $form->addComponent($field->toElement());
             }
@@ -252,14 +250,14 @@ abstract class _InspectorController extends Controller
     }
 
     protected function getGrid(){
-        $attributeInspectors = $this->modelInspector->getAttributes();
+        $attributeInspectors = $this->inspector->getAttributes();
 
         $attributeInspectors = array_filter($attributeInspectors, function(AttributeInspectorInterface $fieldInspector){
             return $fieldInspector->ableFor(FieldAttribute::ABLE_SHOW);
         });
 
         $gridView = GridView::create([
-            'caption' => "{$this->modelInspector->getTitle()} 列表",
+            'caption' => "{$this->inspector->getTitle()} 列表",
             'columns' => array_map(function(AttributeInspectorInterface $fieldInspector){
                 return $fieldInspector->toColumn();
             }, $attributeInspectors),

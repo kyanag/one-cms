@@ -5,7 +5,6 @@ namespace App\Admin\Inspectors;
 use App\Admin\Annotations\FieldAttribute;
 use Kyanag\Form\Toolkits\Bootstrap3\Text;
 use App\Admin\Annotations\SchemaAttribute;
-use App\Admin\Grid\Columns\RawColumn;
 
 /**
  * Class Group

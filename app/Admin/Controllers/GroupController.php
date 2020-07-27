@@ -3,7 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Models\Group;
-use App\Admin\Grid\Interfaces\ModelInspectorInterface;
+use App\Admin\Grid\Interfaces\InspectorInterface;
 
 class GroupController extends _InspectorController
 {

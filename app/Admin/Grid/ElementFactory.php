@@ -30,7 +30,7 @@ class ElementFactory
             }
             return call_user_func_array($callable, [$fieldInspector, $inputConfig]);
         }catch (\BadMethodCallException $e){
-            throw new \Exception("{$fieldInspector->getModelInspector()->getName()} :: {$fieldInspector->getName()} 表单对象配置不正确！");
+            throw new \Exception("{$fieldInspector->getInspector()->getName()} :: {$fieldInspector->getName()} 表单对象配置不正确！");
         }
     }
 

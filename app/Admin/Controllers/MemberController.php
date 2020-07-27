@@ -3,25 +3,20 @@
 namespace App\Admin\Controllers;
 
 use App\Models\Member;
-use App\Admin\Grid\Interfaces\ModelInspectorInterface;
+use App\Admin\Grid\Interfaces\InspectorInterface;
 
 class MemberController extends _InspectorController
 {
 
-    /**
-     * @return Member
-     */
-    protected function newModel(){
-        return new Member();
-    }
-
-
     public function getInspector()
     {
-        return new ModelInspectorInterface(new \App\Admin\Inspectors\Member());
+        return app(\App\Admin\Grid\ModelInspectorBuilder::class)
+            ->from(new \App\Admin\Inspectors\Member())
+            ->built();
     }
 
-
-
-
+    protected function newModel()
+    {
+        return new Member();
+    }
 }

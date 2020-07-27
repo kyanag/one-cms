@@ -97,7 +97,7 @@ class ColumnFactory
         $actionColumn->label = $fieldInspector->getLabel();
         $actionColumn->decorators = @$columnConfig['decorators'] ?: [];
 
-        $actionColumn->urlCreator = UrlCreator::createByInspector($fieldInspector->getModelInspector());
+        $actionColumn->urlCreator = UrlCreator::createByInspector($fieldInspector->getInspector());
 
         if(isset($columnConfig['template'])){
             $actionColumn->template = $columnConfig['template'];

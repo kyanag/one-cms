@@ -5,7 +5,7 @@ namespace App\Components;
 
 
 use App\Admin\Annotations\FieldAttribute;
-use App\Admin\Grid\Interfaces\ModelInspectorInterface;
+use App\Admin\Grid\Interfaces\InspectorInterface;
 use App\Admin\Grid\Interfaces\AttributeInspectorInterface;
 use App\Supports\UrlCreator;
 use Kyanag\Form\Interfaces\Renderable;
@@ -23,7 +23,7 @@ class ActionBar implements Renderable
 
     protected $query = [];
 
-    public function __construct(ModelInspectorInterface $inspector, UrlCreator $urlCreator)
+    public function __construct(InspectorInterface $inspector, UrlCreator $urlCreator)
     {
         $this->urlCreator = $urlCreator;
         $this->inspector = $inspector;

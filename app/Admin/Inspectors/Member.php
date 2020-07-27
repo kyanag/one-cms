@@ -5,7 +5,6 @@ namespace App\Admin\Inspectors;
 use App\Admin\Annotations\FieldAttribute;
 use Kyanag\Form\Toolkits\Bootstrap3\Text;
 use App\Admin\Annotations\SchemaAttribute;
-use App\Admin\Grid\Columns\RawColumn;
 
 /**
  * Class Category
@@ -24,7 +23,7 @@ class Member{
      *     ableTo=15,
      *     elementtype=Text::class,
      *
-     *     column=@RawColumn()
+     *     column="raw"
      * )
      */
     public $id;
@@ -37,7 +36,7 @@ class Member{
      *     ableTo=15,
      *     elementtype=Text::class,
      *
-     *     column=@RawColumn()
+     *     column="raw"
      * )
      */
     public $store_id;
@@ -50,7 +49,7 @@ class Member{
      *     ableTo=15,
      *     elementtype=Text::class,
      *
-     *     column=@RawColumn()
+     *     column="raw"
      * )
      */
     public $name;
@@ -63,7 +62,7 @@ class Member{
      *     ableTo=15,
      *     elementtype=Text::class,
      *
-     *     column=@RawColumn()
+     *     column="raw"
      * )
      */
     public $mobile;
@@ -76,7 +75,7 @@ class Member{
      *     ableTo=15,
      *     elementtype=Text::class,
      *
-     *     column=@RawColumn()
+     *     column="raw"
      * )
      */
     public $remark;
@@ -89,7 +88,7 @@ class Member{
      *     ableTo=15,
      *     elementtype=Text::class,
      *
-     *     column=@RawColumn()
+     *     column="raw"
      * )
      */
     public $deleted_at;
@@ -102,7 +101,7 @@ class Member{
      *     ableTo=15,
      *     elementtype=Text::class,
      *
-     *     column=@RawColumn()
+     *     column="raw"
      * )
      */
     public $created_at;
@@ -115,7 +114,7 @@ class Member{
      *     ableTo=15,
      *     elementtype=Text::class,
      *
-     *     column=@RawColumn()
+     *     column="raw"
      * )
      */
     public $updated_at;

@@ -4,7 +4,7 @@
 namespace App\Admin\Grid\Interfaces;
 
 
-interface ModelInspectorInterface
+interface InspectorInterface
 {
 
     /**
@@ -19,10 +19,10 @@ interface ModelInspectorInterface
     public function getName();
 
 
-    /**
-     * @return string
-     */
-    public function getModelClass();
+//    /**
+//     * @return string
+//     */
+//    public function getModelClass();
 
     /**
      * @return string
@@ -33,5 +33,11 @@ interface ModelInspectorInterface
      * @return array<AttributeInspectorInterface>
      */
     public function getAttributes();
+
+
+    /**
+     * @return array<RelationInspectorInterface>
+     */
+    public function getRelations();
 
 }

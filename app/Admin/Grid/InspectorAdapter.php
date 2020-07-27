@@ -4,12 +4,12 @@
 namespace App\Admin\Grid;
 
 
-use App\Admin\Annotations\FieldAttribute;
 use App\Admin\Annotations\SchemaAttribute;
 use App\Admin\Grid\Interfaces\AttributeInspectorInterface;
-use App\Admin\Grid\Interfaces\ModelInspectorInterface;
+use App\Admin\Grid\Interfaces\InspectorInterface;
+use App\Admin\Grid\Interfaces\RelationInspectorInterface;
 
-class ModelInspectorAdapter implements ModelInspectorInterface
+class InspectorAdapter implements InspectorInterface
 {
 
     /**
@@ -23,19 +23,31 @@ class ModelInspectorAdapter implements ModelInspectorInterface
     private $attributeInspectors = [];
 
     /**
-     * ModelInspectorAdapter constructor.
+     * @var array<RelationInspectorInterface>
+     */
+    private $relationInspectors = [];
+
+    /**
+     * InspectorAdapter constructor.
      * @param SchemaAttribute $schemaAttribute
      * @param array<AttributeInspectorInterface> $attributeInspectors
      */
-    public function __construct(SchemaAttribute $schemaAttribute, array $attributeInspectors)
+    public function __construct(SchemaAttribute $schemaAttribute)
     {
         $this->schemaAttribute = $schemaAttribute;
-        $this->attributeInspectors = $attributeInspectors;
-
-        foreach ($this->attributeInspectors as $attributeInspector){
-            $attributeInspector->setModelInspector($this);
-        }
     }
+
+    /**
+     * @param array<AttributeInspectorInterface> $attributeInspectors
+     */
+    public function setAttributeInspectors(array $attributeInspectors){
+        $this->attributeInspectors = $attributeInspectors;
+    }
+
+    public function setRelationInspectors(array $relationInspectors){
+        $this->relationInspectors = $relationInspectors;
+    }
+
 
     public function getTitle()
     {
@@ -63,5 +75,12 @@ class ModelInspectorAdapter implements ModelInspectorInterface
     public function getAttributes()
     {
         return $this->attributeInspectors;
+    }
+
+    /**
+     * @return array<RelationInspectorInterface>
+     */
+    public function getRelations(){
+        return [];
     }
 }

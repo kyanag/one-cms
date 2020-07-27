@@ -10,9 +10,9 @@ interface AttributeInspectorInterface
 {
 
     /**
-     * @return ModelInspectorInterface
+     * @return InspectorInterface
      */
-    public function getModelInspector();
+    public function getInspector();
 
     /**
      * @return string

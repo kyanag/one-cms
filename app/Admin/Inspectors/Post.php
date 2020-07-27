@@ -3,9 +3,9 @@
 namespace App\Admin\Inspectors;
 
 use App\Admin\Annotations\FieldAttribute;
-use Kyanag\Form\Toolkits\Bootstrap3\Text;
 use App\Admin\Annotations\SchemaAttribute;
-use App\Admin\Grid\Columns\RawColumn;
+use App\Admin\Annotations\RelationAttribute;
+use App\Admin\Inspectors\PostArticle;
 
 /**
  * Class Post
@@ -13,7 +13,15 @@ use App\Admin\Grid\Columns\RawColumn;
  * @SchemaAttribute(
  *     title="文章",
  *     name="posts",
- *     modelClass=\App\Models\Post::class
+ *     modelClass=\App\Models\Post::class,
+ *     relations={
+ *         "post_article": @RelationAttribute(
+ *             type="hasOne",
+ *             related=PostArticle::class,
+ *             ownerKey="id",
+ *             foreignKey="post_id"
+ *         )
+ *     }
  * )
  */
 class Post{

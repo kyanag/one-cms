@@ -42,4 +42,10 @@ class SchemaAttribute
      * @var string
      */
     public $defaultOrderBy = "id desc";
+
+    /**
+     * 关系
+     * @var array
+     */
+    public $relations = [];
 }

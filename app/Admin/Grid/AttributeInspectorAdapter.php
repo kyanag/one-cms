@@ -7,16 +7,16 @@ namespace App\Admin\Grid;
 use App\Admin\Annotations\FieldAttribute;
 use App\Admin\Grid\Interfaces\AttributeInspectorInterface;
 use App\Admin\Grid\Interfaces\GridColumnInterface;
-use App\Admin\Grid\Interfaces\ModelInspectorInterface;
+use App\Admin\Grid\Interfaces\InspectorInterface;
 use Kyanag\Form\Interfaces\Renderable;
 
-class ModelAttributeAdapter implements AttributeInspectorInterface
+class AttributeInspectorAdapter implements AttributeInspectorInterface
 {
 
     /**
-     * @var ModelInspectorInterface
+     * @var InspectorInterface
      */
-    private $modelInspector;
+    private $inspector;
 
     /**
      * @var FieldAttribute
@@ -31,6 +31,7 @@ class ModelAttributeAdapter implements AttributeInspectorInterface
 
     public function __construct(
         FieldAttribute $attribute,
+        InspectorInterface $inspector,
         ElementFactory $elementFactory,
         ColumnFactory $columnFactory
     )
@@ -41,16 +42,16 @@ class ModelAttributeAdapter implements AttributeInspectorInterface
     }
 
 
-    public function setModelInspector(ModelInspectorInterface $modelInspector){
-        $this->modelInspector = $modelInspector;
+    public function setInspector(InspectorInterface $inspector){
+        $this->inspector = $inspector;
     }
 
 
     /**
-     * @return ModelInspectorInterface
+     * @return InspectorInterface
      */
-    public function getModelInspector(){
-        return $this->modelInspector;
+    public function getInspector(){
+        return $this->inspector;
     }
 
     /**

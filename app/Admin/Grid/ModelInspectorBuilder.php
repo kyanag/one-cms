@@ -8,7 +8,6 @@ use App\Admin\Annotations\SchemaAttribute;
 use Doctrine\Common\Annotations\AnnotationReader;
 
 /**
- * 柯里化
  * Class ModelInspectorFactory
  * @package App\Admin\Grid
  */
@@ -66,21 +65,26 @@ class ModelInspectorBuilder
     }
 
     /**
-     * @return ModelInspectorAdapter
+     * @return InspectorAdapter
      */
     public function built(){
         $schemaAttribute = $this->getClassAnnotation(SchemaAttribute::class);
 
         $fieldAttributes = $this->getPropertyAnnotations(FieldAttribute::class);
 
-        $attributeInspectors = array_map(function(FieldAttribute $fieldAttribute){
-            return new ModelAttributeAdapter(
+        $inspector = new InspectorAdapter($schemaAttribute);
+
+        $attributeInspectors = array_map(function(FieldAttribute $fieldAttribute) use($inspector){
+            return new AttributeInspectorAdapter(
                 $fieldAttribute,
+                $inspector,
                 $this->elementFactory,
                 $this->columnFactory
             );
         }, $fieldAttributes);
 
-        return new ModelInspectorAdapter($schemaAttribute, $attributeInspectors);
+        $inspector->setAttributeInspectors($attributeInspectors);
+        $inspector->setRelationInspectors([]);
+        return $inspector;
     }
 }

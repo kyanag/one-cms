@@ -45,7 +45,7 @@ class InspectorCreator extends Command
 
         $table = $connection->getDoctrineSchemaManager()->listTableDetails($table);
 
-        $classname = ucfirst(Str::singular($table->getName()));
+        $classname = Str::studly(Str::singular($table->getName()));
 
         $modelClass = "\App\Models\\{$classname}";
 
@@ -106,7 +106,6 @@ namespace App\Admin\Inspectors;
 use App\Admin\Annotations\FieldAttribute;
 use Kyanag\Form\Toolkits\Bootstrap3\Text;
 use App\Admin\Annotations\SchemaAttribute;
-use App\Admin\Grid\Columns\RawColumn;
 
 /**
  * Class {ClassName}

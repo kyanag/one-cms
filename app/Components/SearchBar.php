@@ -7,7 +7,7 @@ namespace App\Components;
 use App\Admin\Annotations\FieldAttribute;
 use App\Admin\Grid\Interfaces\AttributeInspectorInterface;
 use App\Supports\FormBuilder;
-use App\Admin\Grid\Interfaces\ModelInspectorInterface;
+use App\Admin\Grid\Interfaces\InspectorInterface;
 use Kyanag\Form\Interfaces\Renderable;
 
 
@@ -20,7 +20,7 @@ class SearchBar implements Renderable
 {
 
     /**
-     * @var ModelInspectorInterface
+     * @var InspectorInterface
      */
     protected $inspector;
 
@@ -29,7 +29,7 @@ class SearchBar implements Renderable
      */
     protected $formBuilder;
 
-    public function __construct(ModelInspectorInterface $inspector)
+    public function __construct(InspectorInterface $inspector)
     {
         $this->inspector = $inspector;
     }

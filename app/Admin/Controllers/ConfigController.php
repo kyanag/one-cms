@@ -4,7 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Admin\Inspectors\ConfigItems;
 use App\Models\Config;
-use App\Admin\Grid\Interfaces\ModelInspectorInterface;
+use App\Admin\Grid\Interfaces\InspectorInterface;
 use App\Models\Group;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
