@@ -18,7 +18,7 @@ class ConfigController extends _InspectorController
 
     public function getInspector()
     {
-        return app(\App\Admin\Grid\ModelInspectorBuilder::class)
+        return app(\App\Admin\Grid\InspectorBuilder::class)
             ->from(new \App\Admin\Inspectors\Config())
             ->built();
     }
@@ -28,7 +28,7 @@ class ConfigController extends _InspectorController
         /** @var \Illuminate\Session\Store $session */
         $session = app("session")->driver();
 
-        $inspector = app(\App\Admin\Grid\ModelInspectorBuilder::class)
+        $inspector = app(\App\Admin\Grid\InspectorBuilder::class)
             ->from(new ConfigItems())
             ->built();
 

@@ -14,7 +14,7 @@ class GroupController extends _InspectorController
 
     public function getInspector()
     {
-        return app(\App\Admin\Grid\ModelInspectorBuilder::class)
+        return app(\App\Admin\Grid\InspectorBuilder::class)
             ->from(new \App\Admin\Inspectors\Group())
             ->built();
     }

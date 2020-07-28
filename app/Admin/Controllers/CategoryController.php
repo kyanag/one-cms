@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Admin\Grid\ModelInspectorBuilder;
+use App\Admin\Grid\InspectorBuilder;
 use App\Models\Category;
 
 class CategoryController extends _InspectorController
@@ -10,7 +10,7 @@ class CategoryController extends _InspectorController
 
     public function getInspector()
     {
-        return app(\App\Admin\Grid\ModelInspectorBuilder::class)
+        return app(\App\Admin\Grid\InspectorBuilder::class)
             ->from(new \App\Admin\Inspectors\Category())
             ->built();
     }

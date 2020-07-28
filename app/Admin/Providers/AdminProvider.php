@@ -28,8 +28,8 @@ class AdminProvider extends ServiceProvider
         app('view')->prependNamespace('admin', resource_path('views/admin'));
 
 
-        app()->singleton(\App\Admin\Grid\ModelInspectorBuilder::class, function(){
-            return new \App\Admin\Grid\ModelInspectorBuilder(
+        app()->singleton(\App\Admin\Grid\InspectorBuilder::class, function(){
+            return new \App\Admin\Grid\InspectorBuilder(
                 new \App\Admin\Grid\ColumnFactory(),
                 new \App\Admin\Grid\ElementFactory()
             );

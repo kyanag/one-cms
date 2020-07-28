@@ -5,7 +5,6 @@ namespace App\Admin\Inspectors;
 use App\Admin\Annotations\FieldAttribute;
 use App\Admin\Annotations\SchemaAttribute;
 use App\Admin\Annotations\RelationAttribute;
-use App\Admin\Inspectors\PostArticle;
 
 /**
  * Class Post
@@ -15,7 +14,7 @@ use App\Admin\Inspectors\PostArticle;
  *     name="posts",
  *     modelClass=\App\Models\Post::class,
  *     relations={
- *         "post_article": @RelationAttribute(
+ *         "article": @RelationAttribute(
  *             type="hasOne",
  *             related=PostArticle::class,
  *             ownerKey="id",

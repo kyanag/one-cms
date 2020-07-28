@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Pagination\Paginator;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
 abstract class _InspectorController extends Controller
@@ -28,28 +29,23 @@ abstract class _InspectorController extends Controller
      */
     protected $inspector;
 
-    public function __construct()
-    {
-        $this->inspector = $this->getInspector();
-
-        app()->singleton(ColumnFactory::class, function(){
-            $columnBuilder = new ColumnFactory();
-            $columnBuilder->urlCreator = $this->getUrlCreator();
-
-            return $columnBuilder;
-        });
-    }
-
-
     /**
      * @var UrlCreator
      */
     protected $urlCreator;
 
-    /**
-     * @var Context
-     */
-    protected $context;
+    public function __construct()
+    {
+        $this->inspector = $this->getInspector();
+        $this->urlCreator = $this->getUrlCreator();
+
+        app()->singleton(ColumnFactory::class, function(){
+            $columnBuilder = new ColumnFactory();
+            $columnBuilder->urlCreator = $this->urlCreator;
+
+            return $columnBuilder;
+        });
+    }
 
     /**
      * @return Model
@@ -76,19 +72,18 @@ abstract class _InspectorController extends Controller
         $title = " {$this->inspector->getTitle()}列表";
         $description = "{$this->inspector->getTitle()}管理";
 
-        $actionBar = new ActionBar($this->inspector, $this->getUrlCreator());
+        $actionBar = new ActionBar($this->inspector, $this->urlCreator);
         $actionBar->setQuery($request->query());
 
         /** @var Paginator $paginator */
-        $paginator = $this->newModel()
-            ->newQuery()
+        $paginator = $this->newQuery()
             //->where($actionBar->toScope())
             ->withGlobalScope("__runtime__", $actionBar->toScope())
-            ->paginate(10);
+            ->paginate(5);
         $grid->items = $paginator->getCollection();
 
         $paginator->withPath(
-            $this->getUrlCreator()->index()
+            $this->urlCreator->index()
         );
         $paginator->appends($request->query());
 
@@ -114,7 +109,7 @@ abstract class _InspectorController extends Controller
         $formBuilder = new FormBuilder($form);
         $formBuilder->setMethod("POST");
         $formBuilder->setAction(
-            $this->getUrlCreator()->store()
+            $this->urlCreator->store()
         );
 
         $form = $formBuilder->built();
@@ -144,7 +139,10 @@ abstract class _InspectorController extends Controller
         $model->fill($attributes);
 
         if($model->saveOrFail()){
-            return \response()->json("保存成功!");
+            return \response()->json([
+                'msg' => "保存成功!",
+                'jump' => $this->urlCreator->index(),
+            ]);
         }else{
             throw new ServiceUnavailableHttpException();
         }
@@ -182,7 +180,7 @@ abstract class _InspectorController extends Controller
         $formBuilder = new FormBuilder($form);
         $formBuilder->setMethod("PUT", true);
         $formBuilder->setAction(
-            $this->getUrlCreator()->update(["id" => $id])
+            $this->urlCreator->update(["id" => $id])
         );
         $formBuilder->setValue($model);
 
@@ -203,7 +201,28 @@ abstract class _InspectorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        var_dump(111);
+        $model = $this->newQuery()->find($id);
+        if(is_null($model)){
+            flash("不存在的{$this->inspector->getTitle()}", "warning");
+            throw new NotFoundHttpException("不存在的{$this->inspector->getTitle()}");
+        }
+
+        $attributes = $this->validate(
+            $request,
+            $this->getRules(FieldAttribute::ABLE_CREATE),
+            [],
+            $this->getLabels()
+        );
+        $model->fill($attributes);
+
+        if($model->saveOrFail()){
+            return \response()->json([
+                'msg' => "编辑成功!",
+                'jump' => $this->urlCreator->edit($id)
+            ]);
+        }else{
+            throw new ServiceUnavailableHttpException();
+        }
     }
 
     /**
@@ -237,10 +256,10 @@ abstract class _InspectorController extends Controller
         return $labels;
     }
 
-    public function getForm($scene){
+    protected function getForm($scene){
         $form = FormBuilder::newForm();
 
-        /** @var FieldAttribute $field */
+        /** @var AttributeInspectorInterface $field */
         foreach ($this->inspector->getAttributes() as $field){
             if($field->ableFor($scene)){
                 $form->addComponent($field->toElement());
@@ -265,18 +284,17 @@ abstract class _InspectorController extends Controller
         return $gridView;
     }
 
-
-    public function getContext(){
-        if(is_null($this->context)){
-            $context = new Context();
-            $context->set(UrlCreator::class, UrlCreator::createByModel($this->newModel()));
-
-            $this->context = $context;
-        }
-        return $this->context;
+    /**
+     * @return UrlCreator
+     */
+    public function getUrlCreator(){
+        return UrlCreator::createByModel($this->newModel());
     }
 
-    public function getUrlCreator(){
-        return $this->getContext()[UrlCreator::class];
+
+    public static function buildInspector($inspector){
+        return app(\App\Admin\Grid\InspectorBuilder::class)
+            ->from($inspector)
+            ->built();
     }
 }

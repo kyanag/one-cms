@@ -42,7 +42,7 @@ class DataColumn implements GridColumnInterface
         if(is_null($this->content)){
             $this->content = function ($model, $key, $index){
                 $key = $this->getName() ?: $key;
-                return $model[$key];
+                return data_get($model, $key);
             };
         }
         if(!is_callable($this->content)){

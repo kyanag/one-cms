@@ -8,10 +8,10 @@ use App\Admin\Annotations\SchemaAttribute;
 use Doctrine\Common\Annotations\AnnotationReader;
 
 /**
- * Class ModelInspectorFactory
+ * Class InspectorFactory
  * @package App\Admin\Grid
  */
-class ModelInspectorBuilder
+class InspectorBuilder
 {
     protected $reflectionObject;
 
@@ -25,10 +25,6 @@ class ModelInspectorBuilder
         $this->elementFactory = $elementFactory;
     }
 
-    protected function getAnnotationReader(){
-        return app(AnnotationReader::class);
-    }
-
 
     public function from($metaObject){
         $this->reflectionObject = new \ReflectionObject($metaObject);
@@ -37,28 +33,6 @@ class ModelInspectorBuilder
 
     public function with(){
 
-    }
-
-    /**
-     * @param $annotationName
-     * @return SchemaAttribute
-     */
-    public function getClassAnnotation($annotationName){
-        return $this->getAnnotationReader()
-            ->getClassAnnotation($this->reflectionObject, $annotationName);
-    }
-
-    /**
-     * @param $annotationName
-     * @return array<FieldAttribute>
-     */
-    public function getPropertyAnnotations($annotationName){
-        $properties = $this->reflectionObject->getProperties(\ReflectionProperty::IS_PUBLIC);
-
-        return array_map(function(\ReflectionProperty $property) use($annotationName){
-            return $this->getAnnotationReader()
-                ->getPropertyAnnotation($property, $annotationName);
-        }, $properties);
     }
 
     /**
@@ -83,5 +57,32 @@ class ModelInspectorBuilder
         $inspector->setAttributeInspectors($attributeInspectors);
         $inspector->setRelationInspectors([]);
         return $inspector;
+    }
+
+
+    private function getAnnotationReader(){
+        return app(AnnotationReader::class);
+    }
+
+    /**
+     * @param $annotationName
+     * @return SchemaAttribute
+     */
+    private function getClassAnnotation($annotationName){
+        return $this->getAnnotationReader()
+            ->getClassAnnotation($this->reflectionObject, $annotationName);
+    }
+
+    /**
+     * @param $annotationName
+     * @return array<FieldAttribute>
+     */
+    private function getPropertyAnnotations($annotationName){
+        $properties = $this->reflectionObject->getProperties(\ReflectionProperty::IS_PUBLIC);
+
+        return array_map(function(\ReflectionProperty $property) use($annotationName){
+            return $this->getAnnotationReader()
+                ->getPropertyAnnotation($property, $annotationName);
+        }, $properties);
     }
 }

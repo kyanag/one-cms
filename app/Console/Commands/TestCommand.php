@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 
 use App\Admin\Grid\Options\Categories;
 use Illuminate\Console\Command;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -41,14 +42,15 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        try{
-            var_dump(call_user_func("static::testCall"));
-        }catch (\BadMethodCallException $e){
-            var_dump(2);
-        }catch (\Exception $e){
-            var_dump(1);
-        }
+        $a = collect([
+            'a' => [
+                "b" => [
+                    "c" => 1
+                ]
+            ]
+        ]);
 
+        var_dump(data_get($a, "a.b.c"));exit();
     }
 
 }

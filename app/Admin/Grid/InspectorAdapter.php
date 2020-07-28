@@ -44,10 +44,6 @@ class InspectorAdapter implements InspectorInterface
         $this->attributeInspectors = $attributeInspectors;
     }
 
-    public function appendInspector(AttributeInspectorInterface $attributeInspector){
-        $this->attributeInspectors[] = $attributeInspector;
-    }
-
     public function setRelationInspectors(array $relationInspectors){
         $this->relationInspectors = $relationInspectors;
     }
@@ -85,6 +81,6 @@ class InspectorAdapter implements InspectorInterface
      * @return array<RelationInspectorInterface>
      */
     public function getRelations(){
-        return [];
+        return $this->relationInspectors;
     }
 }

@@ -25,14 +25,15 @@ class ActionColumn extends DataColumn
     public function __construct()
     {
         $this->content = function($model, $key, $index){
+            $id = data_get($model, $key);
             $view = $this->urlCreator->show([
-                $model[$key]
+                $id
             ]);
             $update = $this->urlCreator->edit([
-                $model[$key]
+                $id
             ]);
             $delete = $this->urlCreator->destroy([
-                $model[$key]
+                $id
             ]);
 
             return strtr($this->template, [

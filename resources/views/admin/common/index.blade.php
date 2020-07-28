@@ -16,15 +16,13 @@
                         <div class="col-sm-12">
                             <div class="panel panel-default">
                                 <div class="panel-heading"><i class="fa fa-fw fa-cog"></i>{{ $title }}<small>{{ $description }}</small></div>
-                                <div class="panel-body" style="border-bottom: 1px solid #f4f4f4">
+                                <div class="panel-body">
                                     {!! $actionBar->render() !!}
                                 </div>
+                                <hr>
                                 <div class="panel-body">
                                     {!! $grid->render() !!}
                                     {!! $paginator->links() !!}
-                                </div>
-                                <div class="panel-footer">
-
                                 </div>
                             </div>
                         </div>

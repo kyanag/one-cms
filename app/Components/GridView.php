@@ -5,6 +5,7 @@ namespace App\Components;
 
 
 use App\Admin\Grid\Interfaces\GridColumnInterface;
+use App\Admin\Grid\Interfaces\InspectorInterface;
 use Kyanag\Form\Interfaces\Renderable;
 
 class GridView implements Renderable
