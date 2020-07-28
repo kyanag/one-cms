@@ -4,6 +4,7 @@
 namespace App\Admin\Grid;
 
 use App\Admin\Annotations\FieldAttribute;
+use App\Admin\Annotations\RelationAttribute;
 use App\Admin\Annotations\SchemaAttribute;
 use Doctrine\Common\Annotations\AnnotationReader;
 
@@ -36,9 +37,10 @@ class InspectorBuilder
     }
 
     /**
+     * @param $related bool 是否加载关系
      * @return InspectorAdapter
      */
-    public function built(){
+    public function built($related = true){
         $schemaAttribute = $this->getClassAnnotation(SchemaAttribute::class);
 
         $fieldAttributes = $this->getPropertyAnnotations(FieldAttribute::class);
@@ -54,8 +56,19 @@ class InspectorBuilder
             );
         }, $fieldAttributes);
 
+        $relationInspectors = [];
+        if($related){
+            $inspectorBuilder = clone $this;
+            $relationInspectors = array_map(function (RelationAttribute $attribute) use($inspector, $inspectorBuilder){
+                $foreignInspectorAttributeClass = $attribute->related;
+
+                $foreignInspectorAttributeObject = new $foreignInspectorAttributeClass;
+                return new RelationInspectorAdapter($attribute, $inspector, $inspectorBuilder->from($foreignInspectorAttributeObject)->built(false));
+            }, $schemaAttribute->relations);
+        }
+
         $inspector->setAttributeInspectors($attributeInspectors);
-        $inspector->setRelationInspectors([]);
+        $inspector->setRelationInspectors($relationInspectors);
         return $inspector;
     }
 

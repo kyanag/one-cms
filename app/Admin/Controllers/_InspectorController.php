@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Pagination\Paginator;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
@@ -36,8 +37,8 @@ abstract class _InspectorController extends Controller
 
     public function __construct()
     {
-        $this->inspector = $this->getInspector();
-        $this->urlCreator = $this->getUrlCreator();
+        $this->inspector = $this->createInspector();
+        $this->urlCreator = $this->createUrlCreator();
 
         app()->singleton(ColumnFactory::class, function(){
             $columnBuilder = new ColumnFactory();
@@ -59,7 +60,7 @@ abstract class _InspectorController extends Controller
     /**
      * @return InspectorInterface
      */
-    abstract protected function getInspector();
+    abstract protected function createInspector();
 
     /**
      * Display a listing of the resource.
@@ -122,9 +123,9 @@ abstract class _InspectorController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
      * @param  Request  $request
      * @return Response
+     * @throws HttpException
      */
     public function store(Request $request)
     {
@@ -287,7 +288,7 @@ abstract class _InspectorController extends Controller
     /**
      * @return UrlCreator
      */
-    public function getUrlCreator(){
+    public function createUrlCreator(){
         return UrlCreator::createByModel($this->newModel());
     }
 

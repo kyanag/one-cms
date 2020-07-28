@@ -12,7 +12,9 @@ interface RelationInspectorInterface
 
     public function getOwnerKey();
 
-
+    /**
+     * @return array<InspectorInterface>
+     */
     public function getForeignInspector();
 
 

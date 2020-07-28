@@ -16,7 +16,7 @@ class ConfigController extends _InspectorController
         return new Config();
     }
 
-    public function getInspector()
+    public function createInspector()
     {
         return app(\App\Admin\Grid\InspectorBuilder::class)
             ->from(new \App\Admin\Inspectors\Config())

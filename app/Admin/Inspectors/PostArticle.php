@@ -30,7 +30,7 @@ class PostArticle{
      * @FieldAttribute(
      *     label="id",
      *     name="id",
-     *     ableTo=15,
+     *     ableTo=0,
      *     inputType="text",
      *     columnType="raw"
      * )
@@ -40,9 +40,9 @@ class PostArticle{
 
     /**
      * @FieldAttribute(
-     *     label="post_id",
+     *     label="主文章id",
      *     name="post_id",
-     *     ableTo=15,
+     *     ableTo=0,
      *     inputType="text",
      *     columnType="raw"
      * )
@@ -52,7 +52,7 @@ class PostArticle{
 
     /**
      * @FieldAttribute(
-     *     label="content",
+     *     label="内容",
      *     name="content",
      *     ableTo=15,
      *     inputType="text",
@@ -66,7 +66,7 @@ class PostArticle{
      * @FieldAttribute(
      *     label="created_at",
      *     name="created_at",
-     *     ableTo=15,
+     *     ableTo=0,
      *     inputType="text",
      *     columnType="raw"
      * )
@@ -78,7 +78,7 @@ class PostArticle{
      * @FieldAttribute(
      *     label="updated_at",
      *     name="updated_at",
-     *     ableTo=15,
+     *     ableTo=0,
      *     inputType="text",
      *     columnType="raw"
      * )

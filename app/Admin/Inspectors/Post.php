@@ -27,7 +27,7 @@ class Post{
 
     /**
      * @FieldAttribute(
-     *     label="id",
+     *     label="主键",
      *     name="id",
      *     ableTo=15,
      *     inputType="text",
@@ -39,7 +39,7 @@ class Post{
 
     /**
      * @FieldAttribute(
-     *     label="title",
+     *     label="内容标题",
      *     name="title",
      *     ableTo=15,
      *     inputType="text",
@@ -51,7 +51,7 @@ class Post{
 
     /**
      * @FieldAttribute(
-     *     label="category_id",
+     *     label="分类",
      *     name="category_id",
      *     ableTo=15,
      *     inputType="text",
@@ -63,7 +63,7 @@ class Post{
 
     /**
      * @FieldAttribute(
-     *     label="keywords",
+     *     label="关键字",
      *     name="keywords",
      *     ableTo=15,
      *     inputType="text",
@@ -75,7 +75,7 @@ class Post{
 
     /**
      * @FieldAttribute(
-     *     label="description",
+     *     label="简介",
      *     name="description",
      *     ableTo=15,
      *     inputType="text",
@@ -87,7 +87,7 @@ class Post{
 
     /**
      * @FieldAttribute(
-     *     label="author_id",
+     *     label="作者",
      *     name="author_id",
      *     ableTo=15,
      *     inputType="text",
@@ -99,7 +99,7 @@ class Post{
 
     /**
      * @FieldAttribute(
-     *     label="image",
+     *     label="封面图",
      *     name="image",
      *     ableTo=15,
      *     inputType="text",
@@ -111,7 +111,7 @@ class Post{
 
     /**
      * @FieldAttribute(
-     *     label="rank",
+     *     label="排序",
      *     name="rank",
      *     ableTo=15,
      *     inputType="text",
@@ -123,7 +123,7 @@ class Post{
 
     /**
      * @FieldAttribute(
-     *     label="jump",
+     *     label="链接",
      *     name="jump",
      *     ableTo=15,
      *     inputType="text",
@@ -135,9 +135,9 @@ class Post{
 
     /**
      * @FieldAttribute(
-     *     label="created_at",
+     *     label="创建时间",
      *     name="created_at",
-     *     ableTo=15,
+     *     ableTo=0,
      *     inputType="text",
      *     columnType="raw"
      * )
@@ -147,9 +147,9 @@ class Post{
 
     /**
      * @FieldAttribute(
-     *     label="updated_at",
+     *     label="修改时间",
      *     name="updated_at",
-     *     ableTo=15,
+     *     ableTo=0,
      *     inputType="text",
      *     columnType="raw"
      * )

@@ -29,6 +29,10 @@ class FieldAttribute
      */
     public $name;
 
+    /**
+     * @var string
+     */
+    public $help;
 
     /**
      * @var int
