@@ -53,7 +53,10 @@ abstract class _InspectorController extends Controller
     /**
      * @return Model
      */
-    abstract protected function newModel();
+    protected function newModel(){
+        $modelClass = $this->inspector->getModelClass();
+        return new $modelClass;
+    }
 
     protected function newQuery(){
         return $this->newModel()->newQuery();

@@ -13,32 +13,41 @@ use App\Models\Post;
 use App\Supports\FormBuilder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
 class PostController extends _InspectorController
 {
+    /**
+     * @var InspectorInterface
+     */
+    protected $foreignInspector;
 
     /** @var Category */
     private $category;
 
-    protected function createInspector()
+    public function __construct()
     {
-        /** @var InspectorAdapter $inspector */
-        $inspector = app(\App\Admin\Grid\InspectorBuilder::class)
-            ->from(new \App\Admin\Inspectors\Post())
-            ->built();
+        parent::__construct();
 
         $category = Category::query()
-            ->where("id", app("request")
-            ->input("category_id"))
+            ->where("id", app("request")->input("category_id"))
             ->first();
         if(is_null($category)){
             throw new \Exception("不存在的栏目分类");
         }
         $this->category = $category;
-        return $inspector;
+
+        $this->foreignInspector = $this->inspector->getRelations()[$this->category['type']]->getForeignInspector();
+    }
+
+    protected function createInspector()
+    {
+        return app(\App\Admin\Grid\InspectorBuilder::class)
+            ->from(new \App\Admin\Inspectors\Post())
+            ->built();
     }
 
     public function createUrlCreator()
@@ -60,29 +69,40 @@ class PostController extends _InspectorController
     public function store(Request $request)
     {
 
-        $attributes = $this->validate(
-            $request,
-            $this->getRules(FieldAttribute::ABLE_CREATE),
-            [],
-            $this->getLabels()
-        );
+        DB::transaction(function() use($request){
+            $rules = [];
+            $labels = [];
+            /** @var AttributeInspectorInterface $attribute */
+            foreach ($this->inspector->getAttributes() as $attribute){
+                if($attribute->ableFor(FieldAttribute::ABLE_SHOW)){
+                    $rules[$attribute->getName()] = $attribute->getRules();
+                }
+            }
+            /** @var AttributeInspectorInterface $attribute */
+            foreach ($this->foreignInspector->getAttributes() as $attribute){
+                if($attribute->ableFor(FieldAttribute::ABLE_SHOW)){
+                    $labels[$attribute->getName()] = $attribute->getLabel();
+                }
+            }
+            $attributes = $this->validate(
+                $request,
+                $rules,
+                [],
+                $labels
+            );
 
-        $model = $this->newModel();
-        $model->fill($attributes);
+            $model = $this->newModel();
+            $model->fill($attributes);
 
-        if($model->saveOrFail()){
-            return \response()->json([
-                'msg' => "保存成功!",
-                'jump' => $this->urlCreator->index(),
-            ]);
-        }else{
-            throw new ServiceUnavailableHttpException();
-        }
-    }
-
-    protected function newModel()
-    {
-        return new Post();
+            if($model->saveOrFail()){
+                return \response()->json([
+                    'msg' => "保存成功!",
+                    'jump' => $this->urlCreator->index(),
+                ]);
+            }else{
+                throw new ServiceUnavailableHttpException();
+            }
+        });
     }
 
     protected function newQuery()
@@ -95,30 +115,25 @@ class PostController extends _InspectorController
 
     protected function getGrid()
     {
-        $attributeInspectors = $this->getAttributes();
-
-        $attributeInspectors = array_filter($attributeInspectors, function(AttributeInspectorInterface $fieldInspector){
-            return $fieldInspector->ableFor(FieldAttribute::ABLE_SHOW);
-        });
+        $columns = [];
+        /** @var AttributeInspectorInterface $attribute */
+        foreach ($this->inspector->getAttributes() as $attribute){
+            if($attribute->ableFor(FieldAttribute::ABLE_SHOW)){
+                $columns[] = $attribute->toColumn();
+            }
+        }
+        /** @var AttributeInspectorInterface $attribute */
+        foreach ($this->foreignInspector->getAttributes() as $attribute){
+            if($attribute->ableFor(FieldAttribute::ABLE_SHOW)){
+                $columns[] = $attribute->toColumn();
+            }
+        }
 
         $gridView = GridView::create([
             'caption' => "{$this->inspector->getTitle()} 列表",
-            'columns' => array_map(function(AttributeInspectorInterface $fieldInspector){
-                return $fieldInspector->toColumn();
-            }, $attributeInspectors),
+            'columns' => $columns,
         ]);
         return $gridView;
-    }
-
-    protected function getAttributes(){
-        $attributeInspectors = $this->inspector->getAttributes();
-        //处理附表
-        /** @var RelationInspectorInterface $relationInspector */
-        $relationInspector = $this->inspector->getRelations()[$this->category['type']];
-        /** @var InspectorInterface $foreignInspector */
-        $foreignAttributeInspectors = $relationInspector->getForeignInspector()->getAttributes();
-
-        return array_merge($attributeInspectors, $foreignAttributeInspectors);
     }
 
     public function getForm($scene)
@@ -126,8 +141,14 @@ class PostController extends _InspectorController
         $form = FormBuilder::newForm();
 
         /** @var AttributeInspectorInterface $attribute */
-        foreach ($this->getAttributes() as $attribute){
-            if($attribute->ableFor($scene)){
+        foreach ($this->inspector->getAttributes() as $attribute){
+            if($attribute->ableFor(FieldAttribute::ABLE_SHOW)){
+                $form->addComponent($attribute->toElement());
+            }
+        }
+        /** @var AttributeInspectorInterface $attribute */
+        foreach ($this->foreignInspector->getAttributes() as $attribute){
+            if($attribute->ableFor(FieldAttribute::ABLE_SHOW)){
                 $form->addComponent($attribute->toElement());
             }
         }

@@ -19,10 +19,10 @@ interface InspectorInterface
     public function getName();
 
 
-//    /**
-//     * @return string
-//     */
-//    public function getModelClass();
+    /**
+     * @return string
+     */
+    public function getModelClass();
 
     /**
      * @return string

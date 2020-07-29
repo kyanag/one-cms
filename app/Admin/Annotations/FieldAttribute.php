@@ -45,6 +45,11 @@ class FieldAttribute
     public $rules = [];
 
     /**
+     * @var bool
+     */
+    public $required = true;
+
+    /**
      * @var string
      */
     public $inputType = "text";
