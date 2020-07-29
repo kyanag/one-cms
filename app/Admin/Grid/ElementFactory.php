@@ -4,8 +4,12 @@
 namespace App\Admin\Grid;
 
 
+use App\Admin\Grid\Elements\Editor;
+use App\Admin\Grid\Elements\WangEditor;
 use App\Admin\Grid\Interfaces\AttributeInspectorInterface;
 
+use Kyanag\Form\Toolkits\Bootstrap3\StaticLabel;
+use Kyanag\Form\Toolkits\Bootstrap3\Textarea;
 use Kyanag\Form\Traits\Macroable;
 use Kyanag\Form\Interfaces\Renderable;
 use Kyanag\Form\Toolkits\Bootstrap3\Select;
@@ -45,6 +49,39 @@ class ElementFactory
         $label = $fieldInspector->getLabel();
 
         return new Text($name, $label);
+    }
+
+    public function staticLabel(AttributeInspectorInterface $fieldInspector, array $inputConfig = []){
+        $name = $fieldInspector->getName();
+        $label = $fieldInspector->getLabel();
+
+        return new StaticLabel($name, $label);
+    }
+
+    /**
+     * @param AttributeInspectorInterface $fieldInspector
+     * @param array $inputConfig
+     * @return Renderable
+     */
+    public function textarea(AttributeInspectorInterface $fieldInspector, array $inputConfig = []){
+        $name = $fieldInspector->getName();
+        $label = $fieldInspector->getLabel();
+
+        return new Textarea($name, $label);
+    }
+
+    public function editor(AttributeInspectorInterface $fieldInspector, array $inputConfig = []){
+        $name = $fieldInspector->getName();
+        $label = $fieldInspector->getLabel();
+
+        return new Editor($name, $label);
+    }
+
+    public function wangEditor(AttributeInspectorInterface $fieldInspector, array $inputConfig = []){
+        $name = $fieldInspector->getName();
+        $label = $fieldInspector->getLabel();
+
+        return new WangEditor($name, $label);
     }
 
     public function radio(AttributeInspectorInterface $fieldInspector, array $inputConfig = []){

@@ -25,6 +25,8 @@ use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 abstract class _InspectorController extends Controller
 {
 
+    public $pageSize = 10;
+
     /**
      * @var InspectorInterface
      */
@@ -80,7 +82,7 @@ abstract class _InspectorController extends Controller
         $paginator = $this->newQuery()
             //->where($actionBar->toScope())
             ->withGlobalScope("__runtime__", $actionBar->toScope())
-            ->paginate(5);
+            ->paginate($this->pageSize);
         $grid->items = $paginator->getCollection();
 
         $paginator->withPath(

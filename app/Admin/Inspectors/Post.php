@@ -29,8 +29,8 @@ class Post{
      * @FieldAttribute(
      *     label="主键",
      *     name="id",
-     *     ableTo=15,
-     *     inputType="text",
+     *     ableTo=5,
+     *     inputType="staticLabel",
      *     columnType="raw"
      * )
      */
@@ -53,7 +53,7 @@ class Post{
      * @FieldAttribute(
      *     label="分类",
      *     name="category_id",
-     *     ableTo=15,
+     *     ableTo=1,
      *     inputType="text",
      *     columnType="raw"
      * )

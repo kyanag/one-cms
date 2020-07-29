@@ -12,8 +12,8 @@
     <link href="https://cdn.bootcss.com/animate.css/3.7.2/animate.min.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset("css/basic.css") }}">
-    <script src="{{ asset("js/vendor/html5shiv.min.js") }}"></script>
-    <script src="{{ asset("js/vendor/respond.min.js") }}"></script>
+
+    <link href="https://cdn.bootcdn.net/ajax/libs/wangEditor/10.0.13/wangEditor.css" rel="stylesheet">
 </head>
 
 <body>
@@ -48,8 +48,14 @@
 <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="https://cdn.bootcss.com/bootbox.js/5.4.0/bootbox.min.js"></script>
-<script src="{{ asset("js/vendor/ie10-viewport-bug-workaround.js") }}"></script>
 <script src="https://cdn.bootcdn.net/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"></script>
+
+<script src="https://cdn.bootcdn.net/ajax/libs/wangEditor/10.0.13/wangEditor.js"></script>
+
+<!-- ueditor -->
+<script src="{{ asset("vendor/ueditor/ueditor.config.js") }}"></script>
+<script src="{{ asset("vendor/ueditor/ueditor.all.js") }}"></script>
+<script src="{{ asset("vendor/ueditor/lang/zh-cn/zh-cn.js") }}"></script>
 <script src="{{ asset("js/basic.js") }}"></script>
 <script>
     @foreach(\App\Supports\Asset::$js as $js)

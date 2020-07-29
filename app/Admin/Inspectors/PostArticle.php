@@ -55,7 +55,7 @@ class PostArticle{
      *     label="内容",
      *     name="content",
      *     ableTo=15,
-     *     inputType="text",
+     *     inputType="wangEditor",
      *     columnType="raw"
      * )
      */

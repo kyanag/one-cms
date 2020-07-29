@@ -11,7 +11,11 @@ use App\Components\GridView;
 use App\Models\Category;
 use App\Models\Post;
 use App\Supports\FormBuilder;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Input;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
 class PostController extends _InspectorController
 {
@@ -46,6 +50,36 @@ class PostController extends _InspectorController
         return $urlCreator;
     }
 
+
+    /**
+     * Store a newly created resource in storage.
+     * @param  Request  $request
+     * @return Response
+     * @throws HttpException
+     */
+    public function store(Request $request)
+    {
+
+        $attributes = $this->validate(
+            $request,
+            $this->getRules(FieldAttribute::ABLE_CREATE),
+            [],
+            $this->getLabels()
+        );
+
+        $model = $this->newModel();
+        $model->fill($attributes);
+
+        if($model->saveOrFail()){
+            return \response()->json([
+                'msg' => "保存成功!",
+                'jump' => $this->urlCreator->index(),
+            ]);
+        }else{
+            throw new ServiceUnavailableHttpException();
+        }
+    }
+
     protected function newModel()
     {
         return new Post();
@@ -61,21 +95,11 @@ class PostController extends _InspectorController
 
     protected function getGrid()
     {
-        $attributeInspectors = $this->inspector->getAttributes();
+        $attributeInspectors = $this->getAttributes();
 
         $attributeInspectors = array_filter($attributeInspectors, function(AttributeInspectorInterface $fieldInspector){
             return $fieldInspector->ableFor(FieldAttribute::ABLE_SHOW);
         });
-
-        //处理附表
-        /** @var RelationInspectorInterface $relationInspector */
-        $relationInspector = $this->inspector->getRelations()[$this->category['type']];
-        /** @var InspectorInterface $foreignInspector */
-        $foreignInspector = $relationInspector->getForeignInspector();
-        $foreignAttributeInspectors = array_filter($foreignInspector->getAttributes(), function(AttributeInspectorInterface $fieldInspector){
-            return $fieldInspector->ableFor(FieldAttribute::ABLE_SHOW);
-        });
-        $attributeInspectors = array_merge($attributeInspectors, $foreignAttributeInspectors);
 
         $gridView = GridView::create([
             'caption' => "{$this->inspector->getTitle()} 列表",
@@ -86,29 +110,27 @@ class PostController extends _InspectorController
         return $gridView;
     }
 
+    protected function getAttributes(){
+        $attributeInspectors = $this->inspector->getAttributes();
+        //处理附表
+        /** @var RelationInspectorInterface $relationInspector */
+        $relationInspector = $this->inspector->getRelations()[$this->category['type']];
+        /** @var InspectorInterface $foreignInspector */
+        $foreignAttributeInspectors = $relationInspector->getForeignInspector()->getAttributes();
+
+        return array_merge($attributeInspectors, $foreignAttributeInspectors);
+    }
 
     public function getForm($scene)
     {
         $form = FormBuilder::newForm();
 
         /** @var AttributeInspectorInterface $attribute */
-        foreach ($this->inspector->getAttributes() as $attribute){
+        foreach ($this->getAttributes() as $attribute){
             if($attribute->ableFor($scene)){
                 $form->addComponent($attribute->toElement());
             }
         }
-
-        //处理附表
-        /** @var RelationInspectorInterface $relationInspector */
-        $relationInspector = $this->inspector->getRelations()[$this->category['type']];
-        /** @var InspectorInterface $foreignInspector */
-        $foreignInspector = $relationInspector->getForeignInspector();
-        foreach ($foreignInspector->getAttributes() as $attribute){
-            if($attribute->ableFor($scene)){
-                $form->addComponent($attribute->toElement());
-            }
-        }
-
         return $form;
     }
 }
