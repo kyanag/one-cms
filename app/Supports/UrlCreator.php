@@ -18,25 +18,14 @@ use function League\Uri\parse;
 class UrlCreator
 {
 
-    protected $routeMain;
+    protected $routeDomain;
 
     private $defaultQuery = [];
 
 
-    public static function createByModel($model){
-        $table = $model->getTable();
-
-        $static = new static();
-        $static->routeMain = str_singular($table);
-
-        return $static;
-    }
-
-
-    public static function createByInspector(InspectorInterface $inspector){
-        $static = new static();
-        $static->routeMain = str_singular($inspector->getName());
-        return $static;
+    public function __construct($routeDomain)
+    {
+        $this->routeDomain = $routeDomain;
     }
 
 
@@ -84,41 +73,41 @@ class UrlCreator
     }
 
     public function index($parameters = [], $query = [], $absolute = true){
-        $route = "admin.{$this->routeMain}.index";
+        $route = "admin.{$this->routeDomain}.index";
         return $this->route($route, $parameters, $query, $absolute);
     }
 
     public function store($parameters = [], $query = [], $absolute = true){
-        $route = "admin.{$this->routeMain}.store";
+        $route = "admin.{$this->routeDomain}.store";
         return $this->route($route, $parameters, $query, $absolute);
     }
 
     public function create($parameters = [], $query = [], $absolute = true){
-        $route = "admin.{$this->routeMain}.create";
+        $route = "admin.{$this->routeDomain}.create";
         return $this->route($route, $parameters, $query, $absolute);
     }
 
     public function show($parameters = [], $query = [], $absolute = true){
-        $route = "admin.{$this->routeMain}.show";
+        $route = "admin.{$this->routeDomain}.show";
         return $this->route($route, $parameters, $query, $absolute);
     }
 
     public function edit($parameters = [], $query = [], $absolute = true){
-        $route = "admin.{$this->routeMain}.edit";
+        $route = "admin.{$this->routeDomain}.edit";
         return $this->route($route, $parameters, $query, $absolute);
     }
 
     public function update($parameters = [], $query = [], $absolute = true){
-        $route = "admin.{$this->routeMain}.update";
+        $route = "admin.{$this->routeDomain}.update";
         return $this->route($route, $parameters, $query, $absolute);
     }
 
     public function destroy($parameters = [], $query = [], $absolute = true){
-        $route = "admin.{$this->routeMain}.destroy";
+        $route = "admin.{$this->routeDomain}.destroy";
         return $this->route($route, $parameters, $query, $absolute);
     }
 
     protected function formatName($name){
-        return str_replace("*", $this->routeMain, $name);
+        return str_replace("*", $this->routeDomain, $name);
     }
 }

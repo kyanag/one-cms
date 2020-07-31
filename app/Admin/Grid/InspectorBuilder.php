@@ -32,12 +32,8 @@ class InspectorBuilder
         return $this;
     }
 
-    public function with(){
-
-    }
-
     /**
-     * @param $related bool 是否加载关系
+     * @param $related bool 是否加载关系,可以防止循环引用
      * @return InspectorAdapter
      */
     public function built($related = true){

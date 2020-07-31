@@ -53,7 +53,7 @@ class Post{
      * @FieldAttribute(
      *     label="分类",
      *     name="category_id",
-     *     ableTo=1,
+     *     ableTo=0,
      *     inputType="text",
      *     columnType="raw"
      * )

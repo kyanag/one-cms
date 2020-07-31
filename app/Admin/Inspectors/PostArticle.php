@@ -85,4 +85,15 @@ class PostArticle{
      */
     public $updated_at;
 
+
+    /**
+     * @FieldAttribute(
+     *     label="操作",
+     *     name="id",
+     *     ableTo=1,
+     *     columnType="action"
+     * )
+     */
+    public $_actionBar;
+
 }

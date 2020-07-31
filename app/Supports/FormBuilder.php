@@ -62,9 +62,9 @@ class FormBuilder
             //post 表单需要ajax上传
             Asset::registerJs(<<<EOF
 $("#{$this->getId()}").ajaxForm({
-  success: function() {
-    bootbox.alert("This is the default alert!");
-  }
+    success: function(data,statusText){
+        console.log(data, statusText);
+    },
 });
 EOF
             );

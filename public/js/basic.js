@@ -1,3 +1,23 @@
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+
+//bootbox 初始化
+bootbox.addLocale("zh", {
+    OK:'OK',
+    CANCEL:'取消',
+    CONFIRM:'确认'
+});
+bootbox.setDefaults({
+    size: "small",
+    centerVertical:true,
+    scrollable:true,
+    locale:"zh"
+});
+
+
 $(document).on("click", 'nav a[href="#"]', function (e) {
     e.preventDefault();
 });
@@ -139,80 +159,43 @@ $(document).on("click", 'nav a[href="#"]', function (e) {
 
 //确认弹出框
 (function () {
-    var $modal_confirm = $("#modal_confirm");
     var target = '';
     var type = '';
     var data = {};
     $(document).on('click', '.J_confirm_modal', function (e) {
+        console.log(e);
         e.preventDefault();
-        var $btn = $(this);
-        var tip = typeof $btn.attr('data-tip') !== 'undefined' ? $btn.attr('data-tip') : '确认吗？';
-        target = typeof $btn.attr('data-target') !== 'undefined' ? $btn.attr('data-target') : '';
-        type = typeof $btn.attr('data-type') !== 'undefined' ? $btn.attr('data-type') : 'get';
+        var btn = $(this);
+        var tip = typeof btn.attr('data-tip') !== 'undefined' ? btn.attr('data-tip') : '确认吗？';
+        target = typeof btn.attr('data-target') !== 'undefined' ? btn.attr('data-target') : '';
+        type = typeof btn.attr('data-type') !== 'undefined' ? btn.attr('data-type') : 'get';
 
+        var data = {};
         if(type.toUpperCase() !== "POST" || type.toUpperCase() !== "GET"){
             data = {
-                '_method': `_${type.toLowerCase()}`
+                '_method': `${type.toLowerCase()}`
             };
             type = "post"
         }
-
-        $modal_confirm.find('.modal-body').html('<h5 style="text-align:center;">' + tip + '</h5>');
-        $modal_confirm.modal({
-            /*backdrop: 'static'*/
-        });
-    });
-    $modal_confirm.on('click', '.J_confirm_btn', function () {
-        var $confirm_btn = $(this);
-        if (!$confirm_btn.hasClass('subBtn_unable')) {
-            $confirm_btn.addClass('subBtn_unable');
-            $.ajax({
-                type: type,
-                url: target,
-                cache: false,
-                data: data,
-                dataType: 'json',
-                beforeSend: function () {
-                    $confirm_btn.addClass('subBtn_sending');
-                },
-                success: function (returnData) {
-                    var $modals = $('.modal');
-                    if ($.trim(returnData.state) != 'success') {
-                        var tipText = returnData.message ? returnData.message : '提交失败';
-                        alert(tipText);
+        bootbox.confirm(tip, (result) => {
+            if(result){
+                $.ajax({
+                    type: type,
+                    url: btn.attr('href'),
+                    cache: false,
+                    data: data,
+                    dataType: 'json',
+                    success: function (returnVal) {
+                        bootbox.alert(returnVal.msg, () => {
+                            window.location.href = returnVal.jump;
+                        })
+                    },
+                    error: function () {
+                        console.log(response);
                     }
-                    //如果返回的结果成功并需要跳转
-                    if ($.trim(returnData.state) == 'success' && returnData.refresh === true) {
-                        $modals.on('hidden.bs.modal', function () {
-                            $modals.off('hidden.bs.modal');
-                            //如果为绝对地址则跳转出后台中心
-                            if (/^(http|https).+$/.test(returnData.referer)) {
-                                window.location = returnData.referer;
-                                return true;
-                            }
-                            if ($.trim(returnData.referer)) {
-                                //根据返回的hash加载页面
-                                loadURL($.trim(returnData.referer));
-                            } else {
-                                //刷新本页
-                                checkURL();
-                            }
-                        });
-                    }
-                    $modals.modal('hide');
-                    setTimeout(function () {
-                        $confirm_btn.removeClass('subBtn_unable');
-                    }, 500);
-                },
-                error: function () {
-                    alert('请求失败!!!!!!');
-                    $confirm_btn.removeClass('subBtn_unable');
-                },
-                complete: function () {
-                    $confirm_btn.removeClass('subBtn_sending');
-                }
-            });
-        }
+                });
+            }
+        })
     });
 })();
 

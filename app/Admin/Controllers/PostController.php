@@ -7,15 +7,19 @@ use App\Admin\Grid\InspectorAdapter;
 use App\Admin\Grid\Interfaces\AttributeInspectorInterface;
 use App\Admin\Grid\Interfaces\InspectorInterface;
 use App\Admin\Grid\Interfaces\RelationInspectorInterface;
+use App\Admin\Supports\InspectorHelper;
 use App\Components\GridView;
 use App\Models\Category;
 use App\Models\Post;
 use App\Supports\FormBuilder;
+use App\Supports\UrlCreator;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
 class PostController extends _InspectorController
@@ -25,13 +29,16 @@ class PostController extends _InspectorController
      */
     protected $foreignInspector;
 
+    /**
+     * @var RelationInspectorInterface
+     */
+    protected $relationInspector;
+
     /** @var Category */
     private $category;
 
     public function __construct()
     {
-        parent::__construct();
-
         $category = Category::query()
             ->where("id", app("request")->input("category_id"))
             ->first();
@@ -40,7 +47,10 @@ class PostController extends _InspectorController
         }
         $this->category = $category;
 
-        $this->foreignInspector = $this->inspector->getRelations()[$this->category['type']]->getForeignInspector();
+        parent::__construct();
+
+        $this->relationInspector = $this->inspector->getRelations()[$this->category['type']];
+        $this->foreignInspector = $this->relationInspector->getForeignInspector();
     }
 
     protected function createInspector()
@@ -54,7 +64,7 @@ class PostController extends _InspectorController
     {
         $urlCreator = parent::createUrlCreator();
         $urlCreator->setDefaultQuery([
-            'category_id' => Input::get("category_id")
+            'category_id' => $this->category['id']
         ]);
         return $urlCreator;
     }
@@ -74,13 +84,15 @@ class PostController extends _InspectorController
             $labels = [];
             /** @var AttributeInspectorInterface $attribute */
             foreach ($this->inspector->getAttributes() as $attribute){
-                if($attribute->ableFor(FieldAttribute::ABLE_SHOW)){
+                if($attribute->ableFor(FieldAttribute::ABLE_CREATE)){
                     $rules[$attribute->getName()] = $attribute->getRules();
+                    $labels[$attribute->getName()] = $attribute->getLabel();
                 }
             }
             /** @var AttributeInspectorInterface $attribute */
             foreach ($this->foreignInspector->getAttributes() as $attribute){
-                if($attribute->ableFor(FieldAttribute::ABLE_SHOW)){
+                if($attribute->ableFor(FieldAttribute::ABLE_CREATE)){
+                    $rules[$attribute->getName()] = $attribute->getRules();
                     $labels[$attribute->getName()] = $attribute->getLabel();
                 }
             }
@@ -91,11 +103,22 @@ class PostController extends _InspectorController
                 $labels
             );
 
-            $model = $this->newModel();
-            $model->fill($attributes);
+            /** @var Post $model */
+            $model = InspectorHelper::newModel($this->inspector);
+            $model->fill(
+                InspectorHelper::filterByInspector($this->inspector, $attributes, FieldAttribute::ABLE_CREATE)
+            );
+            //设置数据栏目
+            $model->category_id = $this->category['id'];
 
-            if($model->saveOrFail()){
-                return \response()->json([
+            $foreignModel = InspectorHelper::newModel($this->foreignInspector);
+            $foreignModel->fill(
+                InspectorHelper::filterByInspector($this->foreignInspector, $attributes, FieldAttribute::ABLE_CREATE)
+            );
+            $relationName = $this->category['type'];
+
+            if($model->saveOrFail() && $model->{$relationName}()->save($foreignModel)){
+                return response()->json([
                     'msg' => "保存成功!",
                     'jump' => $this->urlCreator->index(),
                 ]);
@@ -103,6 +126,36 @@ class PostController extends _InspectorController
                 throw new ServiceUnavailableHttpException();
             }
         });
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function destroy(Request $request, $id)
+    {
+        /** @var Model $model */
+        $model = $this->newQuery()->find($id);
+        if(is_null($model)){
+            throw new NotFoundHttpException("不存在的内容!");
+        }
+
+        DB::transaction(function() use($model){
+            $foreignModel = $model->getRelation($this->category['type']);
+
+            if(!$model->delete()){
+                throw new ServiceUnavailableHttpException("删除过程失败，请重试!");
+            }
+            if(!$foreignModel->delete()){
+                throw new ServiceUnavailableHttpException("删除失败，请重试!");
+            }
+        });
+        return response()->json([
+            'msg' => "删除成功!",
+            'jump' => $request->header("REFERER"),
+        ]);
     }
 
     protected function newQuery()
@@ -142,13 +195,13 @@ class PostController extends _InspectorController
 
         /** @var AttributeInspectorInterface $attribute */
         foreach ($this->inspector->getAttributes() as $attribute){
-            if($attribute->ableFor(FieldAttribute::ABLE_SHOW)){
+            if($attribute->ableFor($scene)){
                 $form->addComponent($attribute->toElement());
             }
         }
         /** @var AttributeInspectorInterface $attribute */
         foreach ($this->foreignInspector->getAttributes() as $attribute){
-            if($attribute->ableFor(FieldAttribute::ABLE_SHOW)){
+            if($attribute->ableFor($scene)){
                 $form->addComponent($attribute->toElement());
             }
         }

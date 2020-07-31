@@ -9,6 +9,10 @@ class Member extends Model
     //
     protected $guarded = [];
 
+    protected $fillable = [
+        ''
+    ];
+
     public function getTitleAttribute(){
         return $this->name;
     }

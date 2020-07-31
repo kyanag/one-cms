@@ -51,16 +51,11 @@
 <script src="https://cdn.bootcdn.net/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"></script>
 
 <script src="https://cdn.bootcdn.net/ajax/libs/wangEditor/10.0.13/wangEditor.js"></script>
-
-<!-- ueditor -->
-<script src="{{ asset("vendor/ueditor/ueditor.config.js") }}"></script>
-<script src="{{ asset("vendor/ueditor/ueditor.all.js") }}"></script>
-<script src="{{ asset("vendor/ueditor/lang/zh-cn/zh-cn.js") }}"></script>
-<script src="{{ asset("js/basic.js") }}"></script>
+<script src="{{ asset("js/basic.js") }}?{{ time() }}"></script>
 <script>
-    @foreach(\App\Supports\Asset::$js as $js)
-    {!! $js !!}
-    @endforeach
+@foreach(\App\Supports\Asset::$js as $js)
+{!! $js !!}
+@endforeach
 </script>
 </body>
 </html>

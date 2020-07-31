@@ -81,7 +81,7 @@ class GridView implements Renderable
     {
         return implode("", [
             $this->renderBegin(),
-            $this->renderCaption(),
+            //$this->renderCaption(),
             $this->renderHeader(),
             $this->renderSearch(),
             $this->renderBody(),

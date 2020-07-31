@@ -14,10 +14,13 @@ use App\Http\Controllers\Controller;
 use App\Supports\Context;
 use App\Supports\FormBuilder;
 use App\Supports\UrlCreator;
+use http\Url;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
@@ -39,15 +42,14 @@ abstract class _InspectorController extends Controller
 
     public function __construct()
     {
-        $this->inspector = $this->createInspector();
-        $this->urlCreator = $this->createUrlCreator();
-
         app()->singleton(ColumnFactory::class, function(){
             $columnBuilder = new ColumnFactory();
             $columnBuilder->urlCreator = $this->urlCreator;
 
             return $columnBuilder;
         });
+        $this->urlCreator = $this->createUrlCreator();
+        $this->inspector = $this->createInspector();
     }
 
     /**
@@ -237,9 +239,23 @@ abstract class _InspectorController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        /** @var Model $model */
+        $model = $this->newQuery()->find($id);
+        if(is_null($model)){
+            throw new NotFoundHttpException("不存在的内容!");
+        }
+
+        DB::transaction(function() use($model){
+            if(!$model->delete()){
+                throw new ServiceUnavailableHttpException("删除失败，请重试!");
+            }
+        });
+        return response()->json([
+            'msg' => "删除成功!",
+            'jump' => $request->header("REFERER"),
+        ]);
     }
 
     protected function getRules($scene){
@@ -294,7 +310,12 @@ abstract class _InspectorController extends Controller
      * @return UrlCreator
      */
     public function createUrlCreator(){
-        return UrlCreator::createByModel($this->newModel());
+        $routeMain = Str::singular(
+            Str::kebab(
+                str_replace("Controller", "", class_basename($this))
+            )
+        );
+        return new UrlCreator($routeMain);
     }
 
 

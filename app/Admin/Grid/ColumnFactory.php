@@ -11,12 +11,18 @@ use App\Admin\Grid\Columns\DataColumn;
 use App\Admin\Grid\Interfaces\AttributeInspectorInterface;
 use App\Admin\Grid\Interfaces\GridColumnInterface;
 use App\Supports\UrlCreator;
+use http\Url;
 use Kyanag\Form\Traits\Macroable;
 
 class ColumnFactory
 {
 
     use Macroable;
+
+    /**
+     * @var UrlCreator
+     */
+    public $urlCreator;
 
     /**
      * @param AttributeInspectorInterface $fieldInspector
@@ -97,7 +103,7 @@ class ColumnFactory
         $actionColumn->label = $fieldInspector->getLabel();
         $actionColumn->decorators = @$columnConfig['decorators'] ?: [];
 
-        $actionColumn->urlCreator = UrlCreator::createByInspector($fieldInspector->getInspector());
+        $actionColumn->urlCreator = $this->urlCreator;
 
         if(isset($columnConfig['template'])){
             $actionColumn->template = $columnConfig['template'];
