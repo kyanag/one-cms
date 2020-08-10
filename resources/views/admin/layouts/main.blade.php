@@ -1,51 +1,60 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
+
+<!doctype html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
-    <title>@yield('title', "工作台")</title>
-    <meta name="description" content="@yield('description', "")">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
     <meta name="author" content="kyanag">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>@yield('title', "工作台")</title>
+
+    <!-- Bootstrap core CSS -->
     <link href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.css" rel="stylesheet">
-    <link href="https://preview.tabler.io/assets/css/dashboard.css" rel="stylesheet">
-    <link href="https://cdn.bootcss.com/animate.css/3.7.2/animate.min.css" rel="stylesheet">
-    <link href="https://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset("css/basic.css") }}">
+    <meta name="theme-color" content="#563d7c">
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
 
-    <link href="https://cdn.bootcdn.net/ajax/libs/wangEditor/10.0.13/wangEditor.css" rel="stylesheet">
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="{{ asset("css/dashboard.css") }}" rel="stylesheet">
 </head>
-
 <body>
-<header id="header">
-    <div class="logo"><a href="{{ route("admin.home") }}"><img src="{{ asset("images/logo.png") }}" alt="OneCms" width="120" height=""></a></div>
-    <div class="right_side">
-        <!--<span class="fullScreen_btn"><i class="fa fa-arrows-alt"></i></span>-->
-        <span data-target="../server/logout.json" data-tip="确认退出吗？"><i class="fa fa-sign-out"></i></span>
-        <span class="toggleMenu_btn"><i class="fa fa-bars"></i></span>
-    </div>
-</header>
-<aside id="left" class="animated">
-    <div id="userinfo">
-        <div>
-            <a href="#" data-toggle="dropdown">
-                <i class="fa fa-user"></i><span class="name">admin</span><span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-                <li><a href="#">个人资料</a></li>
-                <li><a href="#" class="J_confirm_modal" data-target="../server/logout.json" data-tip="确认退出吗？">退出</a></li>
-            </ul>
-        </div>
-    </div>
-    {!! app("nav")->render() !!}
-    <span class="minifyBtn"><i class="fa fa-arrow-circle-left"></i></span>
-</aside>
-@yield("main")
-<footer id="footer">
-    <div class="inside"><i class="fa fa-copyright"></i><a href="https://github.com/liyu365">liyu</a></div>
-</footer>
+<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+    <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="#">OneCMS</a>
+    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+    <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+            <a class="nav-link" href="#">Sign out</a>
+        </li>
+    </ul>
+</nav>
 
+<div class="container-fluid">
+    <div class="row">
+        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+            {!! app("nav")->render() !!}
+        </nav>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+            @yield("main")
+        </main>
+    </div>
+</div>
 <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.bundle.js"></script>
 <script src="https://cdn.bootcss.com/bootbox.js/5.4.0/bootbox.min.js"></script>
@@ -54,9 +63,10 @@
 <script src="https://cdn.bootcdn.net/ajax/libs/wangEditor/10.0.13/wangEditor.js"></script>
 <script src="{{ asset("js/basic.js") }}?{{ time() }}"></script>
 <script>
-@foreach(\App\Supports\Asset::$js as $js)
-{!! $js !!}
-@endforeach
+    @foreach(\App\Supports\Asset::$js as $js)
+        {!! $js !!}
+    @endforeach
 </script>
+
 </body>
 </html>

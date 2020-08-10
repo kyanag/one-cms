@@ -24,7 +24,7 @@ class GridView implements Renderable
 
 
     public function renderBegin(){
-        return "<table class=\"table table-striped table-bordered table-hover table-sm\">";
+        return "<table class=\"table table-striped table-hover table-sm\">";
     }
 
 

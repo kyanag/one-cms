@@ -45,52 +45,6 @@ class AppServiceProvider extends ServiceProvider
 
         $this->mergeConfigFrom(config_path("_cloud.php"), "_cloud");
 
-        $this->app->singleton("nav", function(){
-            $nav = new Nav();
-            $nav->items = [
-                [
-                    'icon' => "fa-file-text",
-                    'title' => "HOME",
-                    'url' => route("admin.home"),
-                ],
-                [
-                    'icon' => "fa-users",
-                    'title' => "栏目",
-                    'url' => route("admin.category.index"),
-                ],
-                [
-                    'icon' => "fa-users",
-                    'title' => "会员",
-                    'url' => route("admin.member.index"),
-                ],
-                [
-                    'icon' => "fa-file-text",
-                    'title' => "测试一级栏目",
-                    'url' => "#",
-                    'children' => [
-                        [
-                            'icon' => "fa-file-text",
-                            'title' => "测试二级栏目",
-                            'url' => "#",
-                        ],
-                        [
-                            'icon' => "fa-file-text",
-                            'title' => "测试二级栏目2",
-                            'url' => "#",
-                            'children' => [
-                                [
-                                    'icon' => "fa-file-text",
-                                    'title' => "测试三级栏目",
-                                    'url' => "#",
-                                ]
-                            ],
-                        ]
-                    ],
-                ]
-            ];
-            return $nav;
-        });
-
         $this->app->singleton(AnnotationReader::class, function(){
             return new AnnotationReader();
         });

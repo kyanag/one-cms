@@ -3,35 +3,26 @@
 @section('title', $title)
 
 @section('main')
-    <div id="main">
-        <div id="ribbon">
-            @include("admin::components.breadcrumb")
-        </div>
-        <div id="content">
-            @component("admin::components.flash")@endcomponent
-
-            <div class="content-wrapper">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="card card-default">
-                                <div class="card-header"><i class="fa fa-fw fa-cog"></i>{{ $title }}<small>{{ $description }}</small></div>
-                                <div class="card-body">
-                                    {!! $actionBar->render() !!}
-                                </div>
-                                <hr>
-                                <div class="card-body">
-                                    {!! $grid->render() !!}
-                                    {!! $paginator->links() !!}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h4">{{ $title }} <small>{{ $description }}</small></h1>
+{{--        <div class="btn-toolbar mb-2 mb-md-0">--}}
+{{--            <div class="btn-group mr-2">--}}
+{{--                <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>--}}
+{{--                <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>--}}
+{{--            </div>--}}
+{{--            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">--}}
+{{--                <span data-feather="calendar"></span>--}}
+{{--                This week--}}
+{{--            </button>--}}
+{{--        </div>--}}
     </div>
-    <script>
-
-    </script>
+    @component("admin::components.flash")@endcomponent
+    <div class="my-4 w-100">
+        {!! $actionBar->render() !!}
+    </div>
+{{--    <h2>Section title</h2>--}}
+    <div class="table-responsive">
+        {!! $grid->render() !!}
+        {!! $paginator->links() !!}
+    </div>
 @endsection

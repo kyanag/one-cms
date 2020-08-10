@@ -1,11 +1,58 @@
 <?php
 
+use App\Admin\Components\Nav;
 use App\Admin\Grid\Interfaces\AttributeInspectorInterface;
 use Kyanag\Form\Tabler\ElementFactory;
 
 require_once app_path("./Admin/functions.php");
 
 app('view')->prependNamespace('admin', resource_path('views/admin'));
+
+app()->singleton("nav", function(){
+    $nav = new Nav();
+    $nav->items = [
+        [
+            'icon' => "fa-file-text",
+            'title' => "HOME",
+            'url' => route("admin.home"),
+        ],
+        [
+            'icon' => "fa-users",
+            'title' => "栏目",
+            'url' => route("admin.category.index"),
+        ],
+        [
+            'icon' => "fa-users",
+            'title' => "会员",
+            'url' => route("admin.member.index"),
+        ],
+        [
+            'icon' => "fa-file-text",
+            'title' => "测试一级栏目",
+            'url' => "#",
+            'children' => [
+                [
+                    'icon' => "fa-file-text",
+                    'title' => "测试二级栏目",
+                    'url' => "#",
+                ],
+                [
+                    'icon' => "fa-file-text",
+                    'title' => "测试二级栏目2",
+                    'url' => "#",
+                    'children' => [
+                        [
+                            'icon' => "fa-file-text",
+                            'title' => "测试三级栏目",
+                            'url' => "#",
+                        ]
+                    ],
+                ]
+            ],
+        ]
+    ];
+    return $nav;
+});
 
 
 app()->singleton("elementFactory", function(){

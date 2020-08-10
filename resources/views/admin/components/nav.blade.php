@@ -1,39 +1,28 @@
-<nav>
-    @foreach($menus as $menu)
-    <ul>
-        <li>
-            <a href="{{ $menu['url'] }}">
-                <i class="fa {{ $menu['icon'] ?: "fa-file-text" }}"></i>
-                <span>{{ $menu['title'] }}</span>
-                @if(isset($menu['children']) && count($menu['children']) > 0)<b><i class="fa fa-plus-square-o"></i></b>@endif
-            </a>
-
-            @if(isset($menu['children']))
-             <ul>
-            @foreach($menu['children'] as $submenu)
-                <li>
-                    <a href="{{ $submenu['url'] }}">
-                        <i class="fa {{ $submenu['icon'] ?: "fa-file-text" }}}"></i>
-                        <span>{{ $menu['title'] }}</span>
-                        @if(isset($submenu['children']) && count($submenu['children']) > 0)<b><i class="fa fa-plus-square-o"></i></b>@endif
-                    </a>
-                    @if(isset($submenu['children']))
-                    <ul>
-                        @foreach($submenu['children'] as $_menu)
-                            <li>
-                                <a href="{{ $_menu['url'] }}">
-                                    <i class="fa {{ $_menu['icon'] ?: "fa-file-text" }}}"></i>
-                                    <span>{{ $_menu['title'] }}</span>
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
-                    @endif
-                </li>
-            @endforeach
-             </ul>
+<div class="sidebar-sticky pt-3">
+    <ul class="nav flex-column">
+        @foreach($menus as $menu)
+        <li class="nav-item">
+            @if(!isset($menu['children']))
+                <a class="nav-link" href="{{ $menu['url'] }}"><i class="fa {{ $menu['icon'] ?: "fa-file-text" }}"></i><span>{{ $menu['title'] }}</span></a>
+            @else
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                    <span>{{ $menu['title'] }}</span>
+                </h6>
+                <ul class="nav flex-column mb-2">
+                    @foreach($menu['children'] as $submenu)
+                        <li class="nav-item">
+                            @if(!isset($submenu['children']))
+                                <a class="nav-link" href="{{ $submenu['url'] }}"><i class="fa {{ $submenu['icon'] ?: "fa-file-text" }}"></i><span>{{ $submenu['title'] }}</span></a>
+                            @else
+                                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                                    <span>{{ $submenu['title'] }}</span>
+                                </h6>
+                            @endif
+                        </li>
+                    @endforeach
+                </ul>
             @endif
         </li>
+        @endforeach
     </ul>
-    @endforeach
-</nav>
+</div>
