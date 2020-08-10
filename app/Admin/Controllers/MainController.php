@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Components\Nav;
+use App\Admin\Components\Nav;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 

@@ -12,9 +12,9 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm-12">
-                            <div class="panel panel-default">
-                                <div class="panel-heading"><i class="fa fa-fw {{ $_icon }}"></i> {{ $title }}</div>
-                                <div class="panel-body">
+                            <div class="card card-default">
+                                <div class="card-header"><i class="fa fa-fw {{ $_icon }}"></i> {{ $title }}</div>
+                                <div class="card-body">
                                     {!! $form->render() !!}
                                 </div>
                             </div>

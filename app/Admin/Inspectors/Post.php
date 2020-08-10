@@ -30,7 +30,7 @@ class Post{
      *     label="主键",
      *     name="id",
      *     ableTo=5,
-     *     inputType="staticLabel",
+     *     inputType="staticText",
      *     columnType="raw"
      * )
      */

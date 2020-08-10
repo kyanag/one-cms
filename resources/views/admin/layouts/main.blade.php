@@ -8,7 +8,8 @@
     <meta name="description" content="@yield('description', "")">
     <meta name="author" content="kyanag">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.css" rel="stylesheet">
+    <link href="https://preview.tabler.io/assets/css/dashboard.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/animate.css/3.7.2/animate.min.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset("css/basic.css") }}">
@@ -46,7 +47,7 @@
 </footer>
 
 <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.bundle.js"></script>
 <script src="https://cdn.bootcss.com/bootbox.js/5.4.0/bootbox.min.js"></script>
 <script src="https://cdn.bootcdn.net/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"></script>
 

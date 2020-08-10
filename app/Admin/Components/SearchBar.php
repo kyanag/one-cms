@@ -1,19 +1,19 @@
 <?php
 
 
-namespace App\Components;
+namespace App\Admin\Components;
 
 
 use App\Admin\Annotations\FieldAttribute;
 use App\Admin\Grid\Interfaces\AttributeInspectorInterface;
-use App\Supports\FormBuilder;
+use App\Admin\Supports\FormBuilder;
 use App\Admin\Grid\Interfaces\InspectorInterface;
-use Kyanag\Form\Interfaces\Renderable;
+use Kyanag\Form\Renderable;
 
 
 /**
  * Class SearchBar
- * @package App\Components
+ * @package App\Admin\Components
  * @mixin FormBuilder
  */
 class SearchBar implements Renderable
@@ -43,7 +43,7 @@ class SearchBar implements Renderable
             /** @var AttributeInspectorInterface $field */
             foreach ($fields as $field){
                 if($field->ableFor(FieldAttribute::ABLE_SEARCH)){
-                    $form->addComponent($field->toElement());
+                    $form->addChild($field->toElement());
                 }
             }
             $this->formBuilder = new FormBuilder($form);

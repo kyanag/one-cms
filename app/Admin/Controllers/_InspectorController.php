@@ -8,11 +8,11 @@ use App\Admin\Annotations\FieldAttribute;
 use App\Admin\Grid\ColumnFactory;
 use App\Admin\Grid\Interfaces\AttributeInspectorInterface;
 use App\Admin\Grid\Interfaces\InspectorInterface;
-use App\Components\ActionBar;
-use App\Components\GridView;
+use App\Admin\Components\ActionBar;
+use App\Admin\Components\GridView;
 use App\Http\Controllers\Controller;
 use App\Supports\Context;
-use App\Supports\FormBuilder;
+use App\Admin\Supports\FormBuilder;
 use App\Supports\UrlCreator;
 use http\Url;
 use Illuminate\Database\Eloquent\Model;
@@ -284,7 +284,7 @@ abstract class _InspectorController extends Controller
         /** @var AttributeInspectorInterface $field */
         foreach ($this->inspector->getAttributes() as $field){
             if($field->ableFor($scene)){
-                $form->addComponent($field->toElement());
+                $form->addChild($field->toElement());
             }
         }
         return $form;

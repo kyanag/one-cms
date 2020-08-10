@@ -5,11 +5,11 @@ namespace App\Admin\Grid\Decorators;
 
 
 /**
- * Class LabelDecorator
+ * Class BadgeDecorator
  * @package App\Admin\Grid\Decorators
  * @Annotation
  */
-class LabelDecorator
+class BadgeDecorator
 {
 
     /**
@@ -19,7 +19,7 @@ class LabelDecorator
 
     public function __invoke($values)
     {
-        return "<span class=\"label label-{$this->type}\">{$values}</span>";
+        return "<span class=\"badge badge-{$this->type}\">{$values}</span>";
     }
 
 }

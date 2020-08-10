@@ -37,10 +37,10 @@ class ActionColumn extends DataColumn
             ]);
 
             return strtr($this->template, [
-                "{view}" => "<a class=\"btn btn-default btn-xs\" href=\"{$view}\">查看</a>",
-                "{update}" => "<a class=\"btn btn-primary btn-xs\" href=\"{$update}\">编辑</a>",
+                "{view}" => "<a class=\"btn btn-outline-primary btn-sm\" href=\"{$view}\">查看</a>",
+                "{update}" => "<a class=\"btn btn-primary btn-sm\" href=\"{$update}\">编辑</a>",
                 "{delete}" => "<a 
-class=\"btn btn-warning btn-xs J_confirm_modal\" 
+class=\"btn btn-warning btn-sm J_confirm_modal\" 
 href=\"{$delete}\" 
 data-tip=\"确认删除?\"
 data-type=\"delete\"

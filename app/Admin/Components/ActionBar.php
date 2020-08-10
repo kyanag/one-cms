@@ -1,14 +1,14 @@
 <?php
 
 
-namespace App\Components;
+namespace App\Admin\Components;
 
 
 use App\Admin\Annotations\FieldAttribute;
 use App\Admin\Grid\Interfaces\InspectorInterface;
 use App\Admin\Grid\Interfaces\AttributeInspectorInterface;
 use App\Supports\UrlCreator;
-use Kyanag\Form\Interfaces\Renderable;
+use Kyanag\Form\Renderable;
 
 class ActionBar implements Renderable
 {

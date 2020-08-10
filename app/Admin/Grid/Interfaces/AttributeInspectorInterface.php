@@ -4,7 +4,7 @@
 namespace App\Admin\Grid\Interfaces;
 
 
-use Kyanag\Form\Interfaces\Renderable;
+use Kyanag\Form\Renderable;
 
 interface AttributeInspectorInterface
 {

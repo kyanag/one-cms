@@ -7,14 +7,8 @@ namespace App\Admin\Grid;
 use App\Admin\Grid\Elements\Editor;
 use App\Admin\Grid\Elements\WangEditor;
 use App\Admin\Grid\Interfaces\AttributeInspectorInterface;
-
-use Kyanag\Form\Toolkits\Bootstrap3\StaticLabel;
-use Kyanag\Form\Toolkits\Bootstrap3\Textarea;
-use Kyanag\Form\Traits\Macroable;
-use Kyanag\Form\Interfaces\Renderable;
-use Kyanag\Form\Toolkits\Bootstrap3\Select;
-use Kyanag\Form\Toolkits\Bootstrap3\Radio;
-use Kyanag\Form\Toolkits\Bootstrap3\Text;
+use Illuminate\Support\Traits\Macroable;
+use Illuminate\Contracts\Support\Renderable;
 
 class ElementFactory
 {
@@ -45,17 +39,17 @@ class ElementFactory
      * @return Renderable
      */
     public function text(AttributeInspectorInterface $fieldInspector, array $inputConfig = []){
-        $name = $fieldInspector->getName();
-        $label = $fieldInspector->getLabel();
-
-        return new Text($name, $label);
+        return createElement("text", [
+            'name' => $fieldInspector->getName(),
+            'label' => $fieldInspector->getLabel(),
+        ]);
     }
 
-    public function staticLabel(AttributeInspectorInterface $fieldInspector, array $inputConfig = []){
-        $name = $fieldInspector->getName();
-        $label = $fieldInspector->getLabel();
-
-        return new StaticLabel($name, $label);
+    public function staticText(AttributeInspectorInterface $fieldInspector, array $inputConfig = []){
+        return createElement("static-text", [
+            'name' => $fieldInspector->getName(),
+            'label' => $fieldInspector->getLabel(),
+        ]);
     }
 
     /**
@@ -64,47 +58,50 @@ class ElementFactory
      * @return Renderable
      */
     public function textarea(AttributeInspectorInterface $fieldInspector, array $inputConfig = []){
-        $name = $fieldInspector->getName();
-        $label = $fieldInspector->getLabel();
-
-        return new Textarea($name, $label);
+        return createElement("textarea", [
+            'name' => $fieldInspector->getName(),
+            'label' => $fieldInspector->getLabel(),
+        ]);
     }
 
     public function editor(AttributeInspectorInterface $fieldInspector, array $inputConfig = []){
-        $name = $fieldInspector->getName();
-        $label = $fieldInspector->getLabel();
-
-        return new Editor($name, $label);
+        return createElement("editor", [
+            'name' => $fieldInspector->getName(),
+            'label' => $fieldInspector->getLabel(),
+        ]);
     }
 
     public function wangEditor(AttributeInspectorInterface $fieldInspector, array $inputConfig = []){
-        $name = $fieldInspector->getName();
-        $label = $fieldInspector->getLabel();
-
-        return new WangEditor($name, $label);
+        return createElement("textarea", [
+            'name' => $fieldInspector->getName(),
+            'label' => $fieldInspector->getLabel(),
+        ]);
     }
 
     public function radio(AttributeInspectorInterface $fieldInspector, array $inputConfig = []){
-        $name = $fieldInspector->getName();
-        $label = $fieldInspector->getLabel();
-
         $options = $inputConfig['options'];
         if (is_object($options) && method_exists($options, "toIterator")){
             $options = $options->toIterator();
         }
 
-        return new Radio($name, $label, $options);
+        return createElement("radio", [
+            'name' => $fieldInspector->getName(),
+            'label' => $fieldInspector->getLabel(),
+            'options' => $options,
+        ]);
     }
 
     public function select(AttributeInspectorInterface $fieldInspector, array $inputConfig = []){
-        $name = $fieldInspector->getName();
-        $label = $fieldInspector->getLabel();
-
         $options = $inputConfig['options'];
         if (is_object($options) && method_exists($options, "toIterator")){
             $options = $options->toIterator();
         }
-        return new Select($name, $label, $options);
+
+        return createElement("select", [
+            'name' => $fieldInspector->getName(),
+            'label' => $fieldInspector->getLabel(),
+            'options' => $options,
+        ]);
     }
 
     /**
@@ -112,15 +109,10 @@ class ElementFactory
      * @param array $inputConfig
      * @return Renderable
      */
-    public function belongsTo(AttributeInspectorInterface $fieldInspector, array $inputConfig = []){
-        $name = $fieldInspector->getName();
-        $label = $fieldInspector->getLabel();
-
-        $inputType = @$inputConfig['inputType'] ?: "select";
-
-        $relationName = @$inputConfig['relationName'];
-        $modelClass = $fieldInspector->getSchema()->modelClass();
-
-        $relation = relation_extract($modelClass, $relationName);
+    public function hasOne(AttributeInspectorInterface $fieldInspector, array $inputConfig = []){
+        return createElement("has-one", [
+            'name' => $fieldInspector->getName(),
+            'label' => $fieldInspector->getLabel(),
+        ]);
     }
 }

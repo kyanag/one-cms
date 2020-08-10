@@ -14,13 +14,13 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm-12">
-                            <div class="panel panel-default">
-                                <div class="panel-heading"><i class="fa fa-fw fa-cog"></i>{{ $title }}<small>{{ $description }}</small></div>
-                                <div class="panel-body">
+                            <div class="card card-default">
+                                <div class="card-header"><i class="fa fa-fw fa-cog"></i>{{ $title }}<small>{{ $description }}</small></div>
+                                <div class="card-body">
                                     {!! $actionBar->render() !!}
                                 </div>
                                 <hr>
-                                <div class="panel-body">
+                                <div class="card-body">
                                     {!! $grid->render() !!}
                                     {!! $paginator->links() !!}
                                 </div>

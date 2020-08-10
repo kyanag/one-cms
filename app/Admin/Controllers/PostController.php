@@ -8,10 +8,10 @@ use App\Admin\Grid\Interfaces\AttributeInspectorInterface;
 use App\Admin\Grid\Interfaces\InspectorInterface;
 use App\Admin\Grid\Interfaces\RelationInspectorInterface;
 use App\Admin\Supports\InspectorHelper;
-use App\Components\GridView;
+use App\Admin\Components\GridView;
 use App\Models\Category;
 use App\Models\Post;
-use App\Supports\FormBuilder;
+use App\Admin\Supports\FormBuilder;
 use App\Supports\UrlCreator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -196,13 +196,13 @@ class PostController extends _InspectorController
         /** @var AttributeInspectorInterface $attribute */
         foreach ($this->inspector->getAttributes() as $attribute){
             if($attribute->ableFor($scene)){
-                $form->addComponent($attribute->toElement());
+                $form->addChild($attribute->toElement());
             }
         }
         /** @var AttributeInspectorInterface $attribute */
         foreach ($this->foreignInspector->getAttributes() as $attribute){
             if($attribute->ableFor($scene)){
-                $form->addComponent($attribute->toElement());
+                $form->addChild($attribute->toElement());
             }
         }
         return $form;

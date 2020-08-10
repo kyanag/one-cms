@@ -1,12 +1,11 @@
 <?php
 
 
-namespace App\Components;
+namespace App\Admin\Components;
 
 
 use App\Admin\Grid\Interfaces\GridColumnInterface;
-use App\Admin\Grid\Interfaces\InspectorInterface;
-use Kyanag\Form\Interfaces\Renderable;
+use Kyanag\Form\Renderable;
 
 class GridView implements Renderable
 {
@@ -25,7 +24,7 @@ class GridView implements Renderable
 
 
     public function renderBegin(){
-        return "<table class=\"table table-striped table-bordered table-hover\">";
+        return "<table class=\"table table-striped table-bordered table-hover table-sm\">";
     }
 
 

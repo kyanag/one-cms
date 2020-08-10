@@ -4,19 +4,8 @@
 namespace App\Supports;
 
 
-use Kyanag\Form\ActiveForm;
-use Kyanag\Form\Interfaces\ComponentCollectionInterface;
-use Kyanag\Form\Interfaces\ComponentInterface;
-use Kyanag\Form\Toolkits\Bootstrap3\Checkbox;
-use Kyanag\Form\Toolkits\Basic\Hidden;
-use Kyanag\Form\Toolkits\Bootstrap3\Bootstrap3;
-use Kyanag\Form\Toolkits\Bootstrap3\Fieldset;
-use Kyanag\Form\Toolkits\Bootstrap3\Radio;
-use Kyanag\Form\Toolkits\Bootstrap3\Select;
-use Kyanag\Form\Toolkits\Bootstrap3\StaticLabel;
-use Kyanag\Form\Toolkits\Bootstrap3\Text;
-use Kyanag\Form\Toolkits\Bootstrap3\Textarea;
-use Kyanag\Form\Traits\Macroable;
+use Illuminate\Support\Traits\Macroable;
+use Kyanag\Form\Tabler\Form;
 
 /**
  * Class FormBuilder
@@ -27,7 +16,7 @@ class FormBuilder
     use Macroable;
 
     public static function newForm(){
-        $theme = new Bootstrap3();
+        $theme = new Form();
         $id = "OC-form-" . str_random(10);
         $theme->setAttribute("id", $id);
 
@@ -88,22 +77,22 @@ EOF
 
     public function text($name, $label = null){
         $text = new Text($name, $label);
-        return $this->form->addComponent($text);
+        return $this->form->addChild($text);
     }
 
     public function hidden($name){
         $hidden = new Hidden($name);
-        return $this->form->addComponent($hidden);
+        return $this->form->addChild($hidden);
     }
 
     public function display($name, $label = null){
         $staticLabel = new StaticLabel($name, $label);
-        return $this->form->addComponent($staticLabel);
+        return $this->form->addChild($staticLabel);
     }
 
     public function select($name, $label = null, $options = []){
         $select = new Select($name, $label, $options);
-        return $this->form->addComponent($select);
+        return $this->form->addChild($select);
     }
 
     /**
@@ -113,12 +102,12 @@ EOF
      */
     public function textarea($name, $label = null){
         $textarea = new Textarea($name, $label);
-        return $this->form->addComponent($textarea);
+        return $this->form->addChild($textarea);
     }
 
     public function checkbox($name, $label = null, $options = []){
         $checkbox = new Checkbox($name, $label, $options);
-        return $this->form->addComponent($checkbox);
+        return $this->form->addChild($checkbox);
     }
 
     public function switch($name, $label = null){
@@ -131,7 +120,7 @@ EOF
 
     public function radio($name, $label = null, $options = []){
         $radio = new Radio($name, $label, $options);
-        return $this->form->addComponent($radio);
+        return $this->form->addChild($radio);
     }
 
 
@@ -140,7 +129,7 @@ EOF
         if(is_callable($callable)){
             call_user_func_array($callable, [$fieldset]);
         }
-        return $this->form->addComponent($fieldset);
+        return $this->form->addChild($fieldset);
     }
 
     public function setValue($attributes){

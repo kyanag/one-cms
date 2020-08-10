@@ -1,8 +1,30 @@
 <?php
 
 use App\Admin\Grid\Interfaces\AttributeInspectorInterface;
+use Kyanag\Form\Tabler\ElementFactory;
+
+require_once app_path("./Admin/functions.php");
 
 app('view')->prependNamespace('admin', resource_path('views/admin'));
+
+
+app()->singleton("elementFactory", function(){
+    $factory = new ElementFactory();
+
+    $files = glob(base_path("vendor/kyanag/form/src/Tabler/Forms/*.php"));
+
+    foreach($files as $file){
+        $classBaseName = basename($file, ".php");
+        $snake_str = \Kyanag\Form\camelToSnake($classBaseName);
+        $class = "Kyanag\\Form\\Tabler\\Forms\\{$classBaseName}";
+
+        $factory->registerComponent($snake_str, $class);
+    }
+    $factory->registerComponent("form", \Kyanag\Form\Tabler\Form::class);
+    $factory->registerComponent("hidden", \Kyanag\Form\Tabler\Forms\Text::class);
+
+    return $factory;
+});
 
 
 \App\Admin\Grid\ColumnFactory::macro("usingCategories", function(AttributeInspectorInterface $fieldInspector, array $columnConfig){

@@ -5,10 +5,10 @@ $unique_id = uniqid("search-bar");
 
 <div class="row">
     <div class="col-sm-12">
-        <div class="pull-left">
+        <div class="float-left">
             <a class="btn btn-sm btn-primary" data-toggle="collapse" href="#{{ $unique_id }}"><i class="fa fa-filter"></i>筛选</a>
         </div>
-        <div class="pull-right">
+        <div class="float-right">
             <a class="btn btn-sm btn-success" href="{{ $urlCreator->route("admin.*.create") }}"><i class="fa fa-plus"></i>新建</a>
             <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 排序 <span class="caret"></span>

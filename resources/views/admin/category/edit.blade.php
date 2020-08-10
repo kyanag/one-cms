@@ -7,9 +7,9 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading"><i class="fa fa-fw fa-cog"></i>操作面板</div>
-                        <div class="panel-body">
+                    <div class="card card-default">
+                        <div class="card-header"><i class="fa fa-fw fa-cog"></i>操作面板</div>
+                        <div class="card-body">
                             <form class="form-inline" role="form" method="get" action="../server/ajaxReturn.json" data-validate="validate1" data-callBack="callback1">
                                 <div class="form-group">
                                     <label>新闻分类</label>
@@ -34,9 +34,9 @@
             </div>
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading"><i class="fa fa-fw fa-file-text"></i>表单</div>
-                        <div class="panel-body">
+                    <div class="card card-default">
+                        <div class="card-header"><i class="fa fa-fw fa-file-text"></i>表单</div>
+                        <div class="card-body">
                             {!! $form->render() !!}
                         </div>
                     </div>

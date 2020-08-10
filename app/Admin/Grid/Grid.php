@@ -6,7 +6,7 @@ namespace App\Admin\Grid;
 
 use App\Admin\Grid\Interfaces\InspectorInterface;
 use Kyanag\Form\Interfaces\ComponentInterface;
-use Kyanag\Form\Interfaces\Renderable;
+use Kyanag\Form\Renderable;
 
 class Grid implements Renderable
 {
@@ -33,16 +33,16 @@ class Grid implements Renderable
     public function render()
     {
         return <<<TPL
-<div class="panel panel-default">
-    <div class="panel-heading"><i class="fa fa-fw fa-cog"></i>{ $this->title }<small>{ $this->description }</small></div>
-    <div class="panel-body" style="border-bottom: 1px solid #f4f4f4">
+<div class="card card-default">
+    <div class="card-header"><i class="fa fa-fw fa-cog"></i>{ $this->title }<small>{ $this->description }</small></div>
+    <div class="card-body" style="border-bottom: 1px solid #f4f4f4">
         {$this->renderActionBar()}
     </div>
-    <div class="panel-body">
+    <div class="card-body">
         {$this->renderTable()}
         {$this->renderPager()}
     </div>
-    <div class="panel-footer">
+    <div class="card-footer">
 
     </div>
 </div>

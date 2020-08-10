@@ -3,7 +3,7 @@
 namespace App\Admin\Inspectors;
 
 use App\Admin\Annotations\FieldAttribute;
-use App\Admin\Grid\Decorators\LabelDecorator;
+use App\Admin\Grid\Decorators\BadgeDecorator;
 use App\Admin\Grid\Options\Categories;
 use App\Admin\Annotations\SchemaAttribute;
 use App\Models\Category as CategoryModel;
@@ -134,7 +134,7 @@ class Category{
      *     columnConfig={
      *         "options": {0:"显示", 1:"不显示"},
      *         "decorators":{
-     *             @LabelDecorator()
+     *             @BadgeDecorator()
      *         }
      *     }
      * )

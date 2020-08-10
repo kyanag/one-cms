@@ -5,6 +5,7 @@ namespace App\Admin\Providers;
 
 
 use Illuminate\Support\ServiceProvider;
+use Kyanag\Form\Tabler\ElementFactory;
 
 class AdminProvider extends ServiceProvider
 {
@@ -33,6 +34,24 @@ class AdminProvider extends ServiceProvider
                 new \App\Admin\Grid\ColumnFactory(),
                 new \App\Admin\Grid\ElementFactory()
             );
+        });
+
+        app()->singleton("elementFactory", function(){
+            $factory = new ElementFactory();
+
+            $files = glob(base_path("vendor/kyanag/form/src/Tabler/Forms/*.php"));
+
+            foreach($files as $file){
+                $classBaseName = basename($file, ".php");
+                $snake_str = \Kyanag\Form\camelToSnake($classBaseName);
+                $class = "Kyanag\\Form\\Tabler\\Forms\\{$classBaseName}";
+
+                $factory->registerComponent($snake_str, $class);
+            }
+            $factory->registerComponent("form", \Kyanag\Form\Tabler\Form::class);
+
+
+            return $factory;
         });
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Providers\Admin;
 
-use App\Components\Breadcrumb;
+use App\Admin\Components\Breadcrumb;
 use App\Models\Store;
 use Illuminate\Support\ServiceProvider;
 

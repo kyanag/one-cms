@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Components;
+namespace App\Admin\Components;
 
 
-use Kyanag\Form\Interfaces\Renderable;
+use Kyanag\Form\Renderable;
 
 class Breadcrumb implements Renderable
 {

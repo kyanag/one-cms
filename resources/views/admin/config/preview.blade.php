@@ -12,9 +12,9 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm-12">
-                            <div class="panel panel-default">
-                                <div class="panel-heading"><i class="fa fa-cog"></i> {{ $title }}</div>
-                                <div class="panel-body">
+                            <div class="card card-default">
+                                <div class="card-header"><i class="fa fa-cog"></i> {{ $title }}</div>
+                                <div class="card-body">
                                     <form class="form-horizontal" role="form" method="POST" action="{{ route("admin.config.updateAll") }}">
                                         {!! csrf_field() !!}
                                         {!! method_field("put") !!}
