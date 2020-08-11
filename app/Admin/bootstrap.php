@@ -67,8 +67,8 @@ app()->singleton("elementFactory", function(){
 
         $factory->registerComponent($snake_str, $class);
     }
+    $factory->registerComponent("card-form", \Kyanag\Form\Tabler\CardForm::class);
     $factory->registerComponent("form", \Kyanag\Form\Tabler\Form::class);
-    $factory->registerComponent("hidden", \Kyanag\Form\Tabler\Forms\Text::class);
 
     return $factory;
 });

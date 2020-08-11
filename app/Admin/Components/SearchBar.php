@@ -36,7 +36,9 @@ class SearchBar implements Renderable
 
     public function getFormBuilder(){
         if(!$this->formBuilder){
-            $form = FormBuilder::newForm();
+            $form = \createElement("form", [
+                'id' => "OC-form-" . str_random(10),
+            ]);
 
             $fields = $this->inspector->getAttributes();
 

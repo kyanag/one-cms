@@ -279,7 +279,9 @@ abstract class _InspectorController extends Controller
     }
 
     protected function getForm($scene){
-        $form = FormBuilder::newForm();
+        $form = createElement("form", [
+            'id' => "OC-form-" . str_random(10),
+        ]);
 
         /** @var AttributeInspectorInterface $field */
         foreach ($this->inspector->getAttributes() as $field){
