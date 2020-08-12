@@ -6,7 +6,7 @@ namespace App\Admin\Components;
 
 use App\Admin\Annotations\FieldAttribute;
 use App\Admin\Grid\Interfaces\InspectorInterface;
-use App\Admin\Grid\Interfaces\AttributeInspectorInterface;
+use App\Admin\Grid\Interfaces\FieldInspectorInterface;
 use App\Supports\UrlCreator;
 use Kyanag\Form\Renderable;
 
@@ -41,7 +41,7 @@ class ActionBar implements Renderable
         return view("admin::components.action-bar", [
             'urlCreator' => $this->urlCreator,
             'searchBar' => $this->getSearchBar(),
-            'sortableFields' => array_filter($this->inspector->getAttributes(), function(AttributeInspectorInterface $fieldInspector){
+            'sortableFields' => array_filter($this->inspector->getFields(), function(FieldInspectorInterface $fieldInspector){
                 return $fieldInspector->ableFor(FieldAttribute::ABLE_SORT);
             }),
         ])->render();
@@ -65,12 +65,12 @@ class ActionBar implements Renderable
     }
 
     public function toScope(){
-        $fields = array_filter($this->inspector->getAttributes(), function(AttributeInspectorInterface $column){
+        $fields = array_filter($this->inspector->getFields(), function(FieldInspectorInterface $column){
             return $column->ableFor(FieldAttribute::ABLE_SEARCH);
         });
 
         $scope = function(\Illuminate\Database\Eloquent\Builder $query) use($fields){
-            /** @var AttributeInspectorInterface $field */
+            /** @var FieldInspectorInterface $field */
             foreach($fields as $field){
                 if(isset($this->query[$field->getName()]) && $this->query[$field->getName()] !== ""){
                     $query->where($field->getName(), "like", "%{$this->query[$field->getName()]}%");

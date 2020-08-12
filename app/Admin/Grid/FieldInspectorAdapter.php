@@ -5,23 +5,43 @@ namespace App\Admin\Grid;
 
 
 use App\Admin\Annotations\FieldAttribute;
-use App\Admin\Grid\Interfaces\AttributeInspectorInterface;
+use App\Admin\Grid\Interfaces\FieldInspectorInterface;
 use App\Admin\Grid\Interfaces\GridColumnInterface;
 use App\Admin\Grid\Interfaces\InspectorInterface;
 use Kyanag\Form\Renderable;
 
-class AttributeInspector implements AttributeInspectorInterface
+class FieldInspectorAdapter implements FieldInspectorInterface
 {
 
+    /**
+     * @var InspectorInterface
+     */
     private $inspector;
 
-    private $config = [];
+    /**
+     * @var FieldAttribute
+     */
+    private $fieldAttribute;
 
-    public function __construct(InspectorInterface $inspector, $config = [])
+
+    private $elementFactory;
+
+
+    private $columnFactory;
+
+    public function __construct(
+        FieldAttribute $attribute,
+        InspectorInterface $inspector,
+        ElementFactory $elementFactory,
+        ColumnFactory $columnFactory
+    )
     {
+        $this->fieldAttribute = $attribute;
         $this->inspector = $inspector;
-        $this->config = $config;
+        $this->elementFactory = $elementFactory;
+        $this->columnFactory = $columnFactory;
     }
+
 
     /**
      * @return InspectorInterface
@@ -34,14 +54,14 @@ class AttributeInspector implements AttributeInspectorInterface
      * @return string
      */
     public function getId(){
-        return @$this->config['id'] ?: "";
+        return "";
     }
 
     /**
      * @return string
      */
     public function getName(){
-        return @$this->config['name'];
+        return $this->fieldAttribute->name;
     }
 
 
@@ -49,13 +69,13 @@ class AttributeInspector implements AttributeInspectorInterface
      * @return string
      */
     public function getLabel(){
-        return @$this->config['label'] ?: $this->getName();
+        return $this->fieldAttribute->label;
     }
 
 
     public function getRules()
     {
-        return @$this->config['rules'] ?: [];
+        return $this->fieldAttribute->rules;
     }
 
     /**
@@ -64,7 +84,7 @@ class AttributeInspector implements AttributeInspectorInterface
      */
     public function isVirtual()
     {
-        return boolval(@$this->config['virtual']);
+        return false;
     }
 
     /**
@@ -73,7 +93,7 @@ class AttributeInspector implements AttributeInspectorInterface
      */
     public function isOrderable()
     {
-        return $this->ableFor(FieldAttribute::ABLE_SORT);
+        return $this->ableFor($this->fieldAttribute::ABLE_SORT);
     }
 
 
@@ -83,7 +103,7 @@ class AttributeInspector implements AttributeInspectorInterface
      */
     public function isSearchable()
     {
-        return $this->ableFor(FieldAttribute::ABLE_SEARCH);
+        return $this->ableFor($this->fieldAttribute::ABLE_SEARCH);
     }
 
 
@@ -101,7 +121,7 @@ class AttributeInspector implements AttributeInspectorInterface
      * @return bool
      */
     public function ableFor($scene){
-        return (intval(@$this->config['ableTo']) & $scene) == $scene;
+        return ($this->fieldAttribute->ableTo & $scene) == $scene;
     }
 
 
@@ -126,4 +146,5 @@ class AttributeInspector implements AttributeInspectorInterface
             $this->fieldAttribute->columnConfig
         );
     }
+
 }

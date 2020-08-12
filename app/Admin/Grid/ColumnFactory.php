@@ -8,7 +8,7 @@ use App\Admin\Annotations\FieldAttribute;
 use App\Admin\Grid\Columns\ActionColumn;
 use App\Admin\Grid\Columns\CheckboxColumn;
 use App\Admin\Grid\Columns\DataColumn;
-use App\Admin\Grid\Interfaces\AttributeInspectorInterface;
+use App\Admin\Grid\Interfaces\FieldInspectorInterface;
 use App\Admin\Grid\Interfaces\GridColumnInterface;
 use App\Supports\UrlCreator;
 use Illuminate\Support\Traits\Macroable;
@@ -24,22 +24,22 @@ class ColumnFactory
     public $urlCreator;
 
     /**
-     * @param AttributeInspectorInterface $fieldInspector
+     * @param FieldInspectorInterface $fieldInspector
      * @param $columnType
      * @param array $columnConfig
      * @return GridColumnInterface
      */
-    public function build(AttributeInspectorInterface $fieldInspector, $columnType, array $columnConfig = []){
+    public function build(FieldInspectorInterface $fieldInspector, $columnType, array $columnConfig = []){
         return $this->{$columnType}($fieldInspector, $columnConfig);
     }
 
 
-    public function belongTo(AttributeInspectorInterface $fieldInspector, array $columnConfig = []){
+    public function belongTo(FieldInspectorInterface $fieldInspector, array $columnConfig = []){
 
     }
 
 
-    public function checkbox(AttributeInspectorInterface $fieldInspector, array $columnConfig){
+    public function checkbox(FieldInspectorInterface $fieldInspector, array $columnConfig){
         $checkboxColumn = new CheckboxColumn();
 
         $checkboxColumn->name = $fieldInspector->getName();
@@ -54,7 +54,7 @@ class ColumnFactory
      * @param FieldAttribute $fieldAttribute
      * @return GridColumnInterface
      */
-    public function raw(AttributeInspectorInterface $fieldInspector, array $columnConfig){
+    public function raw(FieldInspectorInterface $fieldInspector, array $columnConfig){
         $dataColumn = new DataColumn();
 
         $dataColumn->name = $fieldInspector->getName();
@@ -67,10 +67,10 @@ class ColumnFactory
 
     /**
      * 选项值
-     * @param AttributeInspectorInterface $fieldInspector
+     * @param FieldInspectorInterface $fieldInspector
      * @return DataColumn
      */
-    public function using(AttributeInspectorInterface $fieldInspector, array $columnConfig){
+    public function using(FieldInspectorInterface $fieldInspector, array $columnConfig){
         $dataColumn = new DataColumn();
         $dataColumn->name = $fieldInspector->getName();
         $dataColumn->label = $fieldInspector->getLabel();
@@ -95,7 +95,7 @@ class ColumnFactory
         return $dataColumn;
     }
 
-    public function action(AttributeInspectorInterface $fieldInspector, array $columnConfig){
+    public function action(FieldInspectorInterface $fieldInspector, array $columnConfig){
         $actionColumn = new ActionColumn();
 
         $actionColumn->name = $fieldInspector->getName();

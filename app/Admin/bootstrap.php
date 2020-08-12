@@ -1,7 +1,7 @@
 <?php
 
 use App\Admin\Components\Nav;
-use App\Admin\Grid\Interfaces\AttributeInspectorInterface;
+use App\Admin\Grid\Interfaces\FieldInspectorInterface;
 use Kyanag\Form\Tabler\ElementFactory;
 
 require_once app_path("./Admin/functions.php");
@@ -86,7 +86,7 @@ app()->singleton("elementFactory", function(){
 });
 
 
-\App\Admin\Grid\ColumnFactory::macro("usingCategories", function(AttributeInspectorInterface $fieldInspector, array $columnConfig){
+\App\Admin\Grid\ColumnFactory::macro("usingCategories", function(FieldInspectorInterface $fieldInspector, array $columnConfig){
     $categories = Category::select(
         "id", "parent_id", "title"
     )->get();

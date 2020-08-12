@@ -6,11 +6,11 @@ namespace App\Admin\Annotations;
 use App\Admin\Supports\Readable;
 
 /**
- * Class ColumnBuilder
+ * Class ColumnAttribute
  * @package App\Admin\Annotations
  * @Annotation
  */
-class ColumnBuilder extends Readable
+class ColumnAttribute extends Readable
 {
 
 }

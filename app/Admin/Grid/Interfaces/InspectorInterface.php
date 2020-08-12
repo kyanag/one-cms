@@ -30,9 +30,9 @@ interface InspectorInterface
     public function getDescription();
 
     /**
-     * @return array<AttributeInspectorInterface>
+     * @return array<FieldInspectorInterface>
      */
-    public function getAttributes();
+    public function getFields();
 
 
     /**

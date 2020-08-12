@@ -4,7 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Admin\Annotations\FieldAttribute;
 use App\Admin\Grid\InspectorAdapter;
-use App\Admin\Grid\Interfaces\AttributeInspectorInterface;
+use App\Admin\Grid\Interfaces\FieldInspectorInterface;
 use App\Admin\Grid\Interfaces\InspectorInterface;
 use App\Admin\Grid\Interfaces\RelationInspectorInterface;
 use App\Admin\Supports\InspectorHelper;
@@ -82,15 +82,15 @@ class PostController extends _InspectorController
         DB::transaction(function() use($request){
             $rules = [];
             $labels = [];
-            /** @var AttributeInspectorInterface $attribute */
-            foreach ($this->inspector->getAttributes() as $attribute){
+            /** @var FieldInspectorInterface $attribute */
+            foreach ($this->inspector->getFields() as $attribute){
                 if($attribute->ableFor(FieldAttribute::ABLE_CREATE)){
                     $rules[$attribute->getName()] = $attribute->getRules();
                     $labels[$attribute->getName()] = $attribute->getLabel();
                 }
             }
-            /** @var AttributeInspectorInterface $attribute */
-            foreach ($this->foreignInspector->getAttributes() as $attribute){
+            /** @var FieldInspectorInterface $attribute */
+            foreach ($this->foreignInspector->getFields() as $attribute){
                 if($attribute->ableFor(FieldAttribute::ABLE_CREATE)){
                     $rules[$attribute->getName()] = $attribute->getRules();
                     $labels[$attribute->getName()] = $attribute->getLabel();
@@ -169,14 +169,14 @@ class PostController extends _InspectorController
     protected function getGrid()
     {
         $columns = [];
-        /** @var AttributeInspectorInterface $attribute */
-        foreach ($this->inspector->getAttributes() as $attribute){
+        /** @var FieldInspectorInterface $attribute */
+        foreach ($this->inspector->getFields() as $attribute){
             if($attribute->ableFor(FieldAttribute::ABLE_SHOW)){
                 $columns[] = $attribute->toColumn();
             }
         }
-        /** @var AttributeInspectorInterface $attribute */
-        foreach ($this->foreignInspector->getAttributes() as $attribute){
+        /** @var FieldInspectorInterface $attribute */
+        foreach ($this->foreignInspector->getFields() as $attribute){
             if($attribute->ableFor(FieldAttribute::ABLE_SHOW)){
                 $columns[] = $attribute->toColumn();
             }
@@ -193,14 +193,14 @@ class PostController extends _InspectorController
     {
         $form = FormBuilder::newForm();
 
-        /** @var AttributeInspectorInterface $attribute */
-        foreach ($this->inspector->getAttributes() as $attribute){
+        /** @var FieldInspectorInterface $attribute */
+        foreach ($this->inspector->getFields() as $attribute){
             if($attribute->ableFor($scene)){
                 $form->addChild($attribute->toElement());
             }
         }
-        /** @var AttributeInspectorInterface $attribute */
-        foreach ($this->foreignInspector->getAttributes() as $attribute){
+        /** @var FieldInspectorInterface $attribute */
+        foreach ($this->foreignInspector->getFields() as $attribute){
             if($attribute->ableFor($scene)){
                 $form->addChild($attribute->toElement());
             }

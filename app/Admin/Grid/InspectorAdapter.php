@@ -5,7 +5,7 @@ namespace App\Admin\Grid;
 
 
 use App\Admin\Annotations\SchemaAttribute;
-use App\Admin\Grid\Interfaces\AttributeInspectorInterface;
+use App\Admin\Grid\Interfaces\FieldInspectorInterface;
 use App\Admin\Grid\Interfaces\InspectorInterface;
 use App\Admin\Grid\Interfaces\RelationInspectorInterface;
 
@@ -18,9 +18,9 @@ class InspectorAdapter implements InspectorInterface
     private $schemaAttribute;
 
     /**
-     * @var array<AttributeInspectorInterface>
+     * @var array<FieldInspectorInterface>
      */
-    private $attributeInspectors = [];
+    private $fieldInspectors = [];
 
     /**
      * @var array<RelationInspectorInterface>
@@ -30,7 +30,6 @@ class InspectorAdapter implements InspectorInterface
     /**
      * InspectorAdapter constructor.
      * @param SchemaAttribute $schemaAttribute
-     * @param array<AttributeInspectorInterface> $attributeInspectors
      */
     public function __construct(SchemaAttribute $schemaAttribute)
     {
@@ -38,10 +37,10 @@ class InspectorAdapter implements InspectorInterface
     }
 
     /**
-     * @param array<AttributeInspectorInterface> $attributeInspectors
+     * @param array<FieldInspectorInterface> $fieldInspectors
      */
-    public function setAttributeInspectors(array $attributeInspectors){
-        $this->attributeInspectors = $attributeInspectors;
+    public function setFieldInspectors(array $fieldInspectors){
+        $this->fieldInspectors = $fieldInspectors;
     }
 
     /**
@@ -75,9 +74,9 @@ class InspectorAdapter implements InspectorInterface
         return $this->schemaAttribute->title;
     }
 
-    public function getAttributes()
+    public function getFields()
     {
-        return $this->attributeInspectors;
+        return $this->fieldInspectors;
     }
 
     /**

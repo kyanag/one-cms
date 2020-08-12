@@ -6,7 +6,7 @@ namespace App\Admin\Grid\Interfaces;
 
 use Kyanag\Form\Renderable;
 
-interface AttributeInspectorInterface
+interface FieldInspectorInterface
 {
 
     /**

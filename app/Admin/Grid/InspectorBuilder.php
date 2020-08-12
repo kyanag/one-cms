@@ -6,6 +6,7 @@ namespace App\Admin\Grid;
 use App\Admin\Annotations\FieldAttribute;
 use App\Admin\Annotations\RelationAttribute;
 use App\Admin\Annotations\SchemaAttribute;
+use App\Admin\Supports\ClassAnnotationReader;
 use Doctrine\Common\Annotations\AnnotationReader;
 
 /**
@@ -14,11 +15,15 @@ use Doctrine\Common\Annotations\AnnotationReader;
  */
 class InspectorBuilder
 {
-    protected $reflectionObject;
 
     protected $columnFactory;
 
     protected $elementFactory;
+
+    /**
+     * @var ClassAnnotationReader
+     */
+    protected $classAnnotationReader;
 
     public function __construct(ColumnFactory $columnFactory, ElementFactory $elementFactory)
     {
@@ -28,7 +33,7 @@ class InspectorBuilder
 
 
     public function from($metaObject){
-        $this->reflectionObject = new \ReflectionObject($metaObject);
+        $this->classAnnotationReader = new ClassAnnotationReader($metaObject);
         return $this;
     }
 
@@ -37,14 +42,14 @@ class InspectorBuilder
      * @return InspectorAdapter
      */
     public function built($related = true){
-        $schemaAttribute = $this->getClassAnnotation(SchemaAttribute::class);
+        $schemaAttribute = $this->classAnnotationReader->getClassAnnotation(SchemaAttribute::class);
 
-        $fieldAttributes = $this->getPropertyAnnotations(FieldAttribute::class);
+        $fieldAttributes = $this->classAnnotationReader->getPropertyAnnotations(FieldAttribute::class);
 
         $inspector = new InspectorAdapter($schemaAttribute);
 
-        $attributeInspectors = array_map(function(FieldAttribute $fieldAttribute) use($inspector){
-            return new AttributeInspectorAdapter(
+        $fieldInspectors = array_map(function(FieldAttribute $fieldAttribute) use($inspector){
+            return new FieldInspectorAdapter(
                 $fieldAttribute,
                 $inspector,
                 $this->elementFactory,
@@ -63,35 +68,8 @@ class InspectorBuilder
             }, $schemaAttribute->relations);
         }
 
-        $inspector->setAttributeInspectors($attributeInspectors);
+        $inspector->setFieldInspectors($fieldInspectors);
         $inspector->setRelationInspectors($relationInspectors);
         return $inspector;
-    }
-
-
-    private function getAnnotationReader(){
-        return app(AnnotationReader::class);
-    }
-
-    /**
-     * @param $annotationName
-     * @return SchemaAttribute
-     */
-    private function getClassAnnotation($annotationName){
-        return $this->getAnnotationReader()
-            ->getClassAnnotation($this->reflectionObject, $annotationName);
-    }
-
-    /**
-     * @param $annotationName
-     * @return array<FieldAttribute>
-     */
-    private function getPropertyAnnotations($annotationName){
-        $properties = $this->reflectionObject->getProperties(\ReflectionProperty::IS_PUBLIC);
-
-        return array_map(function(\ReflectionProperty $property) use($annotationName){
-            return $this->getAnnotationReader()
-                ->getPropertyAnnotation($property, $annotationName);
-        }, $properties);
     }
 }

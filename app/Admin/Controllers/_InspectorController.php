@@ -6,7 +6,7 @@ namespace App\Admin\Controllers;
 
 use App\Admin\Annotations\FieldAttribute;
 use App\Admin\Grid\ColumnFactory;
-use App\Admin\Grid\Interfaces\AttributeInspectorInterface;
+use App\Admin\Grid\Interfaces\FieldInspectorInterface;
 use App\Admin\Grid\Interfaces\InspectorInterface;
 use App\Admin\Components\ActionBar;
 use App\Admin\Components\GridView;
@@ -260,8 +260,8 @@ abstract class _InspectorController extends Controller
 
     protected function getRules($scene){
         $rules = [];
-        /** @var AttributeInspectorInterface $attribute */
-        foreach ($this->inspector->getAttributes() as $attribute){
+        /** @var FieldInspectorInterface $attribute */
+        foreach ($this->inspector->getFields() as $attribute){
             if($attribute->ableFor($scene)){
                 $rules[$attribute->getName()] = $attribute->getRules();
             }
@@ -271,8 +271,8 @@ abstract class _InspectorController extends Controller
 
     protected function getLabels(){
         $labels = [];
-        /** @var AttributeInspectorInterface $attribute */
-        foreach ($this->inspector->getAttributes() as $attribute){
+        /** @var FieldInspectorInterface $attribute */
+        foreach ($this->inspector->getFields() as $attribute){
             $labels[$attribute->getName()] = $attribute->getLabel();
         }
         return $labels;
@@ -283,8 +283,8 @@ abstract class _InspectorController extends Controller
             'id' => "OC-form-" . str_random(10),
         ]);
 
-        /** @var AttributeInspectorInterface $field */
-        foreach ($this->inspector->getAttributes() as $field){
+        /** @var FieldInspectorInterface $field */
+        foreach ($this->inspector->getFields() as $field){
             if($field->ableFor($scene)){
                 $form->addChild($field->toElement());
             }
@@ -293,17 +293,17 @@ abstract class _InspectorController extends Controller
     }
 
     protected function getGrid(){
-        $attributeInspectors = $this->inspector->getAttributes();
+        $fieldInspectors = $this->inspector->getFields();
 
-        $attributeInspectors = array_filter($attributeInspectors, function(AttributeInspectorInterface $fieldInspector){
+        $fieldInspectors = array_filter($fieldInspectors, function(FieldInspectorInterface $fieldInspector){
             return $fieldInspector->ableFor(FieldAttribute::ABLE_SHOW);
         });
 
         $gridView = GridView::create([
             'caption' => "{$this->inspector->getTitle()} 列表",
-            'columns' => array_map(function(AttributeInspectorInterface $fieldInspector){
+            'columns' => array_map(function(FieldInspectorInterface $fieldInspector){
                 return $fieldInspector->toColumn();
-            }, $attributeInspectors),
+            }, $fieldInspectors),
         ]);
         return $gridView;
     }

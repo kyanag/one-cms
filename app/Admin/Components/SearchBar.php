@@ -5,7 +5,7 @@ namespace App\Admin\Components;
 
 
 use App\Admin\Annotations\FieldAttribute;
-use App\Admin\Grid\Interfaces\AttributeInspectorInterface;
+use App\Admin\Grid\Interfaces\FieldInspectorInterface;
 use App\Admin\Supports\FormBuilder;
 use App\Admin\Grid\Interfaces\InspectorInterface;
 use Kyanag\Form\Renderable;
@@ -40,9 +40,9 @@ class SearchBar implements Renderable
                 'id' => "OC-form-" . str_random(10),
             ]);
 
-            $fields = $this->inspector->getAttributes();
+            $fields = $this->inspector->getFields();
 
-            /** @var AttributeInspectorInterface $field */
+            /** @var FieldInspectorInterface $field */
             foreach ($fields as $field){
                 if($field->ableFor(FieldAttribute::ABLE_SEARCH)){
                     $form->addChild($field->toElement());
@@ -68,12 +68,12 @@ class SearchBar implements Renderable
      * @return \Closure
      */
     public function createScope($params = []){
-        $columns = array_map(function(AttributeInspectorInterface $column){
+        $columns = array_map(function(FieldInspectorInterface $column){
             return $column->ableFor(FieldAttribute::ABLE_SEARCH);
-        }, $this->inspector->getAttributes());
+        }, $this->inspector->getFields());
 
         $scope = function($query) use($columns, $params){
-            /** @var AttributeInspectorInterface $column */
+            /** @var FieldInspectorInterface $column */
             foreach($columns as $column){
                 if(isset($params[$column->getName()]) && $params[$column->getName()] !== ""){
                     $query->where($column->getName(), "like", "%{$params[$column->getName()]}%");
