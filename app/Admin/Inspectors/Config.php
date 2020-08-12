@@ -4,6 +4,7 @@ namespace App\Admin\Inspectors;
 
 use App\Admin\Annotations\FieldAttribute;
 use App\Admin\Annotations\SchemaAttribute;
+use App\Admin\Supports\Readable;
 
 /**
  * Class Category
@@ -13,7 +14,7 @@ use App\Admin\Annotations\SchemaAttribute;
  *     name="configs"
  * )
  */
-class Config{
+class Config extends Readable{
 
     /**
      * @FieldAttribute(

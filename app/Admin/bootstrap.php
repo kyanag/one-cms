@@ -12,8 +12,8 @@ app()->singleton("nav", function(){
     $nav = new Nav();
     $nav->items = [
         [
-            'icon' => "fa-file-text",
-            'title' => "HOME",
+            'icon' => "fa-home",
+            'title' => "管理首页",
             'url' => route("admin.home"),
         ],
         [
@@ -27,29 +27,41 @@ app()->singleton("nav", function(){
             'url' => route("admin.member.index"),
         ],
         [
-            'icon' => "fa-file-text",
-            'title' => "测试一级栏目",
-            'url' => "#",
+            'icon' => "fa-users",
+            'title' => "系统",
+            'url' => route("admin.config.preview"),
             'children' => [
                 [
-                    'icon' => "fa-file-text",
-                    'title' => "测试二级栏目",
-                    'url' => "#",
-                ],
-                [
-                    'icon' => "fa-file-text",
-                    'title' => "测试二级栏目2",
-                    'url' => "#",
-                    'children' => [
-                        [
-                            'icon' => "fa-file-text",
-                            'title' => "测试三级栏目",
-                            'url' => "#",
-                        ]
-                    ],
+                    'icon' => "fa-users",
+                    'title' => "配置",
+                    'url' => route("admin.config.preview"),
                 ]
             ],
-        ]
+        ],
+//        [
+//            'icon' => "fa-file-text",
+//            'title' => "测试一级栏目",
+//            'url' => "#",
+//            'children' => [
+//                [
+//                    'icon' => "fa-file-text",
+//                    'title' => "测试二级栏目",
+//                    'url' => "#",
+//                ],
+//                [
+//                    'icon' => "fa-file-text",
+//                    'title' => "测试二级栏目2",
+//                    'url' => "#",
+//                    'children' => [
+//                        [
+//                            'icon' => "fa-file-text",
+//                            'title' => "测试三级栏目",
+//                            'url' => "#",
+//                        ]
+//                    ],
+//                ]
+//            ],
+//        ]
     ];
     return $nav;
 });

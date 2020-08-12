@@ -7,22 +7,12 @@ use App\Http\Controllers\Controller;
 
 class SessionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
     /**
-     * Login page
-     *
+     * 登录入口
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function loginEntry()
     {
         flash("这是一个测试");
 
@@ -30,23 +20,23 @@ class SessionController extends Controller
     }
 
     /**
-     * Login action
+     * 登录操作
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function login(Request $request)
     {
         return 1;
     }
 
     /**
-     * Remove the specified resource from storage.
+     * 登出
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function logout()
     {
         //
     }

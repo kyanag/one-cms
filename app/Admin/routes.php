@@ -3,7 +3,8 @@
 Route::get("/", function(){
     return redirect()->route("admin.home");
 });
-Route::resource("session", "SessionController")->only(["create", "store"])->names("admin.session");
+Route::get("session/create", "SessionController@loginEntry")->name("admin.session.loginEntry");
+Route::post("session", "SessionController@login")->name("admin.session.login");
 
 Route::group([], function () {
     Route::get("home", "MainController@home")->name("admin.home");
@@ -23,4 +24,5 @@ Route::group([], function () {
     Route::resource("post", "PostController")
         ->names("admin.post");
 
+    Route::delete("session", "SessionController@logout")->name("admin.session.logout");
 });

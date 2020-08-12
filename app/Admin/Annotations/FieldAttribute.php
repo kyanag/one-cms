@@ -4,12 +4,14 @@
 namespace App\Admin\Annotations;
 
 
+use App\Admin\Supports\Readable;
+
 /**
  * Class FieldAttribute
  * @package App\Admin\Annotations
  * @Annotation
  */
-class FieldAttribute
+class FieldAttribute extends Readable
 {
 
     const ABLE_SHOW     = 0b00001;       //列表展示

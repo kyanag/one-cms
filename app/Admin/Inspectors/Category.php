@@ -6,6 +6,7 @@ use App\Admin\Annotations\FieldAttribute;
 use App\Admin\Grid\Decorators\BadgeDecorator;
 use App\Admin\Grid\Options\Categories;
 use App\Admin\Annotations\SchemaAttribute;
+use App\Admin\Supports\Readable;
 use App\Models\Category as CategoryModel;
 
 /**
@@ -17,7 +18,7 @@ use App\Models\Category as CategoryModel;
  *     modelClass=CategoryModel::class
  * )
  */
-class Category{
+class Category extends Readable{
 
     /**
      * @FieldAttribute(

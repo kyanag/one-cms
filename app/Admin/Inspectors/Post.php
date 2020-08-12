@@ -5,6 +5,7 @@ namespace App\Admin\Inspectors;
 use App\Admin\Annotations\FieldAttribute;
 use App\Admin\Annotations\SchemaAttribute;
 use App\Admin\Annotations\RelationAttribute;
+use App\Admin\Supports\Readable;
 
 /**
  * Class Post
@@ -23,7 +24,7 @@ use App\Admin\Annotations\RelationAttribute;
  *     }
  * )
  */
-class Post{
+class Post extends Readable{
 
     /**
      * @FieldAttribute(

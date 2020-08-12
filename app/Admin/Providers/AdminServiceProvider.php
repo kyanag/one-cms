@@ -7,7 +7,7 @@ namespace App\Admin\Providers;
 use Illuminate\Support\ServiceProvider;
 use Kyanag\Form\Tabler\ElementFactory;
 
-class AdminProvider extends ServiceProvider
+class AdminServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -36,4 +36,7 @@ class AdminProvider extends ServiceProvider
             );
         });
     }
+
+
+
 }

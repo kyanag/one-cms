@@ -35,7 +35,7 @@
                     <div class="text-center mb-2">
                         <img src="{{ asset("images/logo-for-tabler.png") }}" class="h-7" alt="">
                     </div>
-                    <form class="card" method="post" action="{{ route("admin.session.store") }}">
+                    <form class="card" method="post" action="{{ route("admin.session.login") }}">
                         <div class="card-body p-6">
                             <div class="card-title">欢迎使用 OneCMS </div>
                             <div class="form-group">

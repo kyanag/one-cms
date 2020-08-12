@@ -3,6 +3,7 @@
 namespace App\Admin\Inspectors;
 
 use App\Admin\Annotations\FieldAttribute;
+use App\Admin\Supports\Readable;
 use Kyanag\Form\Toolkits\Bootstrap3\Text;
 use App\Admin\Annotations\SchemaAttribute;
 
@@ -15,7 +16,7 @@ use App\Admin\Annotations\SchemaAttribute;
  *     modelClass=\App\Models\Group::class
  * )
  */
-class Group{
+class Group extends Readable{
 
     /**
      * @FieldAttribute(

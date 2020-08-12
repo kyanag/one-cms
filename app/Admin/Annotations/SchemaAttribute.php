@@ -3,12 +3,14 @@
 
 namespace App\Admin\Annotations;
 
+use App\Admin\Supports\Readable;
+
 /**
  * Class SchemaAttribute
  * @package App\Admin\Annotations
  * @Annotation
  */
-class SchemaAttribute
+class SchemaAttribute extends Readable
 {
 
     const TYPE_BASIC = 1;
