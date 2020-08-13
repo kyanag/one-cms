@@ -13,6 +13,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Generated: 2019-04-04 16:55:45 +0200 -->
     <title>登录</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -31,16 +32,18 @@
     <div class="page-single">
         <div class="container">
             <div class="row">
+                @component("admin::components.flash")@endcomponent
                 <div class="col col-login mx-auto">
                     <div class="text-center mb-2">
                         <img src="{{ asset("images/logo-for-tabler.png") }}" class="h-7" alt="">
                     </div>
                     <form class="card" method="post" action="{{ route("admin.session.login") }}">
+                        {!! csrf_field() !!}
                         <div class="card-body p-6">
                             <div class="card-title">欢迎使用 OneCMS </div>
                             <div class="form-group">
                                 <label class="form-label" for="username">账号</label>
-                                <input type="email" id="username" name="username" class="form-control" placeholder="请输入登录账号">
+                                <input type="text" id="username" name="username" class="form-control" placeholder="请输入登录账号">
                             </div>
                             <div class="form-group">
                                 <label class="form-label" for="password">

@@ -48,6 +48,8 @@ abstract class _InspectorController extends Controller
 
             return $columnBuilder;
         });
+
+
         $this->urlCreator = $this->createUrlCreator();
         $this->inspector = $this->createInspector();
     }

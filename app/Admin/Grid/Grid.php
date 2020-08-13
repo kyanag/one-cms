@@ -5,7 +5,6 @@ namespace App\Admin\Grid;
 
 
 use App\Admin\Grid\Interfaces\InspectorInterface;
-use Kyanag\Form\Interfaces\ComponentInterface;
 use Kyanag\Form\Renderable;
 
 class Grid implements Renderable

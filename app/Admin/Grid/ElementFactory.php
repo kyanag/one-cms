@@ -3,12 +3,9 @@
 
 namespace App\Admin\Grid;
 
-
-use App\Admin\Grid\Elements\Editor;
-use App\Admin\Grid\Elements\WangEditor;
 use App\Admin\Grid\Interfaces\FieldInspectorInterface;
 use Illuminate\Support\Traits\Macroable;
-use Illuminate\Contracts\Support\Renderable;
+use Kyanag\Form\Renderable;
 
 class ElementFactory
 {

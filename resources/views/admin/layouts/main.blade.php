@@ -6,10 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="kyanag">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="autocomplete" content="off">
     <title>@yield('title', "工作台")</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.css" rel="stylesheet">
+
+    <!-- bootswatch   lux/materia/lumen/litera/journal/flatly -->
+{{--    <link href="https://cdn.bootcdn.net/ajax/libs/bootswatch/4.5.1/materia/bootstrap.min.css" rel="stylesheet">--}}
+
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootswatch/4.5.1/cosmo/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.14.0/css/all.min.css" rel="stylesheet">
     <meta name="theme-color" content="#563d7c">
     <style>
@@ -32,17 +38,29 @@
     <link href="{{ asset("css/dashboard.css") }}" rel="stylesheet">
 </head>
 <body>
-<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow navbar-expand-lg">
     <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3 text-center" href="{{ route("admin.home") }}">OneCMS</a>
     <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
-    <ul class="navbar-nav px-3">
-        <li class="nav-item text-nowrap">
-            <a class="nav-link J_confirm_modal" href="{{ route("admin.session.logout") }}" data-tip="确认退出!" data-type="post">退出</a>
-        </li>
-    </ul>
+    <div>
+        <ul class="navbar-nav px-3">
+            <li class="nav-item text-nowrap dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ auth("admin")->user()->nickname }}
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+{{--                    <a class="dropdown-item" href="#">Action</a>--}}
+{{--                    <a class="dropdown-item" href="#">Another action</a>--}}
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item J_confirm_modal" href="{{ route("admin.session.logout") }}" data-tip="确认退出!" data-type="delete">退出</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+
 </nav>
 
 <div class="container-fluid">

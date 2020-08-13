@@ -96,6 +96,7 @@ class ColumnFactory
     }
 
     public function action(FieldInspectorInterface $fieldInspector, array $columnConfig){
+
         $actionColumn = new ActionColumn();
 
         $actionColumn->name = $fieldInspector->getName();

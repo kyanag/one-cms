@@ -2,7 +2,7 @@
 
 namespace App\Admin\Middleware;
 
-use Closure;
+use App\Admin\Supports\Admin;
 
 class AdminBootstrap
 {
@@ -10,14 +10,15 @@ class AdminBootstrap
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  callable $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, $next)
     {
-        if (file_exists($bootstrap = app_path('Admin/bootstrap.php'))) {
-            require $bootstrap;
-        }
+        /** @var Admin $admin */
+        $admin = app(Admin::class);
+        $admin->setup();
+
         return $next($request);
     }
 }

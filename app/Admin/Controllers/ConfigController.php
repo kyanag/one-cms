@@ -32,7 +32,7 @@ class ConfigController extends _InspectorController
             ->from(new ConfigItems())
             ->built();
 
-        $fields = $inspector->getAttributes();
+        $fields = $inspector->getFields();
         $groups = Group::forConfig()
             ->with("configs")
             ->get();

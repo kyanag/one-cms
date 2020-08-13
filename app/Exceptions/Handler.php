@@ -4,6 +4,8 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -48,6 +50,19 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if($request->route()->named("admin.*")){
+//            if(true === $request->ajax()){
+//                $statusCode = 500;
+//                if($exception instanceof HttpException){
+//                    $statusCode = $exception->getStatusCode();
+//                }
+//                return JsonResponse::create([
+//                    'msg' => $exception->getMessage(),
+//                    'jump' => null,
+//                ], $statusCode);
+//            }
+            var_dump($exception->getFile());
+        }
         return parent::render($request, $exception);
     }
 }

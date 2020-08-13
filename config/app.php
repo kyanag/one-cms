@@ -178,7 +178,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         \Mews\Captcha\CaptchaServiceProvider::class,
-        \App\Providers\Admin\AdminEnvvariableProvider::class,
+
+        \App\Admin\Providers\AdminServiceProvider::class,
     ],
 
     /*

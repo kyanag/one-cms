@@ -8,6 +8,7 @@ use App\Admin\Annotations\FieldAttribute;
 use App\Admin\Grid\Interfaces\FieldInspectorInterface;
 use App\Admin\Grid\Interfaces\GridColumnInterface;
 use App\Admin\Grid\Interfaces\InspectorInterface;
+use App\Admin\Supports\Factory;
 use Kyanag\Form\Renderable;
 
 class FieldInspectorAdapter implements FieldInspectorInterface
@@ -32,8 +33,8 @@ class FieldInspectorAdapter implements FieldInspectorInterface
     public function __construct(
         FieldAttribute $attribute,
         InspectorInterface $inspector,
-        ElementFactory $elementFactory,
-        ColumnFactory $columnFactory
+        ElementFactory $elementFactory = null,
+        ColumnFactory $columnFactory = null
     )
     {
         $this->fieldAttribute = $attribute;
@@ -129,6 +130,10 @@ class FieldInspectorAdapter implements FieldInspectorInterface
      * @return Renderable
      */
     public function toElement(){
+        if($this->fieldAttribute->forForm !== null){
+            return Factory::buildInput($this, $this->fieldAttribute->forForm);
+        }
+
         return $this->elementFactory->build(
             $this,
             $this->fieldAttribute->inputType,
@@ -140,7 +145,11 @@ class FieldInspectorAdapter implements FieldInspectorInterface
      * @return GridColumnInterface
      */
     public function toColumn(){
-        return $this->columnFactory->build(
+        if($this->fieldAttribute->forGrid !== null){
+            return Factory::buildColumn($this->fieldAttribute->forGrid);
+        }
+
+        return app(ColumnFactory::class)->build(
             $this,
             $this->fieldAttribute->columnType,
             $this->fieldAttribute->columnConfig

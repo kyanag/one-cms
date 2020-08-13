@@ -52,6 +52,16 @@ class FieldAttribute extends Readable
     public $required = true;
 
     /**
+     * @var \App\Admin\Annotations\InputAttribute
+     */
+    public $forForm;
+
+    /**
+     * @var ColumnAttribute
+     */
+    public $forGrid;
+
+    /**
      * @var string
      */
     public $inputType = "text";

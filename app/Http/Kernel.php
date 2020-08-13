@@ -43,12 +43,6 @@ class Kernel extends HttpKernel
             'throttle:60,1',
             'bindings',
         ],
-        'admin' => [
-            \Illuminate\Session\Middleware\StartSession::class,
-            \App\Http\Middleware\VerifyCsrfToken::class,
-            'admin.auth',
-            'admin.bootstrap',
-        ],
     ];
 
     /**
@@ -65,7 +59,5 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'admin.auth' => AdminAuth::class,
-        'admin.bootstrap' => AdminBootstrap::class
     ];
 }

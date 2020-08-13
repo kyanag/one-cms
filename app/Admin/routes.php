@@ -5,6 +5,7 @@ Route::get("/", function(){
 });
 Route::get("session/create", "SessionController@loginEntry")->name("admin.session.loginEntry");
 Route::post("session", "SessionController@login")->name("admin.session.login");
+Route::delete("session", "SessionController@logout")->name("admin.session.logout");
 
 Route::group([], function () {
     Route::get("home", "MainController@home")->name("admin.home");
@@ -14,6 +15,8 @@ Route::group([], function () {
     Route::resource("member", "MemberController")->names("admin.member");
 
     Route::resource("group", "GroupController")->names("admin.group");
+
+    Route::resource("user", "UserController")->names("admin.user");
 
     Route::get("config/preview", "ConfigController@preview")->name("admin.config.preview");
     Route::put("config/updateAll", "ConfigController@updateAll")->name("admin.config.updateAll");

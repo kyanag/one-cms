@@ -7,6 +7,7 @@ use App\Admin\Grid\InspectorAdapter;
 use App\Admin\Grid\Interfaces\FieldInspectorInterface;
 use App\Admin\Grid\Interfaces\InspectorInterface;
 use App\Admin\Grid\Interfaces\RelationInspectorInterface;
+use App\Admin\Supports\Factory;
 use App\Admin\Supports\InspectorHelper;
 use App\Admin\Components\GridView;
 use App\Models\Category;
@@ -55,6 +56,7 @@ class PostController extends _InspectorController
 
     protected function createInspector()
     {
+        return Factory::buildInspector(new \App\Admin\Inspectors\Post());
         return app(\App\Admin\Grid\InspectorBuilder::class)
             ->from(new \App\Admin\Inspectors\Post())
             ->built();

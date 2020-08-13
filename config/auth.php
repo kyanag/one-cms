@@ -1,7 +1,5 @@
 <?php
 
-use App\User;
-
 return [
 
     /*
@@ -40,11 +38,11 @@ return [
     'guards' => [
         'member' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'members',
         ],
         'admin' => [
             'driver' => "session",
-            'provider' => "admins"
+            'provider' => "users"
         ],
         'api' => [
             'driver' => 'token',
@@ -70,14 +68,14 @@ return [
     */
 
     'providers' => [
-        'users' => [
+        'members' => [
             'driver' => 'eloquent',
-            'model' => App\User::class,
+            'model' => App\Models\Member::class,
         ],
 
-        'admins' => [
+        'users' => [
             'driver' => 'eloquent',
-            'model' => App\User::class,
+            'model' => App\Models\User::class,
         ],
     ],
 
@@ -97,8 +95,8 @@ return [
     */
 
     'passwords' => [
-        'users' => [
-            'provider' => 'users',
+        'members' => [
+            'provider' => 'members',
             'table' => 'password_resets',
             'expire' => 60,
         ],

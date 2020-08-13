@@ -163,7 +163,6 @@ $(document).on("click", 'nav a[href="#"]', function (e) {
     var type = '';
     var data = {};
     $(document).on('click', '.J_confirm_modal', function (e) {
-        console.log(e);
         e.preventDefault();
         var btn = $(this);
         var tip = typeof btn.attr('data-tip') !== 'undefined' ? btn.attr('data-tip') : '确认吗？';

@@ -6,6 +6,7 @@ use App\Admin\Annotations\FieldAttribute;
 use App\Admin\Annotations\SchemaAttribute;
 use App\Admin\Annotations\RelationAttribute;
 use App\Admin\Supports\Readable;
+use App\Admin\Annotations\InputAttribute;
 
 /**
  * Class PostArticle
@@ -32,6 +33,9 @@ class PostArticle extends Readable{
      *     label="id",
      *     name="id",
      *     ableTo=0,
+     *     forForm = @InputAttribute(
+     *         widget="text"
+     *     ),
      *     inputType="text",
      *     columnType="raw"
      * )
@@ -44,6 +48,9 @@ class PostArticle extends Readable{
      *     label="主文章id",
      *     name="post_id",
      *     ableTo=0,
+     *     forForm = @InputAttribute(
+     *         widget="text"
+     *     ),
      *     inputType="text",
      *     columnType="raw"
      * )
@@ -56,6 +63,9 @@ class PostArticle extends Readable{
      *     label="内容",
      *     name="content",
      *     ableTo=15,
+     *     forForm = @InputAttribute(
+     *         widget="text"
+     *     ),
      *     inputType="wangEditor",
      *     columnType="raw"
      * )
@@ -68,6 +78,9 @@ class PostArticle extends Readable{
      *     label="created_at",
      *     name="created_at",
      *     ableTo=0,
+     *     forForm = @InputAttribute(
+     *         widget="text"
+     *     ),
      *     inputType="text",
      *     columnType="raw"
      * )
@@ -80,6 +93,9 @@ class PostArticle extends Readable{
      *     label="updated_at",
      *     name="updated_at",
      *     ableTo=0,
+     *     forForm = @InputAttribute(
+     *         widget="text"
+     *     ),
      *     inputType="text",
      *     columnType="raw"
      * )
@@ -92,6 +108,9 @@ class PostArticle extends Readable{
      *     label="操作",
      *     name="id",
      *     ableTo=1,
+     *     forForm = @InputAttribute(
+     *         widget="text"
+     *     ),
      *     columnType="action"
      * )
      */
