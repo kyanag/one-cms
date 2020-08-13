@@ -22,9 +22,9 @@ class Category extends Readable{
 
     /**
      * @FieldAttribute(
-     *     label="#",
+     *     label="主键",
      *     name="id",
-     *     ableTo=1,
+     *     ableTo=17,
      *     inputType="text",
      *     columnType="checkbox"
      * )
