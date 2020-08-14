@@ -146,7 +146,7 @@ class FieldInspectorAdapter implements FieldInspectorInterface
      */
     public function toColumn(){
         if($this->fieldAttribute->forGrid !== null){
-            return Factory::buildColumn($this->fieldAttribute->forGrid);
+            return Factory::buildColumn($this, $this->fieldAttribute->forGrid);
         }
 
         return app(ColumnFactory::class)->build(

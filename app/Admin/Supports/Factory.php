@@ -78,6 +78,7 @@ class Factory
      * @return GridColumnInterface
      */
     public static function buildColumn(FieldInspectorInterface $fieldInspector, ColumnAttribute $columnAttribute){
+        $args = $columnAttribute->columnArgs;
 
     }
 }
