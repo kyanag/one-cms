@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 
 use App\Admin\Grid\Options\Categories;
+use App\Admin\Supports\ObjectBuilder;
 use Illuminate\Console\Command;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -42,15 +43,9 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        $a = collect([
-            'a' => [
-                "b" => [
-                    "c" => 1
-                ]
-            ]
-        ]);
+        $objectBuilder = new ObjectBuilder();
 
-        var_dump(data_get($a, "a.b.c"));exit();
+
     }
 
 }

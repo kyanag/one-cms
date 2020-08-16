@@ -63,6 +63,7 @@ class Factory
     }
 
     /**
+     * @param FieldInspectorInterface $fieldInspector
      * @param InputAttribute $inputAttribute
      * @return Component
      */
@@ -74,8 +75,9 @@ class Factory
     }
 
     /**
+     * @param FieldInspectorInterface $fieldInspector
      * @param ColumnAttribute $columnAttribute
-     * @return GridColumnInterface
+     * @return callable
      */
     public static function buildColumn(FieldInspectorInterface $fieldInspector, ColumnAttribute $columnAttribute){
         $args = $columnAttribute->columnArgs;

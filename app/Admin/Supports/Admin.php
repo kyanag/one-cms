@@ -74,24 +74,8 @@ class Admin
             return $factory;
         });
 
-
-        \App\Admin\Grid\ColumnFactory::macro("usingCategories", function(FieldInspectorInterface $fieldInspector, array $columnConfig){
-            $categories = \App\Models\Category::select(
-                "id", "parent_id", "title"
-            )->get();
-
-            $tree = new \App\Supports\Tree($categories->toArray());
-
-            $items = $tree->toTreeList();
-
-            $options = [
-                0 => "根"
-            ];
-
-            foreach ($items as $item){
-                $options[$item['id']] = str_repeat("—— ", $item['depth']) .  " {$item['title']}";
-            }
-            return $options;
+        app()->singleton("objectBuilder", function(){
+            return new ObjectBuilder();
         });
     }
 }
