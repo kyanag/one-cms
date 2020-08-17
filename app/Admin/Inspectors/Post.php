@@ -33,7 +33,7 @@ class Post extends Readable{
      *     label="主键",
      *     name="id",
      *     ableTo=5,
-     *     forForm = @InputAttribute(
+     *     input = @InputAttribute(
      *         widget="static-label"
      *     ),
      *     inputType="staticText",
@@ -48,7 +48,7 @@ class Post extends Readable{
      *     label="内容标题",
      *     name="title",
      *     ableTo=15,
-     *     forForm = @InputAttribute(
+     *     input = @InputAttribute(
      *         widget="text"
      *     ),
      *     inputType="text",
@@ -63,7 +63,7 @@ class Post extends Readable{
      *     label="分类",
      *     name="category_id",
      *     ableTo=0,
-     *     forForm = @InputAttribute(
+     *     input = @InputAttribute(
      *         widget="text"
      *     ),
      *     inputType="text",
@@ -78,7 +78,7 @@ class Post extends Readable{
      *     label="关键字",
      *     name="keywords",
      *     ableTo=15,
-     *     forForm = @InputAttribute(
+     *     input = @InputAttribute(
      *         widget="text"
      *     ),
      *     inputType="text",
@@ -93,7 +93,7 @@ class Post extends Readable{
      *     label="简介",
      *     name="description",
      *     ableTo=15,
-     *     forForm = @InputAttribute(
+     *     input = @InputAttribute(
      *         widget="text"
      *     ),
      *     inputType="text",
@@ -108,7 +108,7 @@ class Post extends Readable{
      *     label="作者",
      *     name="author_id",
      *     ableTo=15,
-     *     forForm = @InputAttribute(
+     *     input = @InputAttribute(
      *         widget="text"
      *     ),
      *     inputType="text",
@@ -123,7 +123,7 @@ class Post extends Readable{
      *     label="封面图",
      *     name="image",
      *     ableTo=15,
-     *     forForm = @InputAttribute(
+     *     input = @InputAttribute(
      *         widget="text"
      *     ),
      *     inputType="text",
@@ -138,7 +138,7 @@ class Post extends Readable{
      *     label="排序",
      *     name="rank",
      *     ableTo=15,
-     *     forForm = @InputAttribute(
+     *     input = @InputAttribute(
      *         widget="text"
      *     ),
      *     inputType="text",
@@ -153,7 +153,7 @@ class Post extends Readable{
      *     label="链接",
      *     name="jump",
      *     ableTo=15,
-     *     forForm = @InputAttribute(
+     *     input = @InputAttribute(
      *         widget="text"
      *     ),
      *     inputType="text",
@@ -168,7 +168,7 @@ class Post extends Readable{
      *     label="创建时间",
      *     name="created_at",
      *     ableTo=0,
-     *     forForm = @InputAttribute(
+     *     input = @InputAttribute(
      *         widget="text"
      *     ),
      *     inputType="text",
@@ -183,7 +183,7 @@ class Post extends Readable{
      *     label="修改时间",
      *     name="updated_at",
      *     ableTo=0,
-     *     forForm = @InputAttribute(
+     *     input = @InputAttribute(
      *         widget="text"
      *     ),
      *     inputType="text",

@@ -52,14 +52,16 @@ class FieldAttribute extends Readable
     public $required = true;
 
     /**
-     * @var \App\Admin\Annotations\InputAttribute
+     * BuildableObjectAttribute()
+     * @var mixed
      */
-    public $forForm;
+    public $input;
 
     /**
-     * @var ColumnAttribute
+     * BuildableObjectAttribute()
+     * @var mixed
      */
-    public $forGrid;
+    public $column;
 
     /**
      * @var string

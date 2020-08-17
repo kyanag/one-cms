@@ -48,4 +48,9 @@ data-type=\"delete\"
             ]);
         };
     }
+
+
+    public function setUrlCreator($urlCreator){
+
+    }
 }

@@ -74,8 +74,32 @@ class Admin
             return $factory;
         });
 
-        app()->singleton("objectBuilder", function(){
-            return new ObjectBuilder();
+        app()->singleton(InputBuilderProvider::class, function(){
+            $inputProvider = new InputBuilderProvider();
+
+            $files = glob(base_path("vendor/kyanag/form/src/Tabler/Forms/*.php"));
+
+            foreach($files as $file){
+                $classBaseName = basename($file, ".php");
+                $snake_str = \Kyanag\Form\camelToSnake($classBaseName);
+                $class = "Kyanag\\Form\\Tabler\\Forms\\{$classBaseName}";
+
+                $inputProvider->registerComponent($snake_str, $class);
+            }
+            $inputProvider->registerComponent("card-form", \Kyanag\Form\Tabler\CardForm::class);
+            $inputProvider->registerComponent("form", \Kyanag\Form\Tabler\Form::class);
+
+            return $inputProvider;
+        });
+
+        app()->singleton("objectCreator", function(){
+            $objectCreator = new ObjectCreator();
+            //表单构造器
+            $objectCreator->register("input", app(InputBuilderProvider::class));
+            //grid 列构造器
+            $objectCreator->register("column", app(ColumnBuilderProvider::class));
+
+            return $objectCreator;
         });
     }
 }

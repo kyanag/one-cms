@@ -15,9 +15,9 @@ class AdminBootstrap
      */
     public function handle($request, $next)
     {
-        /** @var Admin $admin */
-        $admin = app(Admin::class);
-        $admin->setup();
+//        /** @var Admin $admin */
+//        $admin = app(Admin::class);
+//        $admin->setup();
 
         return $next($request);
     }

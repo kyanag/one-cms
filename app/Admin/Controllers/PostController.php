@@ -56,7 +56,6 @@ class PostController extends _InspectorController
 
     protected function createInspector()
     {
-        return Factory::buildInspector(new \App\Admin\Inspectors\Post());
         return app(\App\Admin\Grid\InspectorBuilder::class)
             ->from(new \App\Admin\Inspectors\Post())
             ->built();

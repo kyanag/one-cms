@@ -2,12 +2,16 @@
 
 namespace App\Admin\Inspectors;
 
+use App\Admin\Annotations\BuildableObjectAttribute;
 use App\Admin\Annotations\FieldAttribute;
+use App\Admin\Annotations\RuntimeValueAttribute;
 use App\Admin\Grid\Decorators\BadgeDecorator;
 use App\Admin\Grid\Options\Categories;
 use App\Admin\Annotations\SchemaAttribute;
 use App\Admin\Supports\Readable;
 use App\Models\Category as CategoryModel;
+use App\Supports\Tree;
+use App\Supports\UrlCreator;
 
 /**
  * Class Category
@@ -25,8 +29,14 @@ class Category extends Readable{
      *     label="主键",
      *     name="id",
      *     ableTo=17,
-     *     inputType="text",
-     *     columnType="checkbox"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="checkbox"
+     *     )
      * )
      */
     public $id;
@@ -37,8 +47,14 @@ class Category extends Readable{
      *     label="store_id",
      *     name="store_id",
      *     ableTo=0,
-     *     inputType="text",
-     *     columnType="raw"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $store_id;
@@ -49,8 +65,14 @@ class Category extends Readable{
      *     label="栏目名称",
      *     name="title",
      *     ableTo=15,
-     *     inputType="text",
-     *     columnType="raw"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $title;
@@ -61,8 +83,14 @@ class Category extends Readable{
      *     label="关键词",
      *     name="keywords",
      *     ableTo=15,
-     *     inputType="text",
-     *     columnType="raw"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $keywords;
@@ -73,8 +101,14 @@ class Category extends Readable{
      *     label="简介",
      *     name="description",
      *     ableTo=15,
-     *     inputType="text",
-     *     columnType="raw"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $description;
@@ -85,14 +119,20 @@ class Category extends Readable{
      *     label="上级栏目",
      *     name="parent_id",
      *     ableTo=15,
-     *     inputType="select",
-     *     inputConfig={
-     *         "options": @Categories()
-     *     },
-     *     columnType="using",
-     *     columnConfig={
-     *         "options": @Categories()
-     *     }
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="select",
+     *         properties={
+     *             "options":@RuntimeValueAttribute(callable="@host::getCategoryIdOptions")
+     *         }
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="using",
+     *         properties={
+     *             "options":@RuntimeValueAttribute(callable="@host::getCategoryIdOptions")
+     *         }
+     *     )
      * )
      */
     public $parent_id;
@@ -103,8 +143,14 @@ class Category extends Readable{
      *     label="类型",
      *     name="type",
      *     ableTo=15,
-     *     inputType="text",
-     *     columnType="raw"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $type;
@@ -115,8 +161,14 @@ class Category extends Readable{
      *     label="地址",
      *     name="url",
      *     ableTo=15,
-     *     inputType="text",
-     *     columnType="raw"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $url;
@@ -127,17 +179,23 @@ class Category extends Readable{
      *     label="状态",
      *     name="status",
      *     ableTo=15,
-     *     inputType="radio",
-     *     inputConfig={
-     *         "options": {0:"显示", 1:"不显示"}
-     *     },
-     *     columnType="using",
-     *     columnConfig={
-     *         "options": {0:"显示", 1:"不显示"},
-     *         "decorators":{
-     *             @BadgeDecorator()
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="radio",
+     *         properties={
+     *             "options":{0:"显示", 1:"不显示"}
      *         }
-     *     }
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="using",
+     *         properties={
+     *             "options":{0:"显示", 1:"不显示"},
+     *             "decorators":{
+     *                 @BadgeDecorator()
+     *              }
+     *         }
+     *     )
      * )
      */
     public $status;
@@ -148,8 +206,14 @@ class Category extends Readable{
      *     label="创建时间",
      *     name="created_at",
      *     ableTo=1,
-     *     inputType="text",
-     *     columnType="raw"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $created_at;
@@ -160,8 +224,14 @@ class Category extends Readable{
      *     label="修改时间",
      *     name="updated_at",
      *     ableTo=1,
-     *     inputType="text",
-     *     columnType="raw"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $updated_at;
@@ -172,8 +242,14 @@ class Category extends Readable{
      *     label="bg_img",
      *     name="bg_img",
      *     ableTo=0,
-     *     inputType="text",
-     *     columnType="raw"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $bg_img;
@@ -184,13 +260,43 @@ class Category extends Readable{
      *     label="操作",
      *     name="id",
      *     ableTo=1,
-     *
-     *     columnType="action"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="action",
+     *         properties={
+     *             "urlCreator":@RuntimeValueAttribute(callable="@host::getUrlCreator"),
+     *         }
+     *     )
      * )
      */
     public $_actionBar;
 
 
 
-    //public static function
+    public function getCategoryIdOptions(){
+        $categories = \App\Models\Category::query()->select(
+            "id", "parent_id", "title"
+        )->get();
+
+        $tree = new Tree($categories->toArray());
+
+        $items = $tree->toTreeList();
+
+        $options = [
+            0 => "根"
+        ];
+
+        foreach ($items as $item){
+            $options[$item['id']] = str_repeat("—— ", $item['depth']) .  " {$item['title']}";
+        }
+        return $options;
+    }
+
+    public function getUrlCreator(){
+        return new UrlCreator("category");
+    }
 }

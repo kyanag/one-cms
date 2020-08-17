@@ -27,6 +27,7 @@ class AdminServiceProvider extends ServiceProvider
      */
     protected $middlewareGroups = [
         'admin' => [
+            \App\Admin\Middleware\AdminBootstrap::class,
             \App\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
@@ -35,7 +36,6 @@ class AdminServiceProvider extends ServiceProvider
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Admin\Middleware\AdminAuth::class,
-            \App\Admin\Middleware\AdminBootstrap::class,
         ],
     ];
 
@@ -80,6 +80,9 @@ class AdminServiceProvider extends ServiceProvider
                 app(\App\Admin\Grid\ElementFactory::class)
             );
         });
+
+        $admin = app(Admin::class);
+        $admin->setup();
     }
 
 

@@ -4,11 +4,12 @@
 namespace App\Admin\Grid;
 
 
+use App\Admin\Annotations\BuildableObjectAttribute;
 use App\Admin\Annotations\FieldAttribute;
 use App\Admin\Grid\Interfaces\FieldInspectorInterface;
 use App\Admin\Grid\Interfaces\GridColumnInterface;
 use App\Admin\Grid\Interfaces\InspectorInterface;
-use App\Admin\Supports\Factory;
+use App\Admin\Supports\ObjectCreator;
 use Kyanag\Form\Renderable;
 
 class FieldInspectorAdapter implements FieldInspectorInterface
@@ -24,23 +25,13 @@ class FieldInspectorAdapter implements FieldInspectorInterface
      */
     private $fieldAttribute;
 
-
-    private $elementFactory;
-
-
-    private $columnFactory;
-
     public function __construct(
         FieldAttribute $attribute,
-        InspectorInterface $inspector,
-        ElementFactory $elementFactory = null,
-        ColumnFactory $columnFactory = null
+        InspectorInterface $inspector
     )
     {
         $this->fieldAttribute = $attribute;
         $this->inspector = $inspector;
-        $this->elementFactory = $elementFactory;
-        $this->columnFactory = $columnFactory;
     }
 
 
@@ -130,30 +121,14 @@ class FieldInspectorAdapter implements FieldInspectorInterface
      * @return Renderable
      */
     public function toElement(){
-        if($this->fieldAttribute->forForm !== null){
-            return Factory::buildInput($this, $this->fieldAttribute->forForm);
-        }
-
-        return $this->elementFactory->build(
-            $this,
-            $this->fieldAttribute->inputType,
-            $this->fieldAttribute->inputConfig
-        );
+        return $this->fieldAttribute->input;
     }
 
     /**
      * @return GridColumnInterface
      */
     public function toColumn(){
-        if($this->fieldAttribute->forGrid !== null){
-            return Factory::buildColumn($this, $this->fieldAttribute->forGrid);
-        }
-
-        return app(ColumnFactory::class)->build(
-            $this,
-            $this->fieldAttribute->columnType,
-            $this->fieldAttribute->columnConfig
-        );
+        return $this->fieldAttribute->column;
     }
 
 }

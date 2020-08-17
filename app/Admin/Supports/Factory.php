@@ -4,18 +4,15 @@
 namespace App\Admin\Supports;
 
 
+use App\Admin\Annotations\BuildableObjectAttribute;
 use App\Admin\Annotations\FieldAttribute;
-use App\Admin\Annotations\InputAttribute;
 use App\Admin\Annotations\RelationAttribute;
+use App\Admin\Annotations\RuntimeValueAttribute;
 use App\Admin\Annotations\SchemaAttribute;
-use App\Admin\Annotations\ColumnAttribute;
 use App\Admin\Grid\FieldInspectorAdapter;
 use App\Admin\Grid\InspectorAdapter;
-use App\Admin\Grid\Interfaces\FieldInspectorInterface;
-use App\Admin\Grid\Interfaces\GridColumnInterface;
 use App\Admin\Grid\Interfaces\InspectorInterface;
 use App\Admin\Grid\RelationInspectorAdapter;
-use Kyanag\Form\Component;
 
 class Factory
 {
@@ -47,10 +44,8 @@ class Factory
     }
 
     public static function buildFieldInspector(FieldAttribute $attribute, InspectorInterface $inspector){
-        if($attribute->forForm instanceof InputAttribute){
-            $attribute->forForm->setFieldAttribute($attribute);
-            $attribute->forForm->setInspector($inspector);
-        }
+        $attribute->input = static::translate($attribute->input);
+        $attribute->column = static::translate($attribute->column);
 
         return new FieldInspectorAdapter($attribute, $inspector);
     }
@@ -62,25 +57,16 @@ class Factory
         return new RelationInspectorAdapter($relationAttribute, $inspector, static::buildInspector($foreignInspectorAttributeObject, false));
     }
 
-    /**
-     * @param FieldInspectorInterface $fieldInspector
-     * @param InputAttribute $inputAttribute
-     * @return Component
-     */
-    public static function buildInput(FieldInspectorInterface $fieldInspector, InputAttribute $inputAttribute){
-        $args = $inputAttribute->widgetArgs;
-        $args['name'] = $fieldInspector->getName();
-        $args['label'] = $fieldInspector->getLabel();
-        return createElement($inputAttribute->widget, $args);
-    }
 
-    /**
-     * @param FieldInspectorInterface $fieldInspector
-     * @param ColumnAttribute $columnAttribute
-     * @return callable
-     */
-    public static function buildColumn(FieldInspectorInterface $fieldInspector, ColumnAttribute $columnAttribute){
-        $args = $columnAttribute->columnArgs;
+    public static function translate(
+        BuildableObjectAttribute $buildableObjectAttribute,
+        FieldAttribute $fieldAttribute,
+        SchemaAttribute $schemaAttribute,
+        $host)
+    {
+        /** @var ObjectCreator $objectCreator */
+        $objectCreator = app("objectCreator");
+
 
     }
 }

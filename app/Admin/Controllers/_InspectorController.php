@@ -321,11 +321,4 @@ abstract class _InspectorController extends Controller
         );
         return new UrlCreator($routeMain);
     }
-
-
-    public static function buildInspector($inspector){
-        return app(\App\Admin\Grid\InspectorBuilder::class)
-            ->from($inspector)
-            ->built();
-    }
 }

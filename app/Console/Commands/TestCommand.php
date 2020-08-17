@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 
 use App\Admin\Grid\Options\Categories;
-use App\Admin\Supports\ObjectBuilder;
+use App\Admin\Supports\ObjectCreator;
 use Illuminate\Console\Command;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -43,7 +43,7 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        $objectBuilder = new ObjectBuilder();
+        $objectBuilder = new ObjectCreator();
 
 
     }
