@@ -4,20 +4,21 @@ namespace App\Admin\Controllers;
 
 use App\Admin\Supports\Factory;
 use App\Models\Category;
+use App\Supports\UrlCreator;
+use Illuminate\Support\Str;
 
 class CategoryController extends _InspectorController
 {
 
-    public function createInspector()
+    public function initialize()
     {
-        return Factory::buildInspector(new \App\Admin\Inspectors\Category());
-        return app(\App\Admin\Grid\InspectorBuilder::class)
-            ->from(new \App\Admin\Inspectors\Category())
-            ->built();
-    }
+        $this->inspector = Factory::buildInspector(new \App\Admin\Inspectors\Category());
 
-    protected function newModel()
-    {
-        return new Category();
+        $routeMain = Str::singular(
+            Str::kebab(
+                str_replace("Controller", "", class_basename($this))
+            )
+        );
+        $this->urlCreator = new UrlCreator($routeMain);
     }
 }

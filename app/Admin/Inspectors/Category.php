@@ -4,9 +4,8 @@ namespace App\Admin\Inspectors;
 
 use App\Admin\Annotations\BuildableObjectAttribute;
 use App\Admin\Annotations\FieldAttribute;
-use App\Admin\Annotations\RuntimeValueAttribute;
+use App\Admin\Annotations\CallableAttribute;
 use App\Admin\Grid\Decorators\BadgeDecorator;
-use App\Admin\Grid\Options\Categories;
 use App\Admin\Annotations\SchemaAttribute;
 use App\Admin\Supports\Readable;
 use App\Models\Category as CategoryModel;
@@ -123,14 +122,14 @@ class Category extends Readable{
      *         provider="input",
      *         name="select",
      *         properties={
-     *             "options":@RuntimeValueAttribute(callable="@host::getCategoryIdOptions")
+     *             "options":@CallableAttribute(method="getCategoryIdOptions")
      *         }
      *     ),
      *     column=@BuildableObjectAttribute(
      *         provider="column",
      *         name="using",
      *         properties={
-     *             "options":@RuntimeValueAttribute(callable="@host::getCategoryIdOptions")
+     *             "options":@CallableAttribute(method="getCategoryIdOptions")
      *         }
      *     )
      * )
@@ -268,7 +267,7 @@ class Category extends Readable{
      *         provider="column",
      *         name="action",
      *         properties={
-     *             "urlCreator":@RuntimeValueAttribute(callable="@host::getUrlCreator"),
+     *             "urlCreator":@CallableAttribute(method="getUrlCreator"),
      *         }
      *     )
      * )

@@ -2,21 +2,14 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Supports\Factory;
 use App\Models\Member;
-use App\Admin\Grid\Interfaces\InspectorInterface;
 
 class MemberController extends _InspectorController
 {
 
-    public function createInspector()
+    public function initialize()
     {
-        return app(\App\Admin\Grid\InspectorBuilder::class)
-            ->from(new \App\Admin\Inspectors\Member())
-            ->built();
-    }
-
-    protected function newModel()
-    {
-        return new Member();
+        return Factory::buildInspector(new \App\Admin\Inspectors\Member());
     }
 }

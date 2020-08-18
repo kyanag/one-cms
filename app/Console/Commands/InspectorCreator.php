@@ -71,8 +71,14 @@ class InspectorCreator extends Command
      *     label="{$title}",
      *     name="{$name}",
      *     ableTo=15,
-     *     inputType="text",
-     *     columnType="raw"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public \${$name};
@@ -104,7 +110,7 @@ EOF;
 namespace App\Admin\Inspectors;
 
 use App\Admin\Annotations\FieldAttribute;
-use Kyanag\Form\Toolkits\Bootstrap3\Text;
+use App\Admin\Annotations\BuildableObjectAttribute;
 use App\Admin\Annotations\SchemaAttribute;
 
 /**
@@ -113,7 +119,7 @@ use App\Admin\Annotations\SchemaAttribute;
  * @SchemaAttribute(
  *     title="{$this->argument("table")}",
  *     name="{$this->argument("table")}",
- *     modelClass={ModelClass}
+ *     modelClass="{ModelClass}"
  * )
  */
 class {ClassName}{

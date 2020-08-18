@@ -3,34 +3,33 @@
 namespace App\Admin\Controllers;
 
 use App\Admin\Inspectors\ConfigItems;
+use App\Admin\Supports\Factory;
 use App\Models\Config;
 use App\Admin\Grid\Interfaces\InspectorInterface;
 use App\Models\Group;
+use App\Supports\UrlCreator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class ConfigController extends _InspectorController
 {
-    protected function newModel()
-    {
-        return new Config();
-    }
 
-    public function createInspector()
+    public function initialize()
     {
-        return app(\App\Admin\Grid\InspectorBuilder::class)
-            ->from(new \App\Admin\Inspectors\Config())
-            ->built();
+        $this->inspector = Factory::buildInspector(new \App\Admin\Inspectors\Config());
+
+        $routeMain = Str::singular(
+            Str::kebab(
+                str_replace("Controller", "", class_basename($this))
+            )
+        );
+        $this->urlCreator = new UrlCreator($routeMain);
     }
 
 
     public function preview(Request $request){
-        /** @var \Illuminate\Session\Store $session */
-        $session = app("session")->driver();
-
-        $inspector = app(\App\Admin\Grid\InspectorBuilder::class)
-            ->from(new ConfigItems())
-            ->built();
+        $inspector = Factory::buildInspector(new \App\Admin\Inspectors\ConfigItems());
 
         $fields = $inspector->getFields();
         $groups = Group::forConfig()

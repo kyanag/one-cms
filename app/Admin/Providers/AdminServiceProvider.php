@@ -74,13 +74,6 @@ class AdminServiceProvider extends ServiceProvider
             return new Admin();
         });
 
-        app()->singleton(\App\Admin\Grid\InspectorBuilder::class, function(){
-            return new \App\Admin\Grid\InspectorBuilder(
-                app(ColumnFactory::class),
-                app(\App\Admin\Grid\ElementFactory::class)
-            );
-        });
-
         $admin = app(Admin::class);
         $admin->setup();
     }

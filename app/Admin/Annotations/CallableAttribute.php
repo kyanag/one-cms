@@ -5,21 +5,22 @@ namespace App\Admin\Annotations;
 
 /**
  * 运行时才知道的值
- * Class RuntimeValueAttribute
+ * Class CallableAttribute
  * @package App\Admin\Annotations
  * @Annotation
  */
-class RuntimeValueAttribute
+class CallableAttribute
 {
 
     /**
-     * 宿主
+     * domain
      * @var object
      */
     public $host;
 
     /**
+     * 必须是不带参数的方法
      * @var string
      */
-    public $callable;
+    public $method;
 }

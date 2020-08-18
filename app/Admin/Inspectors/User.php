@@ -3,15 +3,16 @@
 namespace App\Admin\Inspectors;
 
 use App\Admin\Annotations\FieldAttribute;
+use App\Admin\Annotations\BuildableObjectAttribute;
 use App\Admin\Annotations\SchemaAttribute;
 
 /**
  * Class User
  * @package App\Admin\Inspectors
  * @SchemaAttribute(
- *     title="管理员",
+ *     title="users",
  *     name="users",
- *     modelClass=\App\Models\User::class
+ *     modelClass="\App\Models\User"
  * )
  */
 class User{
@@ -21,8 +22,14 @@ class User{
      *     label="id",
      *     name="id",
      *     ableTo=15,
-     *     inputType="text",
-     *     columnType="raw"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $id;
@@ -30,11 +37,17 @@ class User{
 
     /**
      * @FieldAttribute(
-     *     label="账号",
+     *     label="username",
      *     name="username",
      *     ableTo=15,
-     *     inputType="text",
-     *     columnType="raw"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $username;
@@ -42,11 +55,17 @@ class User{
 
     /**
      * @FieldAttribute(
-     *     label="管理员名称",
+     *     label="nickname",
      *     name="nickname",
      *     ableTo=15,
-     *     inputType="text",
-     *     columnType="raw"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $nickname;
@@ -54,11 +73,17 @@ class User{
 
     /**
      * @FieldAttribute(
-     *     label="邮箱",
+     *     label="email",
      *     name="email",
      *     ableTo=15,
-     *     inputType="text",
-     *     columnType="raw"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $email;
@@ -69,8 +94,14 @@ class User{
      *     label="password",
      *     name="password",
      *     ableTo=0,
-     *     inputType="text",
-     *     columnType="raw"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $password;
@@ -81,8 +112,14 @@ class User{
      *     label="remember_token",
      *     name="remember_token",
      *     ableTo=0,
-     *     inputType="text",
-     *     columnType="raw"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $remember_token;
@@ -93,8 +130,14 @@ class User{
      *     label="created_at",
      *     name="created_at",
      *     ableTo=15,
-     *     inputType="text",
-     *     columnType="raw"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $created_at;
@@ -105,20 +148,17 @@ class User{
      *     label="updated_at",
      *     name="updated_at",
      *     ableTo=15,
-     *     inputType="text",
-     *     columnType="raw"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $updated_at;
+    
 
-
-    /**
-     * @FieldAttribute(
-     *     label="操作",
-     *     name="id",
-     *     ableTo=1,
-     *     columnType="action"
-     * )
-     */
-    public $_actionBar;
 }

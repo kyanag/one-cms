@@ -5,6 +5,7 @@ namespace App\Admin\Inspectors;
 use App\Admin\Annotations\FieldAttribute;
 use App\Admin\Supports\Readable;
 use App\Admin\Annotations\SchemaAttribute;
+use App\Admin\Annotations\BuildableObjectAttribute;
 
 /**
  * Class Member
@@ -22,8 +23,14 @@ class Member extends Readable{
      *     label="id",
      *     name="id",
      *     ableTo=15,
-     *     inputType="text",
-     *     columnType="raw"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $id;
@@ -34,8 +41,14 @@ class Member extends Readable{
      *     label="store_id",
      *     name="store_id",
      *     ableTo=15,
-     *     inputType="text",
-     *     columnType="raw"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $store_id;
@@ -46,8 +59,14 @@ class Member extends Readable{
      *     label="name",
      *     name="name",
      *     ableTo=15,
-     *     inputType="text",
-     *     columnType="raw"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $name;
@@ -58,8 +77,14 @@ class Member extends Readable{
      *     label="mobile",
      *     name="mobile",
      *     ableTo=15,
-     *     inputType="text",
-     *     columnType="raw"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $mobile;
@@ -70,8 +95,14 @@ class Member extends Readable{
      *     label="remark",
      *     name="remark",
      *     ableTo=15,
-     *     inputType="text",
-     *     columnType="raw"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $remark;
@@ -82,8 +113,14 @@ class Member extends Readable{
      *     label="deleted_at",
      *     name="deleted_at",
      *     ableTo=15,
-     *     inputType="text",
-     *     columnType="raw"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $deleted_at;
@@ -94,8 +131,14 @@ class Member extends Readable{
      *     label="created_at",
      *     name="created_at",
      *     ableTo=15,
-     *     inputType="text",
-     *     columnType="raw"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $created_at;
@@ -106,8 +149,14 @@ class Member extends Readable{
      *     label="updated_at",
      *     name="updated_at",
      *     ableTo=15,
-     *     inputType="text",
-     *     columnType="raw"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $updated_at;

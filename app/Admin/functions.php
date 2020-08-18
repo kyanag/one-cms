@@ -1,6 +1,7 @@
 <?php
 
 
+use Illuminate\Support\Str;
 use Kyanag\Form\Renderable;
 
 function admin_path($dir){
@@ -16,4 +17,14 @@ function admin_path($dir){
  */
 function createElement($type, $props = [], $children = []){
     return app("elementFactory")->createElement($type, $props, $children);
+}
+
+
+function createUrlCreator($classname){
+    $routeMain = Str::singular(
+        Str::kebab(
+            str_replace("Controller", "", $classname)
+        )
+    );
+    return new \App\Supports\UrlCreator($routeMain);
 }

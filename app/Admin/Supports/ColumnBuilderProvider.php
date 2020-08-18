@@ -5,7 +5,7 @@ namespace App\Admin\Supports;
 
 
 use App\Admin\Annotations\FieldAttribute;
-use App\Admin\Annotations\RuntimeValueAttribute;
+use App\Admin\Annotations\CallableAttribute;
 use App\Admin\Grid\Columns\ActionColumn;
 use App\Admin\Grid\Columns\CheckboxColumn;
 use App\Admin\Grid\Columns\DataColumn;
@@ -56,7 +56,7 @@ class ColumnBuilderProvider implements ObjectBuilderProvider
                 return @$options[$value] ?: "-";
             }, $name));
         };
-        return ObjectInitializer::initialize(new DataColumn(), $properties);
+        return ObjectInitializer::initialize($dataColumn, $properties);
     }
 
     public function action(array $properties){

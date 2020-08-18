@@ -2,20 +2,15 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Supports\Factory;
 use App\Models\Group;
 use App\Admin\Grid\Interfaces\InspectorInterface;
 
 class GroupController extends _InspectorController
 {
-    protected function newModel()
-    {
-        return new Group();
-    }
 
-    public function createInspector()
+    public function initialize()
     {
-        return app(\App\Admin\Grid\InspectorBuilder::class)
-            ->from(new \App\Admin\Inspectors\Group())
-            ->built();
+        return Factory::buildInspector(new \App\Admin\Inspectors\Group());
     }
 }

@@ -6,7 +6,9 @@ use App\Admin\Annotations\FieldAttribute;
 use App\Admin\Annotations\SchemaAttribute;
 use App\Admin\Annotations\RelationAttribute;
 use App\Admin\Supports\Readable;
-use App\Admin\Annotations\InputAttribute;
+use App\Admin\Annotations\BuildableObjectAttribute;
+use App\Admin\Annotations\CallableAttribute;
+use App\Supports\UrlCreator;
 
 /**
  * Class PostArticle
@@ -33,11 +35,14 @@ class PostArticle extends Readable{
      *     label="id",
      *     name="id",
      *     ableTo=0,
-     *     input = @InputAttribute(
-     *         widget="text"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
      *     ),
-     *     inputType="text",
-     *     columnType="raw"
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $id;
@@ -48,11 +53,14 @@ class PostArticle extends Readable{
      *     label="主文章id",
      *     name="post_id",
      *     ableTo=0,
-     *     input = @InputAttribute(
-     *         widget="text"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
      *     ),
-     *     inputType="text",
-     *     columnType="raw"
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $post_id;
@@ -63,11 +71,14 @@ class PostArticle extends Readable{
      *     label="内容",
      *     name="content",
      *     ableTo=15,
-     *     input = @InputAttribute(
-     *         widget="text"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="textarea"
      *     ),
-     *     inputType="wangEditor",
-     *     columnType="raw"
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $content;
@@ -78,11 +89,14 @@ class PostArticle extends Readable{
      *     label="created_at",
      *     name="created_at",
      *     ableTo=0,
-     *     input = @InputAttribute(
-     *         widget="text"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
      *     ),
-     *     inputType="text",
-     *     columnType="raw"
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $created_at;
@@ -93,11 +107,14 @@ class PostArticle extends Readable{
      *     label="updated_at",
      *     name="updated_at",
      *     ableTo=0,
-     *     input = @InputAttribute(
-     *         widget="text"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
      *     ),
-     *     inputType="text",
-     *     columnType="raw"
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $updated_at;
@@ -108,12 +125,25 @@ class PostArticle extends Readable{
      *     label="操作",
      *     name="id",
      *     ableTo=1,
-     *     input = @InputAttribute(
-     *         widget="text"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
      *     ),
-     *     columnType="action"
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="action",
+     *         properties={
+     *             "urlCreator":@CallableAttribute(method="getUrlCreator"),
+     *         }
+     *     )
      * )
      */
     public $_actionBar;
 
+
+    public function getUrlCreator(){
+        $urlCreator = new UrlCreator("post");
+        $urlCreator->setDefaultQuery(['category_id' => app("request")->input("category_id")]);
+        return $urlCreator;
+    }
 }

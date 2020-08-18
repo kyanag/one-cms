@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
@@ -28,17 +29,17 @@ class PostController extends _InspectorController
     /**
      * @var InspectorInterface
      */
-    protected $foreignInspector;
+    private $foreignInspector;
 
     /**
      * @var RelationInspectorInterface
      */
-    protected $relationInspector;
+    private $relationInspector;
 
     /** @var Category */
     private $category;
 
-    public function __construct()
+    public function initialize()
     {
         $category = Category::query()
             ->where("id", app("request")->input("category_id"))
@@ -48,28 +49,17 @@ class PostController extends _InspectorController
         }
         $this->category = $category;
 
-        parent::__construct();
+        $this->inspector = Factory::buildInspector(new \App\Admin\Inspectors\Post());
 
         $this->relationInspector = $this->inspector->getRelations()[$this->category['type']];
         $this->foreignInspector = $this->relationInspector->getForeignInspector();
-    }
 
-    protected function createInspector()
-    {
-        return app(\App\Admin\Grid\InspectorBuilder::class)
-            ->from(new \App\Admin\Inspectors\Post())
-            ->built();
-    }
-
-    public function createUrlCreator()
-    {
-        $urlCreator = parent::createUrlCreator();
+        $urlCreator = createUrlCreator(class_basename($this));
         $urlCreator->setDefaultQuery([
             'category_id' => $this->category['id']
         ]);
-        return $urlCreator;
+        $this->urlCreator = $urlCreator;
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -197,13 +187,21 @@ class PostController extends _InspectorController
         /** @var FieldInspectorInterface $attribute */
         foreach ($this->inspector->getFields() as $attribute){
             if($attribute->ableFor($scene)){
-                $form->addChild($attribute->toElement());
+                $element = $attribute->toElement();
+                if(is_null($element)){
+                    throw new \Exception("{$attribute->getName()} 没有表单组件");
+                }
+                $form->addChild($element);
             }
         }
         /** @var FieldInspectorInterface $attribute */
         foreach ($this->foreignInspector->getFields() as $attribute){
             if($attribute->ableFor($scene)){
-                $form->addChild($attribute->toElement());
+                $element = $attribute->toElement();
+                if(is_null($element)){
+                    throw new \Exception("{$attribute->getName()} 没有表单组件");
+                }
+                $form->addChild($element);
             }
         }
         return $form;

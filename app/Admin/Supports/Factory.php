@@ -7,31 +7,34 @@ namespace App\Admin\Supports;
 use App\Admin\Annotations\BuildableObjectAttribute;
 use App\Admin\Annotations\FieldAttribute;
 use App\Admin\Annotations\RelationAttribute;
-use App\Admin\Annotations\RuntimeValueAttribute;
+use App\Admin\Annotations\CallableAttribute;
 use App\Admin\Annotations\SchemaAttribute;
 use App\Admin\Grid\FieldInspectorAdapter;
 use App\Admin\Grid\InspectorAdapter;
 use App\Admin\Grid\Interfaces\InspectorInterface;
+use App\Admin\Grid\Interfaces\RelationInspectorInterface;
 use App\Admin\Grid\RelationInspectorAdapter;
 
 class Factory
 {
 
     /**
-     * @param $inspectorAnnotation
+     * @param $inspectorDocument
      * @param bool $related
      * @return InspectorInterface
      */
-    public static function buildInspector($inspectorAnnotation, $related = true){
-        $classAnnotationReader = new ClassAnnotationReader($inspectorAnnotation);
+    public static function buildInspector($inspectorDocument, $related = true){
+        $classAnnotationReader = new ClassAnnotationReader($inspectorDocument);
 
         $schemaAttribute = $classAnnotationReader->getClassAnnotation(SchemaAttribute::class);
         $fieldAttributes = $classAnnotationReader->getPropertyAnnotations(FieldAttribute::class);
 
 
         $inspector = new InspectorAdapter($schemaAttribute);
-        $inspector->setFieldInspectors(\Kyanag\Form\array_map($fieldAttributes, function($fieldAttribute, $index) use($inspector){
-            return static::buildFieldInspector($fieldAttribute, $inspector);
+        $inspector->setFieldInspectors(\Kyanag\Form\array_map($fieldAttributes, function($fieldAttribute, $index) use($inspector, $inspectorDocument){
+
+
+            return static::buildFieldInspector($fieldAttribute, $inspector, $inspectorDocument);
         }));
 
         if($related){
@@ -43,9 +46,9 @@ class Factory
         return $inspector;
     }
 
-    public static function buildFieldInspector(FieldAttribute $attribute, InspectorInterface $inspector){
-        $attribute->input = static::translate($attribute->input);
-        $attribute->column = static::translate($attribute->column);
+    public static function buildFieldInspector(FieldAttribute $attribute, InspectorInterface $inspector, $inspectorDocument){
+        $attribute->input = static::translate($attribute->input, $attribute, $inspectorDocument);
+        $attribute->column = static::translate($attribute->column, $attribute, $inspectorDocument);
 
         return new FieldInspectorAdapter($attribute, $inspector);
     }
@@ -57,16 +60,43 @@ class Factory
         return new RelationInspectorAdapter($relationAttribute, $inspector, static::buildInspector($foreignInspectorAttributeObject, false));
     }
 
-
+    /**
+     * 读取 BuildableObjectAttribute::$properties 集合里面的值， 获取 CallableAttribute 真实的值
+     * @param BuildableObjectAttribute $buildableObjectAttribute
+     * @param FieldAttribute $attribute
+     * @param $host
+     * @return BuildableObjectAttribute
+     */
     public static function translate(
         BuildableObjectAttribute $buildableObjectAttribute,
-        FieldAttribute $fieldAttribute,
-        SchemaAttribute $schemaAttribute,
+        FieldAttribute $attribute,
         $host)
     {
-        /** @var ObjectCreator $objectCreator */
-        $objectCreator = app("objectCreator");
+
+        foreach ($buildableObjectAttribute->properties as $name => $property){
+            if($property instanceof CallableAttribute){
+                $property->host = $host;
+
+                $buildableObjectAttribute->properties[$name] = static::callCallableAttribute($property);
+            }
+        }
+        $buildableObjectAttribute->properties['name'] = $attribute->name;
+        $buildableObjectAttribute->properties['label'] = $attribute->label;
+
+        return $buildableObjectAttribute;
+    }
+
+    protected static function callCallableAttribute(CallableAttribute $callableAttribute){
+        $callable = [$callableAttribute->host, $callableAttribute->method];
+        if(is_callable($callable) === false){
+            $callable = $callableAttribute->method;
+        }
+        return call_user_func($callable);
+    }
 
 
+    public static function buildRelationComponent(RelationInspectorInterface $relationInspector, $name, $label){
+        /** @var  $foreignInspector */
+        $foreignInspector = $relationInspector->getForeignInspector();
     }
 }

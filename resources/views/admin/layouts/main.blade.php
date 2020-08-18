@@ -9,15 +9,13 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="autocomplete" content="off">
     <title>@yield('title', "工作台")</title>
-
-    <!-- Bootstrap core CSS -->
-
     <!-- bootswatch   lux/materia/lumen/litera/journal/flatly -->
 {{--    <link href="https://cdn.bootcdn.net/ajax/libs/bootswatch/4.5.1/materia/bootstrap.min.css" rel="stylesheet">--}}
 
     <link href="https://cdn.bootcdn.net/ajax/libs/bootswatch/4.5.1/cosmo/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.14.0/css/all.min.css" rel="stylesheet">
     <meta name="theme-color" content="#563d7c">
+    <link rel="icon" href="{{ asset("images/logo-for-bootstrap4.png") }}" type="image/png" />
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -39,7 +37,9 @@
 </head>
 <body>
 <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow navbar-expand-lg">
-    <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3 text-center" href="{{ route("admin.home") }}">OneCMS</a>
+    <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3 text-center" href="{{ route("admin.home") }}">
+        One · CMS
+    </a>
     <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>

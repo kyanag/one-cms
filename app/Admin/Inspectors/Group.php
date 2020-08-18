@@ -3,28 +3,33 @@
 namespace App\Admin\Inspectors;
 
 use App\Admin\Annotations\FieldAttribute;
-use App\Admin\Supports\Readable;
-use Kyanag\Form\Toolkits\Bootstrap3\Text;
+use App\Admin\Annotations\BuildableObjectAttribute;
 use App\Admin\Annotations\SchemaAttribute;
 
 /**
  * Class Group
  * @package App\Admin\Inspectors
  * @SchemaAttribute(
- *     title="分组",
+ *     title="groups",
  *     name="groups",
- *     modelClass=\App\Models\Group::class
+ *     modelClass="\App\Models\Group"
  * )
  */
-class Group extends Readable{
+class Group{
 
     /**
      * @FieldAttribute(
-     *     label="主键",
+     *     label="id",
      *     name="id",
-     *     ableTo=1,
-     *     inputType="text",
-     *     columnType="raw"
+     *     ableTo=15,
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $id;
@@ -32,11 +37,17 @@ class Group extends Readable{
 
     /**
      * @FieldAttribute(
-     *     label="标题",
+     *     label="title",
      *     name="title",
      *     ableTo=15,
-     *     inputType="text",
-     *     columnType="raw"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $title;
@@ -44,11 +55,17 @@ class Group extends Readable{
 
     /**
      * @FieldAttribute(
-     *     label="图标",
+     *     label="icon",
      *     name="icon",
      *     ableTo=15,
-     *     inputType="text",
-     *     columnType="raw"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $icon;
@@ -56,13 +73,17 @@ class Group extends Readable{
 
     /**
      * @FieldAttribute(
-     *     label="类型",
+     *     label="type",
      *     name="type",
      *     ableTo=15,
-     *     inputType="select",
-     *     inputConfig={"options":{1:"配置"}},
-     *     columnType="using",
-     *     columnConfig={"options":{1:"配置"}}
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $type;
@@ -70,11 +91,17 @@ class Group extends Readable{
 
     /**
      * @FieldAttribute(
-     *     label="介绍",
+     *     label="desc",
      *     name="desc",
      *     ableTo=15,
-     *     inputType="text",
-     *     columnType="raw"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $desc;
@@ -82,13 +109,17 @@ class Group extends Readable{
 
     /**
      * @FieldAttribute(
-     *     label="状态",
+     *     label="status",
      *     name="status",
      *     ableTo=15,
-     *     inputType="select",
-     *     inputConfig={"options":{0:"正常", 1:"不显示"}},
-     *     columnType="using",
-     *     columnConfig={"options":{0:"正常", 1:"不显示"}}
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $status;
@@ -98,9 +129,15 @@ class Group extends Readable{
      * @FieldAttribute(
      *     label="created_at",
      *     name="created_at",
-     *     ableTo=1,
-     *     inputType="text",
-     *     columnType="raw"
+     *     ableTo=15,
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $created_at;
@@ -110,22 +147,18 @@ class Group extends Readable{
      * @FieldAttribute(
      *     label="updated_at",
      *     name="updated_at",
-     *     ableTo=1,
-     *     inputType="text",
-     *     columnType="raw"
+     *     ableTo=15,
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $updated_at;
+    
 
-
-    /**
-     * @FieldAttribute(
-     *     label="操作",
-     *     name="id",
-     *     ableTo=1,
-     *
-     *     columnType="action"
-     * )
-     */
-    public $_actionBar;
 }

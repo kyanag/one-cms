@@ -92,7 +92,7 @@ class Admin
             return $inputProvider;
         });
 
-        app()->singleton("objectCreator", function(){
+        app()->singleton(ObjectCreator::class, function(){
             $objectCreator = new ObjectCreator();
             //表单构造器
             $objectCreator->register("input", app(InputBuilderProvider::class));

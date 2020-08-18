@@ -49,7 +49,14 @@ class ConfigCreator extends InspectorCreator
      *     label="{$title}",
      *     name="{$name}",
      *     ableTo=15,
-     *     inputType="text"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public \${$name};
@@ -82,6 +89,8 @@ EOF;
 namespace App\Admin\Inspectors;
 
 use App\Admin\Annotations\FieldAttribute;
+use App\Admin\Annotations\BuildableObjectAttribute;
+use App\Admin\Annotations\SchemaAttribute;
 
 /**
  * Class {ClassName}

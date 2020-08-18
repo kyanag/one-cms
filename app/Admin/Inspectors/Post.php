@@ -2,12 +2,12 @@
 
 namespace App\Admin\Inspectors;
 
-use App\Admin\Annotations\ColumnAttribute;
+
 use App\Admin\Annotations\FieldAttribute;
-use App\Admin\Annotations\InputAttribute;
 use App\Admin\Annotations\SchemaAttribute;
 use App\Admin\Annotations\RelationAttribute;
 use App\Admin\Supports\Readable;
+use App\Admin\Annotations\BuildableObjectAttribute;
 
 /**
  * Class Post
@@ -33,11 +33,14 @@ class Post extends Readable{
      *     label="主键",
      *     name="id",
      *     ableTo=5,
-     *     input = @InputAttribute(
-     *         widget="static-label"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="static-text"
      *     ),
-     *     inputType="staticText",
-     *     columnType="raw"
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $id;
@@ -48,11 +51,14 @@ class Post extends Readable{
      *     label="内容标题",
      *     name="title",
      *     ableTo=15,
-     *     input = @InputAttribute(
-     *         widget="text"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
      *     ),
-     *     inputType="text",
-     *     columnType="raw"
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $title;
@@ -63,11 +69,14 @@ class Post extends Readable{
      *     label="分类",
      *     name="category_id",
      *     ableTo=0,
-     *     input = @InputAttribute(
-     *         widget="text"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
      *     ),
-     *     inputType="text",
-     *     columnType="raw"
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $category_id;
@@ -78,11 +87,14 @@ class Post extends Readable{
      *     label="关键字",
      *     name="keywords",
      *     ableTo=15,
-     *     input = @InputAttribute(
-     *         widget="text"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
      *     ),
-     *     inputType="text",
-     *     columnType="raw"
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $keywords;
@@ -93,11 +105,14 @@ class Post extends Readable{
      *     label="简介",
      *     name="description",
      *     ableTo=15,
-     *     input = @InputAttribute(
-     *         widget="text"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
      *     ),
-     *     inputType="text",
-     *     columnType="raw"
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $description;
@@ -108,11 +123,14 @@ class Post extends Readable{
      *     label="作者",
      *     name="author_id",
      *     ableTo=15,
-     *     input = @InputAttribute(
-     *         widget="text"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
      *     ),
-     *     inputType="text",
-     *     columnType="raw"
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $author_id;
@@ -123,11 +141,14 @@ class Post extends Readable{
      *     label="封面图",
      *     name="image",
      *     ableTo=15,
-     *     input = @InputAttribute(
-     *         widget="text"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
      *     ),
-     *     inputType="text",
-     *     columnType="raw"
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $image;
@@ -138,11 +159,14 @@ class Post extends Readable{
      *     label="排序",
      *     name="rank",
      *     ableTo=15,
-     *     input = @InputAttribute(
-     *         widget="text"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
      *     ),
-     *     inputType="text",
-     *     columnType="raw"
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $rank;
@@ -153,11 +177,14 @@ class Post extends Readable{
      *     label="链接",
      *     name="jump",
      *     ableTo=15,
-     *     input = @InputAttribute(
-     *         widget="text"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
      *     ),
-     *     inputType="text",
-     *     columnType="raw"
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $jump;
@@ -168,11 +195,14 @@ class Post extends Readable{
      *     label="创建时间",
      *     name="created_at",
      *     ableTo=0,
-     *     input = @InputAttribute(
-     *         widget="text"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
      *     ),
-     *     inputType="text",
-     *     columnType="raw"
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $created_at;
@@ -183,11 +213,14 @@ class Post extends Readable{
      *     label="修改时间",
      *     name="updated_at",
      *     ableTo=0,
-     *     input = @InputAttribute(
-     *         widget="text"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
      *     ),
-     *     inputType="text",
-     *     columnType="raw"
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $updated_at;

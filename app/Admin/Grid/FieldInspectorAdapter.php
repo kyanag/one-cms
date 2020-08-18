@@ -5,6 +5,7 @@ namespace App\Admin\Grid;
 
 
 use App\Admin\Annotations\BuildableObjectAttribute;
+use App\Admin\Annotations\CallableAttribute;
 use App\Admin\Annotations\FieldAttribute;
 use App\Admin\Grid\Interfaces\FieldInspectorInterface;
 use App\Admin\Grid\Interfaces\GridColumnInterface;
@@ -121,6 +122,9 @@ class FieldInspectorAdapter implements FieldInspectorInterface
      * @return Renderable
      */
     public function toElement(){
+        if($this->fieldAttribute->input instanceof BuildableObjectAttribute){
+            $this->fieldAttribute->input = app(ObjectCreator::class)->create($this->fieldAttribute->input);
+        }
         return $this->fieldAttribute->input;
     }
 
@@ -128,6 +132,9 @@ class FieldInspectorAdapter implements FieldInspectorInterface
      * @return GridColumnInterface
      */
     public function toColumn(){
+        if($this->fieldAttribute->column instanceof BuildableObjectAttribute){
+            $this->fieldAttribute->column = app(ObjectCreator::class)->create($this->fieldAttribute->column);
+        }
         return $this->fieldAttribute->column;
     }
 

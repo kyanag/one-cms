@@ -5,13 +5,15 @@ namespace App\Admin\Inspectors;
 use App\Admin\Annotations\FieldAttribute;
 use App\Admin\Annotations\SchemaAttribute;
 use App\Admin\Supports\Readable;
+use App\Admin\Annotations\BuildableObjectAttribute;
 
 /**
  * Class Category
  * @package App\Admin\Inspectors
  * @SchemaAttribute(
  *     title="系统设置",
- *     name="configs"
+ *     name="configs",
+ *     modelClass="\App\Models\Config"
  * )
  */
 class Config extends Readable{
@@ -21,8 +23,14 @@ class Config extends Readable{
      *     label="id",
      *     name="id",
      *     ableTo=1,
-     *     inputType="text",
-     *     columnType="raw"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $id;
@@ -33,8 +41,14 @@ class Config extends Readable{
      *     label="名称",
      *     name="title",
      *     ableTo=15,
-     *     inputType="text",
-     *     columnType="raw"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $title;
@@ -45,8 +59,14 @@ class Config extends Readable{
      *     label="调用名",
      *     name="name",
      *     ableTo=15,
-     *     inputType="text",
-     *     columnType="raw"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $name;
@@ -57,8 +77,14 @@ class Config extends Readable{
      *     label="值",
      *     name="value",
      *     ableTo=0,
-     *     inputType="text",
-     *     columnType="raw"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $value;
@@ -69,8 +95,14 @@ class Config extends Readable{
      *     label="帮助",
      *     name="help",
      *     ableTo=15,
-     *     inputType="text",
-     *     columnType="raw"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $help;
@@ -81,8 +113,14 @@ class Config extends Readable{
      *     label="分组",
      *     name="group_id",
      *     ableTo=15,
-     *     inputType="text",
-     *     columnType="raw"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $group_id;
@@ -93,8 +131,14 @@ class Config extends Readable{
      *     label="创建时间",
      *     name="created_at",
      *     ableTo=15,
-     *     inputType="text",
-     *     columnType="raw"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $created_at;
@@ -105,8 +149,14 @@ class Config extends Readable{
      *     label="修改时间",
      *     name="updated_at",
      *     ableTo=15,
-     *     inputType="text",
-     *     columnType="raw"
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
      * )
      */
     public $updated_at;
