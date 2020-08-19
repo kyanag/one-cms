@@ -40,6 +40,11 @@ class Admin
                     'url' => route("admin.member.index"),
                 ],
                 [
+                    'icon' => "fa-file",
+                    'title' => "内容",
+                    'url' => route("admin.post.preview"),
+                ],
+                [
                     'icon' => "fa-users",
                     'title' => "系统",
                     'url' => route("admin.config.preview"),

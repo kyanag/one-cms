@@ -3,7 +3,6 @@
 namespace App\Admin\Controllers;
 
 use App\Admin\Supports\Factory;
-use App\Models\Category;
 use App\Supports\UrlCreator;
 use Illuminate\Support\Str;
 

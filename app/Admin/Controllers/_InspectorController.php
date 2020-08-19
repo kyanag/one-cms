@@ -9,6 +9,7 @@ use App\Admin\Grid\Interfaces\FieldInspectorInterface;
 use App\Admin\Grid\Interfaces\InspectorInterface;
 use App\Admin\Components\ActionBar;
 use App\Admin\Components\GridView;
+use App\Admin\Supports\FormCreator;
 use App\Http\Controllers\Controller;
 use App\Admin\Supports\FormBuilder;
 use App\Supports\UrlCreator;
@@ -116,7 +117,8 @@ abstract class _InspectorController extends Controller
         $title = "新增{$this->inspector->getTitle()}";
         $description = "";
 
-        return view("admin::common.create", compact("form", "title", "description"));
+        $urlCreator = $this->urlCreator;
+        return view("admin::common.create", compact("form", "title", "description", "urlCreator"));
     }
 
     /**
@@ -188,7 +190,8 @@ abstract class _InspectorController extends Controller
         $title = "{$model['title']} - 编辑{$this->inspector->getTitle()}";
         $description = "";
 
-        return view("admin::common.edit", compact("form", "title", "description"));
+        $urlCreator = $this->urlCreator;
+        return view("admin::common.edit", compact("form", "title", "description", "urlCreator"));
     }
 
     /**

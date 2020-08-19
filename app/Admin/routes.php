@@ -24,6 +24,7 @@ Route::group([], function () {
         ->names("admin.config")
         ->only(['create', "store", "destroy"]);
 
+    Route::get("post/preview", "PostPreviewAction")->name("admin.post.preview");
     Route::resource("post", "PostController")
         ->names("admin.post");
 

@@ -8,6 +8,7 @@ use App\Admin\Grid\Interfaces\FieldInspectorInterface;
 use App\Admin\Grid\Interfaces\InspectorInterface;
 use App\Admin\Grid\Interfaces\RelationInspectorInterface;
 use App\Admin\Supports\Factory;
+use App\Admin\Supports\FormCreator;
 use App\Admin\Supports\InspectorHelper;
 use App\Admin\Components\GridView;
 use App\Models\Category;
@@ -182,28 +183,6 @@ class PostController extends _InspectorController
 
     public function getForm($scene)
     {
-        $form = FormBuilder::newForm();
-
-        /** @var FieldInspectorInterface $attribute */
-        foreach ($this->inspector->getFields() as $attribute){
-            if($attribute->ableFor($scene)){
-                $element = $attribute->toElement();
-                if(is_null($element)){
-                    throw new \Exception("{$attribute->getName()} 没有表单组件");
-                }
-                $form->addChild($element);
-            }
-        }
-        /** @var FieldInspectorInterface $attribute */
-        foreach ($this->foreignInspector->getFields() as $attribute){
-            if($attribute->ableFor($scene)){
-                $element = $attribute->toElement();
-                if(is_null($element)){
-                    throw new \Exception("{$attribute->getName()} 没有表单组件");
-                }
-                $form->addChild($element);
-            }
-        }
-        return $form;
+        return (new FormCreator($this->inspector, [$this->category['type']]))->toForm($scene);
     }
 }

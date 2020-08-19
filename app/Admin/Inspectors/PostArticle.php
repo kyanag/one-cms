@@ -14,7 +14,7 @@ use App\Supports\UrlCreator;
  * Class PostArticle
  * @package App\Admin\Inspectors
  * @SchemaAttribute(
- *     title="文章",
+ *     title="主内容",
  *     name="post_articles",
  *     modelClass=\App\Models\PostArticle::class,
  *     relations={
