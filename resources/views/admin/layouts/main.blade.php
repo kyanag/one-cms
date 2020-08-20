@@ -10,10 +10,12 @@
     <meta name="autocomplete" content="off">
     <title>@yield('title', "工作台")</title>
     <!-- bootswatch   lux/materia/lumen/litera/journal/flatly -->
-{{--    <link href="https://cdn.bootcdn.net/ajax/libs/bootswatch/4.5.1/materia/bootstrap.min.css" rel="stylesheet">--}}
-
-    <link href="https://cdn.bootcdn.net/ajax/libs/bootswatch/4.5.1/cosmo/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/flatpickr/4.6.6/flatpickr.min.css" rel="stylesheet">
+{{--    <link href="https://cdn.bootcdn.net/ajax/libs/bootswatch/4.5.1/cosmo/bootstrap.min.css" rel="stylesheet">--}}
     <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.14.0/css/all.min.css" rel="stylesheet">
+
+    <link href="https://cdn.bootcdn.net/ajax/libs/webuploader/0.1.1/webuploader.css" rel="stylesheet">
     <meta name="theme-color" content="#563d7c">
     <link rel="icon" href="{{ asset("images/logo-for-bootstrap4.png") }}" type="image/png" />
     <style>
@@ -25,7 +27,13 @@
             -ms-user-select: none;
             user-select: none;
         }
-
+        .ck-content{
+            min-height: 400px;
+        }
+        .fa{
+            width: 20px;
+            text-align: center;
+        }
         @media (min-width: 768px) {
             .bd-placeholder-img-lg {
                 font-size: 3.5rem;
@@ -51,8 +59,6 @@
                     {{ auth("admin")->user()->nickname }}
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-{{--                    <a class="dropdown-item" href="#">Action</a>--}}
-{{--                    <a class="dropdown-item" href="#">Another action</a>--}}
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item J_confirm_modal" href="{{ route("admin.session.logout") }}" data-tip="确认退出!" data-type="delete">退出</a>
                 </div>
@@ -76,8 +82,16 @@
 <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.bundle.js"></script>
 <script src="https://cdn.bootcss.com/bootbox.js/5.4.0/bootbox.min.js"></script>
 <script src="https://cdn.bootcdn.net/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"></script>
-<script src="https://cdn.bootcdn.net/ajax/libs/wangEditor/10.0.13/wangEditor.js"></script>
+
+<script src="https://cdn.bootcdn.net/ajax/libs/webuploader/0.1.1/webuploader.min.js"></script>
+
+<script src="https://cdn.bootcdn.net/ajax/libs/flatpickr/4.6.6/flatpickr.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/flatpickr/4.6.6/l10n/zh.min.js"></script>
+
+<script src="https://cdn.bootcdn.net/ajax/libs/ckeditor5/21.0.0/ckeditor.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/ckeditor5/21.0.0/translations/zh-cn.min.js"></script>
 <script src="{{ asset("js/basic.js") }}?{{ time() }}"></script>
+<script src="{{ asset("js/former.js") }}?{{ time() }}"></script>
 <script>
     @foreach(\App\Supports\Asset::$js as $js)
         {!! $js !!}

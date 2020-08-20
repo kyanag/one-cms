@@ -143,7 +143,7 @@ class Post extends Readable{
      *     ableTo=15,
      *     input=@BuildableObjectAttribute(
      *         provider="input",
-     *         name="text"
+     *         name="ajax-file"
      *     ),
      *     column=@BuildableObjectAttribute(
      *         provider="column",
@@ -161,7 +161,10 @@ class Post extends Readable{
      *     ableTo=15,
      *     input=@BuildableObjectAttribute(
      *         provider="input",
-     *         name="text"
+     *         name="text",
+     *         properties={
+     *             "style": "width:200px"
+     *         }
      *     ),
      *     column=@BuildableObjectAttribute(
      *         provider="column",

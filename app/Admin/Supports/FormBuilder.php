@@ -7,7 +7,7 @@ namespace App\Admin\Supports;
 use App\Supports\Asset;
 use Illuminate\Support\Traits\Macroable;
 use Kyanag\Form\Component;
-use Kyanag\Form\Tabler\Form;
+use Kyanag\Form\Components\Form;
 
 /**
  * Class FormBuilder

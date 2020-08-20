@@ -12,6 +12,7 @@ use App\Admin\Components\GridView;
 use App\Admin\Supports\FormCreator;
 use App\Http\Controllers\Controller;
 use App\Admin\Supports\FormBuilder;
+use App\Supports\Asset;
 use App\Supports\UrlCreator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -168,8 +169,7 @@ abstract class _InspectorController extends Controller
      */
     public function edit($id)
     {
-        $model = $this->newModel()
-            ->newQuery()->find($id);
+        $model = $this->newQuery()->find($id);
 
         if(is_null($model)){
             flash("不存在的{$this->inspector->getTitle()}", "warning");
@@ -183,7 +183,7 @@ abstract class _InspectorController extends Controller
         $formBuilder->setAction(
             $this->urlCreator->update(["id" => $id])
         );
-        $formBuilder->setValue($model);
+        $formBuilder->setValue($model->toArray());
 
         $form = $formBuilder->built();
 
@@ -191,6 +191,7 @@ abstract class _InspectorController extends Controller
         $description = "";
 
         $urlCreator = $this->urlCreator;
+
         return view("admin::common.edit", compact("form", "title", "description", "urlCreator"));
     }
 
@@ -273,17 +274,7 @@ abstract class _InspectorController extends Controller
     }
 
     protected function getForm($scene){
-        $form = createElement("form", [
-            'id' => "OC-form-" . str_random(10),
-        ]);
-
-        /** @var FieldInspectorInterface $field */
-        foreach ($this->inspector->getFields() as $field){
-            if($field->ableFor($scene)){
-                $form->addChild($field->toElement());
-            }
-        }
-        return $form;
+        return (new FormCreator($this->inspector))->toForm($scene);
     }
 
     protected function getGrid(){

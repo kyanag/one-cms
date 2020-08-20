@@ -6,7 +6,7 @@ namespace App\Admin\Supports;
 
 use App\Admin\Components\Nav;
 use App\Admin\Grid\Interfaces\FieldInspectorInterface;
-use Kyanag\Form\Tabler\ElementFactory;
+use Kyanag\Form\Components\ElementFactory;
 
 class Admin
 {
@@ -64,17 +64,17 @@ class Admin
         app()->singleton("elementFactory", function(){
             $factory = new ElementFactory();
 
-            $files = glob(base_path("vendor/kyanag/form/src/Tabler/Forms/*.php"));
+            $files = glob(base_path("vendor/kyanag/form/src/Components/Forms/*.php"));
 
             foreach($files as $file){
                 $classBaseName = basename($file, ".php");
                 $snake_str = \Kyanag\Form\camelToSnake($classBaseName);
-                $class = "Kyanag\\Form\\Tabler\\Forms\\{$classBaseName}";
+                $class = "Kyanag\\Form\\Components\\Forms\\{$classBaseName}";
 
                 $factory->registerComponent($snake_str, $class);
             }
-            $factory->registerComponent("card-form", \Kyanag\Form\Tabler\CardForm::class);
-            $factory->registerComponent("form", \Kyanag\Form\Tabler\Form::class);
+            $factory->registerComponent("card-form", \Kyanag\Form\Components\CardForm::class);
+            $factory->registerComponent("form", \Kyanag\Form\Components\Form::class);
 
             return $factory;
         });
@@ -82,17 +82,17 @@ class Admin
         app()->singleton(InputBuilderProvider::class, function(){
             $inputProvider = new InputBuilderProvider();
 
-            $files = glob(base_path("vendor/kyanag/form/src/Tabler/Forms/*.php"));
+            $files = glob(base_path("vendor/kyanag/form/src/Components/Forms/*.php"));
 
             foreach($files as $file){
                 $classBaseName = basename($file, ".php");
                 $snake_str = \Kyanag\Form\camelToSnake($classBaseName);
-                $class = "Kyanag\\Form\\Tabler\\Forms\\{$classBaseName}";
+                $class = "Kyanag\\Form\\Components\\Forms\\{$classBaseName}";
 
                 $inputProvider->registerComponent($snake_str, $class);
             }
-            $inputProvider->registerComponent("card-form", \Kyanag\Form\Tabler\CardForm::class);
-            $inputProvider->registerComponent("form", \Kyanag\Form\Tabler\Form::class);
+            $inputProvider->registerComponent("card-form", \Kyanag\Form\Components\CardForm::class);
+            $inputProvider->registerComponent("form", \Kyanag\Form\Components\Form::class);
 
             return $inputProvider;
         });

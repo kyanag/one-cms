@@ -8,8 +8,8 @@ use App\Admin\Grid\Interfaces\FieldInspectorInterface;
 use App\Admin\Grid\Interfaces\InspectorInterface;
 use App\Admin\Grid\Interfaces\RelationInspectorInterface;
 use Kyanag\Form\Component;
-use Kyanag\Form\Tabler\Form;
-use Kyanag\Form\Tabler\Forms\HasOne;
+use Kyanag\Form\Components\Form;
+use Kyanag\Form\Components\Forms\HasOne;
 
 class FormCreator
 {

@@ -73,7 +73,7 @@ class PostArticle extends Readable{
      *     ableTo=15,
      *     input=@BuildableObjectAttribute(
      *         provider="input",
-     *         name="textarea"
+     *         name="ck-editor"
      *     ),
      *     column=@BuildableObjectAttribute(
      *         provider="column",
@@ -86,12 +86,12 @@ class PostArticle extends Readable{
 
     /**
      * @FieldAttribute(
-     *     label="created_at",
+     *     label="创建时间",
      *     name="created_at",
-     *     ableTo=0,
+     *     ableTo=15,
      *     input=@BuildableObjectAttribute(
      *         provider="input",
-     *         name="text"
+     *         name="datetime"
      *     ),
      *     column=@BuildableObjectAttribute(
      *         provider="column",

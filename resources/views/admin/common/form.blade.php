@@ -28,4 +28,11 @@
             </div>
         </div>
     </div>
+
+    @php
+        \App\Supports\Asset::registerJs(<<<EOF
+$("#{$form->showId()}").former();
+EOF
+    );
+    @endphp
 @endsection
