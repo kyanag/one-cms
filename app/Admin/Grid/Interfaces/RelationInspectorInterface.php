@@ -37,4 +37,5 @@ interface RelationInspectorInterface
      * )
      */
     public function getRelationshipType();
+
 }

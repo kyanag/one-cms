@@ -1,21 +1,21 @@
-<div class="sidebar-sticky pt-3">
+<div class="pt-3">
     <ul class="nav flex-column">
-        @foreach($menus as $menu)
+        @foreach($navs as $nav)
         <li class="nav-item">
-            @if(!isset($menu['children']))
-                <a class="nav-link" href="{{ $menu['url'] }}"><i class="fa {{ $menu['icon'] ?: "fa-file-text" }}"></i> <span>{{ $menu['title'] }}</span></a>
+            @if(!isset($nav['children']))
+                <a class="nav-link" href="{{ $nav['url'] }}"><i class="fa {{ $nav['icon'] ?: "fa-file-text" }}"></i> <span>{{ $nav['title'] }}</span></a>
             @else
                 <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                    <span>{{ $menu['title'] }}</span>
+                    <span>{{ $nav['title'] }}</span>
                 </h6>
                 <ul class="nav flex-column mb-2">
-                    @foreach($menu['children'] as $submenu)
+                    @foreach($nav['children'] as $subnav)
                         <li class="nav-item">
-                            @if(!isset($submenu['children']))
-                                <a class="nav-link" href="{{ $submenu['url'] }}"><i class="fa {{ $submenu['icon'] ?: "fa-file-text" }}"></i> <span>{{ $submenu['title'] }}</span></a>
+                            @if(!isset($subnav['children']))
+                                <a class="nav-link" href="{{ $subnav['url'] }}"><i class="fa {{ $subnav['icon'] ?: "fa-file-text" }}"></i> <span>{{ $subnav['title'] }}</span></a>
                             @else
                                 <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                                    <span>{{ $submenu['title'] }}</span>
+                                    <span>{{ $subnav['title'] }}</span>
                                 </h6>
                             @endif
                         </li>

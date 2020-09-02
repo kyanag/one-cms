@@ -40,4 +40,9 @@ interface InspectorInterface
      */
     public function getRelations();
 
+    /**
+     * @param $name
+     * @return RelationInspectorInterface
+     */
+    public function getRelation($name);
 }

@@ -9,8 +9,10 @@ use App\Admin\Annotations\FieldAttribute;
 use App\Admin\Annotations\RelationAttribute;
 use App\Admin\Annotations\CallableAttribute;
 use App\Admin\Annotations\SchemaAttribute;
+use App\Admin\Components\GridView;
 use App\Admin\Grid\FieldInspectorAdapter;
 use App\Admin\Grid\InspectorAdapter;
+use App\Admin\Grid\Interfaces\FieldInspectorInterface;
 use App\Admin\Grid\Interfaces\InspectorInterface;
 use App\Admin\Grid\Interfaces\RelationInspectorInterface;
 use App\Admin\Grid\RelationInspectorAdapter;
@@ -95,8 +97,41 @@ class Factory
     }
 
 
-    public static function buildRelationComponent(RelationInspectorInterface $relationInspector, $name, $label){
-        /** @var  $foreignInspector */
-        $foreignInspector = $relationInspector->getForeignInspector();
+    /**
+     * @param InspectorInterface $inspector
+     * @param array<string> $relations
+     */
+    public static function grid(InspectorInterface $inspector, $relations = []){
+        $columns = [];
+
+        /** @var FieldInspectorInterface $field */
+        foreach ($inspector->getFields() as $field){
+            if($field->ableFor(FieldAttribute::ABLE_SHOW)){
+                $columns[] = $field->toColumn();
+            }
+        }
+
+        foreach ($relations as $relation){
+            $foreignInspector = $inspector->getRelation($relation)->getForeignInspector();
+            foreach ($foreignInspector->getFields() as $field){
+                if($field->ableFor(FieldAttribute::ABLE_SHOW)){
+                    $column = $field->toColumn();
+
+                    $column->name = "{$relation}.{$column->name}";
+
+                    $columns[] = $column;
+                }
+            }
+        }
+
+        $gridView = GridView::create([
+            'caption' => "{$inspector->getTitle()} 列表",
+            'columns' => $columns,
+        ]);
+//        $gridView = GridView::create([
+//            'caption' => "{$inspector->getTitle()} 列表",
+//            'columns' => $columns,
+//        ]);
+        return $gridView;
     }
 }

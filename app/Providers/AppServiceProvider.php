@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Admin\Components\Nav;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;

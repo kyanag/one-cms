@@ -4,12 +4,15 @@
 namespace App\Admin\Supports;
 
 
+use App\Admin\Annotations\RelationAttribute;
+use App\Admin\Facades\Admin;
 use App\Admin\Grid\Interfaces\FieldInspectorInterface;
 use App\Admin\Grid\Interfaces\InspectorInterface;
 use App\Admin\Grid\Interfaces\RelationInspectorInterface;
 use Kyanag\Form\Component;
 use Kyanag\Form\Components\Form;
 use Kyanag\Form\Components\Forms\HasOne;
+use Kyanag\Form\Renderable;
 
 class FormCreator
 {
@@ -22,84 +25,76 @@ class FormCreator
     /**
      * @var array<RelationInspectorInterface>
      */
-    protected $activeRelations = [];
+    protected $activeRelatedNames = [];
 
 
-    public function __construct(InspectorInterface $inspector, $activeRelations = [])
+    public function __construct(InspectorInterface $inspector, $activeRelatedNames = [])
     {
         $this->inspector = $inspector;
-        $this->activeRelations = $activeRelations;
+        $this->activeRelatedNames = $activeRelatedNames;
+    }
+
+    /**
+     * @param $scene
+     * @return array<Renderable|Component>
+     */
+    protected function getChildren($scene){
+        $children = [];
+
+        /** @var FieldInspectorInterface $field */
+        foreach ($this->inspector->getFields() as $field){
+            if($field->ableFor($scene)){
+                $children[] = $field->toElement();
+            }
+        }
+
+        foreach ($this->activeRelatedNames as $activeRelation){
+            $relationInspector = $this->inspector->getRelation($activeRelation);
+            $foreignInspector = $relationInspector->getForeignInspector();
+
+            $onSceneFields = array_filter($foreignInspector->getFields(), function($field) use($scene){
+                return $field->ableFor($scene);
+            });
+
+            switch ($relationInspector->getRelationshipType()){
+                case RelationAttribute::RELATION_HAS_MANY:
+                    $ele_type = "has-many";
+                    break;
+                case RelationAttribute::RELATION_HAS_ONE:
+                case RelationAttribute::RELATION_BELONG_TO:
+                default:
+                    $ele_type = "has-one";
+                    break;
+            }
+
+            //构造has-one/has-many 表单
+            $children[] = Admin::createElement($ele_type, [
+                'name' => $activeRelation,
+                'label' => $foreignInspector->getTitle(),
+                'value' => [],
+                'children' => \Kyanag\Form\array_map($onSceneFields, function($field, $index){
+                    return $field->toElement();
+                })
+            ]);
+        }
+
+        return $children;
     }
 
     /**
      * @param $scene int enum(FieldAttribute::$ABLE)
      * @return Component
      */
-    public function toForm($scene, $valueDomain = null){
+    public function toForm($scene){
         /** @var Form $form */
         $form = \createElement("form", [
             'id' => "OC-form-" . str_random(10),
         ]);
 
-        /** @var FieldInspectorInterface $field */
-        foreach ($this->inspector->getFields() as $field){
-            if($field->ableFor($scene)){
-                $form->addChild($field->toElement());
-            }
-        }
-
-        /** @var RelationInspectorInterface $relation */
-        foreach ($this->activeRelations as $relation){
-            if($component = $this->buildComponentFormRelationInspector($relation, $scene)){
-                $form->addChild($component);
-            }
+        $children = $this->getChildren($scene);
+        foreach ($children as $child){
+            $form->addChild($child);
         }
         return $form;
-    }
-
-    /**
-     * @param $scene
-     * @return HasOne
-     */
-    public function toNestableForm($scene, $valueDomain = null){
-        /** @var HasOne $form */
-        $form = \createElement("has-one", [
-            'id' => "OC-form-" . str_random(10),
-            'name' => $valueDomain,
-            'label' => $this->inspector->getTitle(),
-        ]);
-
-        /** @var FieldInspectorInterface $field */
-        foreach ($this->inspector->getFields() as $field){
-            if($field->ableFor($scene)){
-                /** @var Component $component */
-                $component = $field->toElement();
-                if(!is_null($valueDomain)){
-                    $component->name = "{$valueDomain}.{$component->name}";
-                }
-
-                $form->addChild($component);
-            }
-        }
-
-        /** @var RelationInspectorInterface $relation */
-        foreach ($this->activeRelations as $relation){
-            if($component = $this->buildComponentFormRelationInspector($relation, $scene)){
-                $form->addChild($component);
-            }
-        }
-        return $form;
-    }
-
-    /**
-     * @param string $relationName
-     * @return Component
-     */
-    protected function buildComponentFormRelationInspector($relationName, $scene){
-        /** @var RelationInspectorInterface $relationInspector */
-        $relationInspector = $this->inspector->getRelations()[$relationName];
-
-        $static = new static($relationInspector->getForeignInspector(), []);
-        return $static->toNestableForm($scene, $relationName);
     }
 }

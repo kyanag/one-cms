@@ -1,8 +1,8 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
+    "name": "kyanag/one-cms",
+    "description": "a CMS based on Laravel",
     "keywords": [
-        "framework",
+        "CMS",
         "laravel"
     ],
     "license": "MIT",
@@ -15,7 +15,7 @@
         "doctrine/annotations": "^1.10",
         "doctrine/dbal": "^2.9",
         "fideloper/proxy": "~3.3",
-        "kyanag/form": "^0.9.0",
+        "kyanag/form": "dev-master",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
         "league/uri": "^5.3",
@@ -67,10 +67,6 @@
         "optimize-autoloader": true
     },
     "repositories": {
-        "0": {
-            "type": "vcs",
-            "url": "https://github.com/kyanag/form.git"
-        },
         "packagist": {
             "type": "composer",
             "url": "https://mirrors.aliyun.com/composer/"

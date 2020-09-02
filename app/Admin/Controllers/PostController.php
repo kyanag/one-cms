@@ -154,31 +154,14 @@ class PostController extends _InspectorController
     {
         return $this->newModel()
             ->newQuery()
+            ->where("category_id", $this->category['id'])
             ->with($this->category['type']);
     }
 
 
     protected function getGrid()
     {
-        $columns = [];
-        /** @var FieldInspectorInterface $attribute */
-        foreach ($this->inspector->getFields() as $attribute){
-            if($attribute->ableFor(FieldAttribute::ABLE_SHOW)){
-                $columns[] = $attribute->toColumn();
-            }
-        }
-        /** @var FieldInspectorInterface $attribute */
-        foreach ($this->foreignInspector->getFields() as $attribute){
-            if($attribute->ableFor(FieldAttribute::ABLE_SHOW)){
-                $columns[] = $attribute->toColumn();
-            }
-        }
-
-        $gridView = GridView::create([
-            'caption' => "{$this->inspector->getTitle()} 列表",
-            'columns' => $columns,
-        ]);
-        return $gridView;
+        return Factory::grid($this->inspector, [$this->category['type']]);
     }
 
     public function getForm($scene)

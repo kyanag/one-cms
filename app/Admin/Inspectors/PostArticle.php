@@ -123,7 +123,7 @@ class PostArticle extends Readable{
     /**
      * @FieldAttribute(
      *     label="操作",
-     *     name="id",
+     *     name="post_id",
      *     ableTo=1,
      *     input=@BuildableObjectAttribute(
      *         provider="input",

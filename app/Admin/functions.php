@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Admin\Supports\InputBuilderProvider;
 use Illuminate\Support\Str;
 use Kyanag\Form\Renderable;
 
@@ -16,7 +17,7 @@ function admin_path($dir){
  * @return \Kyanag\Form\Component
  */
 function createElement($type, $props = [], $children = []){
-    return app("elementFactory")->createElement($type, $props, $children);
+    return app(InputBuilderProvider::class)->create($type, $props, $children);
 }
 
 

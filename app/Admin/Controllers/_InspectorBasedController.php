@@ -6,14 +6,14 @@ namespace App\Admin\Controllers;
 
 use App\Admin\Annotations\FieldAttribute;
 use App\Admin\Annotations\RelationAttribute;
+use App\Admin\Components\ActionBar;
 use App\Admin\Grid\Interfaces\FieldInspectorInterface;
 use App\Admin\Grid\Interfaces\InspectorInterface;
-use App\Admin\Components\ActionBar;
 use App\Admin\Grid\Interfaces\RelationInspectorInterface;
 use App\Admin\Supports\Factory;
+use App\Admin\Supports\FormBuilder;
 use App\Admin\Supports\FormCreator;
 use App\Http\Controllers\Controller;
-use App\Admin\Supports\FormBuilder;
 use App\Supports\UrlCreator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -24,38 +24,13 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
-
-abstract class _InspectorController extends Controller
+abstract class _InspectorBasedController extends Controller
 {
 
+    use InspectorBasedTrait;
+
+
     public $pageSize = 10;
-    /**
-     * @var InspectorInterface
-     */
-    protected $inspector;
-
-
-    /**
-     * @var array<string>
-     */
-    protected $activeRelationNames = [];
-
-    /**
-     * @var UrlCreator
-     */
-    protected $urlCreator;
-
-    /**
-     * @return Model
-     */
-    protected function newModel(){
-        $modelClass = $this->inspector->getModelClass();
-        return new $modelClass;
-    }
-
-    protected function newQuery(){
-        return $this->newModel()->newQuery()->with($this->activeRelationNames);
-    }
 
     /**
      * @return void
@@ -128,31 +103,52 @@ abstract class _InspectorController extends Controller
         return view("admin::common.create", compact("form", "title", "description", "urlCreator"));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     * @param  Request  $request
-     * @return Response
-     * @throws HttpException
-     */
+
     public function store(Request $request)
     {
-        $attributes = $this->validate(
+
+        $inputs = $this->validateForInspector(
             $request,
-            $this->getRules(FieldAttribute::ABLE_CREATE),
-            [],
-            $this->getLabels()
+            FieldAttribute::ABLE_CREATE
         );
-
+        /** @var \App\Models\Form $model */
         $model = $this->newModel();
-        $model->fill($attributes);
+        $model->fill($inputs);
 
-        if($model->saveOrFail()){
+        DB::beginTransaction();
+        try{
+            if(!$model->save()){
+                throw new ServiceUnavailableHttpException();
+            }
+
+            foreach ($this->activeRelatedNames as $activeRelatedName){
+                /** @var RelationInspectorInterface $relationInspector */
+                $relationInspector = $this->inspector->getRelation($activeRelatedName);
+                $foreignInspector = $relationInspector->getForeignInspector();
+
+                $modelClass = $foreignInspector->getModelClass();
+
+                if($relationInspector->getRelationshipType() === RelationAttribute::RELATION_HAS_MANY){
+
+                    foreach ($inputs[$activeRelatedName] as $attributes){
+                        if(!$model->{$activeRelatedName}()->save(new $modelClass($attributes))){
+                            throw new ServiceUnavailableHttpException();
+                        }
+                    }
+                }else{
+                    if(!$model->{$activeRelatedName}()->save(new $modelClass($inputs[$activeRelatedName]))){
+                        throw new ServiceUnavailableHttpException();
+                    }
+                }
+            }
+            DB::commit();
             return \response()->json([
                 'msg' => "保存成功!",
                 'jump' => $this->urlCreator->index(),
             ]);
-        }else{
-            throw new ServiceUnavailableHttpException();
+        }catch (\Exception $e){
+            DB::rollback();
+            throw new ServiceUnavailableHttpException(null, $e->getMessage(), $e);
         }
     }
 
@@ -296,7 +292,7 @@ abstract class _InspectorController extends Controller
             }
         }
 
-        foreach ($this->activeRelationNames as $activeRelationName){
+        foreach ($this->activeRelatedNames as $activeRelationName){
             /** @var RelationInspectorInterface $relationInspector */
             if($relationInspector = $this->inspector->getRelation($activeRelationName)){
                 $foreignInspector = $relationInspector->getForeignInspector();
@@ -320,11 +316,4 @@ abstract class _InspectorController extends Controller
         return $this->validate($request, $rules, [], $labels);
     }
 
-    protected function getForm($scene){
-        return (new FormCreator($this->inspector))->toForm($scene);
-    }
-
-    protected function getGrid(){
-        return Factory::grid($this->inspector, []);
-    }
 }

@@ -1,8 +1,8 @@
 (function($){
-    var createFile = function(delay){
+    let createFile = function(delay){
         delay = 1000;
 
-        var input = document.createElement("INPUT");
+        let input = document.createElement("INPUT");
         input.setAttribute("type", "file");
         input.style.display = "none";
 
@@ -13,14 +13,13 @@
         return input;
     };
 
-    var defaultOptions = {
-        namespace:"oneform-",
+    let defaultOptions = {
+        selectorPrefix:"oneform-",
         onsuccess:null,
         onerror:null,
         url:null,
-        datetimePicker:{
-            locale: "zh",
-            format: "Y-m-d"
+        flatpickr:{
+            locale: zh,
         },
         uploader:{
             url:null,
@@ -40,11 +39,15 @@
 
     $.fn.former = function (options) {
         options = $.extend(defaultOptions, options);
-        var namespace = options.namespace;
+        let selectorPrefix = options.selectorPrefix;
+
+        let withPrefix = (val) => {
+            return `${selectorPrefix}${val}`;
+        };
 
         //日期时间选择
-        $(this).find(`.${namespace}datetime`).each(function () {
-            var format = $(this).data("format") || options.datetimePicker.format;
+        $(this).find(`.${selectorPrefix}datetime`).each(function () {
+            let format = $(this).data("format") || options.flatpickr.format;
             if(format === "date"){
                 format = "yyyy-MM-DD";
             }else if(format === "time"){
@@ -53,21 +56,21 @@
                 format = "yyyy-MM-DD";
             }
 
-            let pickerOptions = $.extend({}, options.datetimePicker, {format});
+            let pickerOptions = $.extend({}, options.flatpickr, {format});
             flatpickr(this, pickerOptions);
         });
 
-        $(this).find(`.${namespace}range`).each(function(){
-            var min = parseFloat($(this).attr("min") || 0);
-            var max = parseFloat($(this).attr("max") || 100);
-            var that = $(this).parent().parent().find(".custom-range-input");
+        $(this).find(`.${selectorPrefix}range`).each(function(){
+            let min = parseFloat($(this).attr("min") || 0);
+            let max = parseFloat($(this).attr("max") || 100);
+            let that = $(this).parent().parent().find(".custom-range-input");
 
             $(this).change(() => {
                 $(that).val($(this).val());
             });
 
             $(that).change(() => {
-                var value = parseFloat($(that).val());
+                let value = parseFloat($(that).val());
                 if(value < min){
                     value = min;
                 }
@@ -79,13 +82,13 @@
         });
 
         //ajax文件上传
-        $(this).find(`.${namespace}ajaxfile`).each(function(){
-            var btn = $(this).parent().find(".ajax-file-btn");
+        $(this).find(`.${selectorPrefix}ajaxfile`).each(function(){
+            let btn = $(this).parent().find(".ajax-file-btn");
             $(btn).click(() => {
                 console.log($(this).data());
-                var upOptions = $.extend(options.uploader ,$(this).data());
+                let upOptions = $.extend(options.uploader ,$(this).data());
 
-                var uploader = WebUploader.create(upOptions);
+                let uploader = webUploader.create(upOptions);
                 uploader.on("uploadSuccess", (file, response) => {
                     $(this).val(response.url);
 
@@ -99,9 +102,9 @@
                     });
                 });
 
-                var file = createFile();
+                let file = createFile();
                 $(file).change(function(){
-                    var files = $(this).prop("files");
+                    let files = $(this).prop("files");
                     for(let i = 0; i < files.length; i++){
                         uploader.addFile(files.item(i));
                     }
@@ -112,7 +115,7 @@
         });
 
         //selectize选择
-        $(this).find(`.${namespace}selectize`).each(function(){
+        $(this).find(`.${selectorPrefix}selectize`).each(function(){
             $(this).selectize({
                 load: function(query, callback) {
                     console.log(query);
@@ -121,16 +124,48 @@
         });
 
         //selectize选择
-        $(this).find(`.${namespace}ckeditor`).each(function(){
-            var editorOptions = $.extend(options.ckeditor, $(this).data());
+        $(this).find(`.${selectorPrefix}ckeditor`).each(function(){
+            let editorOptions = $.extend(options.ckeditor, $(this).data());
 
-            ClassicEditor.create( this, editorOptions)
+            ckEditor.create( this, editorOptions)
                 .then( editor => {
                     console.log( editor );
                 } )
                 .catch( error => {
                     console.error( error );
                 } );
+        });
+
+        //hasMany
+        $(this).find(`.${selectorPrefix}hasmany`).each(function(){
+            let id = $(this).attr("id");
+            let tplTarget = $(this).data("tplTarget");
+            let formZoneEle = $(this).find(`.${withPrefix("hasmany-formzone")}`);
+
+            console.log(`.${withPrefix("hasmany-item-delete")}`);
+            $(this).on("click", `.${withPrefix("hasmany-item-delete")}`, function(){
+                bootbox.confirm("确认删除", (result) => {
+                    if(result === true){
+                        $(this).parent().parent().animate({height:'0px'}, "fast", function(){
+                            $(this).remove();
+                        })
+                    }
+                });
+            });
+
+            $(this).on("click", `.${withPrefix("hasmany-add")}`, () => {
+                let length = $(formZoneEle).children().length;
+                let tpl = $(tplTarget).html();
+
+                console.log($(this).data());
+                console.log(tplTarget);
+                tpl = tpl.replace(/\?/g, length);
+
+                let element = $(tpl);
+                $(formZoneEle).append(element);
+
+                $(element).former(options);
+            });
         });
     };
 })(jQuery);

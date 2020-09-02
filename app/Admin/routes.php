@@ -24,9 +24,11 @@ Route::group([], function () {
         ->names("admin.config")
         ->only(['create', "store", "destroy"]);
 
-    Route::get("post/preview", "PostPreviewAction")->name("admin.post.preview");
     Route::resource("post", "PostController")
         ->names("admin.post");
 
     Route::delete("session", "SessionController@logout")->name("admin.session.logout");
+
+    Route::resource("form", "FormController")
+        ->names("admin.form");
 });

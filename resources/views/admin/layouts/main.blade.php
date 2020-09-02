@@ -70,9 +70,31 @@
 <div class="container-fluid">
     <div class="row">
         <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-            {!! app("nav")->render() !!}
+            <nav class="pt-1">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item pl-2">
+                        <a class="nav-link active" href="#nav-main" data-toggle="tab" role="tab">管理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#nav-content" data-toggle="tab" role="tab">内容</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="tab-content">
+                <div class="tab-pane active" id="nav-main" role="tabpanel" aria-labelledby="home-tab">
+                    @include("admin::components.nav", [
+                        'navs' => \App\Admin\Facades\Admin::navs()
+                    ]);
+                </div>
+                <div class="tab-pane" id="nav-content" role="tabpanel" aria-labelledby="profile-tab">
+                    <ul class="list-group px-3 py-3">
+                        @foreach(\App\Admin\Facades\Admin::categories() as $category)
+                            <a href="{{ route("admin.post.index", ['category_id' => $category['id']]) }}" class="list-group-item list-group-item-action">{{ $category['title'] }}</a>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
         </nav>
-
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
             @yield("main")
         </main>
@@ -93,13 +115,13 @@
 <script src="{{ asset("js/basic.js") }}?{{ time() }}"></script>
 <script src="{{ asset("js/former.js") }}?{{ time() }}"></script>
 <script>
-    @foreach(\App\Supports\Asset::$js as $js)
-        {!! $js !!}
-    @endforeach
+@foreach(\App\Supports\Asset::$js as $js)
+{!! $js !!}
+@endforeach
 
-    $(function(){
-        //图标
-    });
+$(function(){
+    //图标
+});
 </script>
 
 </body>

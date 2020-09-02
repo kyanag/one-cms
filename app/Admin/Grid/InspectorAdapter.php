@@ -85,4 +85,13 @@ class InspectorAdapter implements InspectorInterface
     public function getRelations(){
         return $this->relationInspectors;
     }
+
+    /**
+     * @param $name
+     * @return RelationInspectorInterface|mixed
+     */
+    public function getRelation($name)
+    {
+        return $this->relationInspectors[$name];
+    }
 }

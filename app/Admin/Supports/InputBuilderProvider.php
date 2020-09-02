@@ -17,12 +17,8 @@ class InputBuilderProvider implements ObjectBuilderProvider
     {
         if (isset($this->components[$type])) {
             $class = $this->components[$type];
-            $name = @$properties['name'];
-            $label = @$properties['label'];
 
-            unset($properties['name'], $properties['label'], $properties['attribute']);
-
-            $componentBuilder = new ComponentBuilder(new $class($name, $label));
+            $componentBuilder = new ComponentBuilder(new $class());
             foreach ($properties as $name => $propValue) {
                 $componentBuilder->setProperty($name, $propValue);
             }

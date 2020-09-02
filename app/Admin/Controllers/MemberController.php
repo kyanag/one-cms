@@ -10,6 +10,8 @@ class MemberController extends _InspectorController
 
     public function initialize()
     {
-        return Factory::buildInspector(new \App\Admin\Inspectors\Member());
+        $this->inspector = Factory::buildInspector(new \App\Admin\Inspectors\Member());
+
+        $this->urlCreator = createUrlCreator(class_basename($this));
     }
 }

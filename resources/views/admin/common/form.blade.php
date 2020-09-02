@@ -10,7 +10,6 @@
                 <a class="btn btn-sm btn-outline-primary" href="{{ $urlCreator->index() }}"><i class="fa fa-bars"></i> 列表</a>
                 <a class="btn btn-sm btn-outline-primary" href="javascript:history.back()"><i class="fa fa-undo"></i> 返回</a>
             </div>
-
         </div>
     </div>
     @component("admin::components.flash")@endcomponent
@@ -31,7 +30,7 @@
 
     @php
         \App\Supports\Asset::registerJs(<<<EOF
-$("#{$form->showId()}").former();
+$("#{$form->id}").former();
 EOF
     );
     @endphp
