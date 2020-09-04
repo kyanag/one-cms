@@ -5,6 +5,9 @@ namespace App\Admin\Supports;
 
 
 
+use Kyanag\Form\Components\Decorators\ColumnDecorator;
+use Kyanag\Form\Components\FormSection;
+
 class Admin
 {
 
@@ -32,7 +35,9 @@ class Admin
             }
             $inputProvider->registerComponent("card-form", \Kyanag\Form\Components\CardForm::class);
             $inputProvider->registerComponent("form", \Kyanag\Form\Components\Form::class);
+            $inputProvider->registerComponent("form-section", FormSection::class);
 
+            $inputProvider->registerComponent("column", ColumnDecorator::class);
             return $inputProvider;
         });
 

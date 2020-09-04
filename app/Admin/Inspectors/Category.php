@@ -11,6 +11,7 @@ use App\Admin\Supports\Readable;
 use App\Models\Category as CategoryModel;
 use App\Supports\Tree;
 use App\Supports\UrlCreator;
+use App\Admin\Annotations\RelationAttribute;
 
 /**
  * Class Category
@@ -18,7 +19,15 @@ use App\Supports\UrlCreator;
  * @SchemaAttribute(
  *     title="栏目",
  *     name="categories",
- *     modelClass=CategoryModel::class
+ *     modelClass=CategoryModel::class,
+ *     relations={
+ *         "form_bindings": @RelationAttribute(
+ *             type="hasMany",
+ *             related=FormBinding::class,
+ *             ownerKey="id",
+ *             foreignKey="entity_id"
+ *         )
+ *     }
  * )
  */
 class Category extends Readable{

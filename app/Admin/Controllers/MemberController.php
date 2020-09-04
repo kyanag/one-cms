@@ -5,7 +5,7 @@ namespace App\Admin\Controllers;
 use App\Admin\Supports\Factory;
 use App\Models\Member;
 
-class MemberController extends _InspectorController
+class MemberController extends _InspectorBasedController
 {
 
     public function initialize()

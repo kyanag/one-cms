@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Admin\Facades\Admin;
 use Illuminate\Database\Eloquent\Model;
 
 class Form extends Model
@@ -24,5 +25,42 @@ class Form extends Model
             'desc' => "简介",
             'status' => "状态",
         ];
+    }
+
+
+    public function toForm(){
+
+        $children = [];
+        /** @var FormInput $input */
+        foreach ($this->inputs as $input){
+            $properties = array_merge([
+                'name' => $input->name,
+                'label' => $input->label,
+            ], $input->properties);
+
+            $children[] = Admin::createElement($input->type, $properties);
+        }
+
+        return Admin::createElement("form", [
+            'children' => $children
+        ]);
+    }
+
+
+    public function toFormSection(){
+        $children = [];
+        /** @var FormInput $input */
+        foreach ($this->inputs as $input){
+            $properties = array_merge([
+                'name' => $input->name,
+                'label' => $input->label,
+            ], $input->properties);
+
+            $children[] = Admin::createElement($input->type, $properties);
+        }
+
+        return Admin::createElement("form-section", [
+            'children' => $children
+        ]);
     }
 }

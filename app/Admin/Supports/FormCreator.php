@@ -12,6 +12,8 @@ use App\Admin\Grid\Interfaces\RelationInspectorInterface;
 use Kyanag\Form\Component;
 use Kyanag\Form\Components\Form;
 use Kyanag\Form\Components\Forms\HasOne;
+use Kyanag\Form\Components\FormSection;
+use Kyanag\Form\Components\Tabs;
 use Kyanag\Form\Renderable;
 
 class FormCreator
@@ -96,5 +98,19 @@ class FormCreator
             $form->addChild($child);
         }
         return $form;
+    }
+
+
+    public function toFormSection($scene){
+        /** @var FormSection $formSection */
+        $formSection = Admin::createElement("form-section", [
+            'value' => [],
+        ]);
+
+        $children = $this->getChildren($scene);
+        foreach ($children as $child){
+            $formSection->addChild($child);
+        }
+        return $formSection;
     }
 }

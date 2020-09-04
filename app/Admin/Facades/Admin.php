@@ -72,6 +72,11 @@ class Admin extends Facade
         ];
     }
 
+
+    public static function formManager(){
+
+    }
+
     public static function categories(){
         $categories = Category::query()->get();
 

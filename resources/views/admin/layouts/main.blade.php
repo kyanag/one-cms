@@ -16,6 +16,7 @@
     <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.14.0/css/all.min.css" rel="stylesheet">
 
     <link href="https://cdn.bootcdn.net/ajax/libs/webuploader/0.1.1/webuploader.css" rel="stylesheet">
+    <link href="https://cdn.staticfile.org/selectize.js/0.1.0/selectize.min.css" rel="stylesheet">
     <meta name="theme-color" content="#563d7c">
     <link rel="icon" href="{{ asset("images/logo-for-bootstrap4.png") }}" type="image/png" />
     <style>
@@ -112,15 +113,17 @@
 
 <script src="https://cdn.bootcdn.net/ajax/libs/ckeditor5/21.0.0/ckeditor.js"></script>
 <script src="https://cdn.bootcdn.net/ajax/libs/ckeditor5/21.0.0/translations/zh-cn.min.js"></script>
+
+<script src="https://cdn.staticfile.org/selectize.js/0.1.0/selectize.min.js"></script>
 <script src="{{ asset("js/basic.js") }}?{{ time() }}"></script>
 <script src="{{ asset("js/former.js") }}?{{ time() }}"></script>
 <script>
+$(function(){
+
 @foreach(\App\Supports\Asset::$js as $js)
 {!! $js !!}
 @endforeach
 
-$(function(){
-    //图标
 });
 </script>
 

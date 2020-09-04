@@ -23,6 +23,8 @@ class InputBuilderProvider implements ObjectBuilderProvider
                 $componentBuilder->setProperty($name, $propValue);
             }
             return $componentBuilder->built();
+        }else{
+            throw new \Exception(implode(",", array_keys($this->components)));
         }
         return null;
     }

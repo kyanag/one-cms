@@ -2,32 +2,29 @@
 
 namespace App\Admin\Inspectors;
 
-use App\Admin\Annotations\CallableAttribute;
 use App\Admin\Annotations\FieldAttribute;
-use App\Admin\Supports\Readable;
-use App\Admin\Annotations\SchemaAttribute;
 use App\Admin\Annotations\BuildableObjectAttribute;
-use App\Supports\UrlCreator;
+use App\Admin\Annotations\SchemaAttribute;
 
 /**
- * Class Member
+ * Class FormBinding
  * @package App\Admin\Inspectors
  * @SchemaAttribute(
- *     title="会员",
- *     name="members",
- *     modelClass=\App\Models\Member::class
+ *     title="绑定表单",
+ *     name="form_bindings",
+ *     modelClass="\App\Models\FormBinding"
  * )
  */
-class Member extends Readable{
+class FormBinding{
 
     /**
      * @FieldAttribute(
      *     label="id",
      *     name="id",
-     *     ableTo=15,
+     *     ableTo=4,
      *     input=@BuildableObjectAttribute(
      *         provider="input",
-     *         name="text"
+     *         name="hidden"
      *     ),
      *     column=@BuildableObjectAttribute(
      *         provider="column",
@@ -40,9 +37,9 @@ class Member extends Readable{
 
     /**
      * @FieldAttribute(
-     *     label="store_id",
-     *     name="store_id",
-     *     ableTo=15,
+     *     label="站点",
+     *     name="site_id",
+     *     ableTo=0,
      *     input=@BuildableObjectAttribute(
      *         provider="input",
      *         name="text"
@@ -53,14 +50,14 @@ class Member extends Readable{
      *     )
      * )
      */
-    public $store_id;
+    public $site_id;
     
 
     /**
      * @FieldAttribute(
-     *     label="name",
-     *     name="name",
-     *     ableTo=15,
+     *     label="实体类型",
+     *     name="entity_type",
+     *     ableTo=0,
      *     input=@BuildableObjectAttribute(
      *         provider="input",
      *         name="text"
@@ -71,14 +68,14 @@ class Member extends Readable{
      *     )
      * )
      */
-    public $name;
+    public $entity_type;
     
 
     /**
      * @FieldAttribute(
-     *     label="mobile",
-     *     name="mobile",
-     *     ableTo=15,
+     *     label="实体id",
+     *     name="entity_id",
+     *     ableTo=0,
      *     input=@BuildableObjectAttribute(
      *         provider="input",
      *         name="text"
@@ -89,13 +86,13 @@ class Member extends Readable{
      *     )
      * )
      */
-    public $mobile;
+    public $entity_id;
     
 
     /**
      * @FieldAttribute(
-     *     label="remark",
-     *     name="remark",
+     *     label="表单",
+     *     name="form_id",
      *     ableTo=15,
      *     input=@BuildableObjectAttribute(
      *         provider="input",
@@ -107,13 +104,13 @@ class Member extends Readable{
      *     )
      * )
      */
-    public $remark;
+    public $form_id;
     
 
     /**
      * @FieldAttribute(
-     *     label="deleted_at",
-     *     name="deleted_at",
+     *     label="绑定类型",
+     *     name="bind_type",
      *     ableTo=15,
      *     input=@BuildableObjectAttribute(
      *         provider="input",
@@ -125,14 +122,50 @@ class Member extends Readable{
      *     )
      * )
      */
-    public $deleted_at;
+    public $bind_type;
+    
+
+    /**
+     * @FieldAttribute(
+     *     label="is_collection",
+     *     name="is_collection",
+     *     ableTo=0,
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
+     * )
+     */
+    public $is_collection;
+    
+
+    /**
+     * @FieldAttribute(
+     *     label="status",
+     *     name="status",
+     *     ableTo=15,
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="raw"
+     *     )
+     * )
+     */
+    public $status;
     
 
     /**
      * @FieldAttribute(
      *     label="created_at",
      *     name="created_at",
-     *     ableTo=15,
+     *     ableTo=0,
      *     input=@BuildableObjectAttribute(
      *         provider="input",
      *         name="text"
@@ -150,7 +183,7 @@ class Member extends Readable{
      * @FieldAttribute(
      *     label="updated_at",
      *     name="updated_at",
-     *     ableTo=15,
+     *     ableTo=0,
      *     input=@BuildableObjectAttribute(
      *         provider="input",
      *         name="text"
@@ -162,32 +195,6 @@ class Member extends Readable{
      * )
      */
     public $updated_at;
+    
 
-
-
-    /**
-     * @FieldAttribute(
-     *     label="操作",
-     *     name="id",
-     *     ableTo=1,
-     *     input=@BuildableObjectAttribute(
-     *         provider="input",
-     *         name="text"
-     *     ),
-     *     column=@BuildableObjectAttribute(
-     *         provider="column",
-     *         name="action",
-     *         properties={
-     *             "urlCreator":@CallableAttribute(method="getUrlCreator"),
-     *         }
-     *     )
-     * )
-     */
-    public $_actionBar;
-
-
-    public function getUrlCreator(){
-        $urlCreator = new UrlCreator("member");
-        return $urlCreator;
-    }
 }

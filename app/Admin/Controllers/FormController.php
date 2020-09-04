@@ -4,10 +4,12 @@ namespace App\Admin\Controllers;
 
 use App\Admin\Annotations\FieldAttribute;
 use App\Admin\Supports\Factory;
+use App\Models\Form;
 use App\Supports\UrlCreator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
 class FormController extends _InspectorBasedController
@@ -62,5 +64,19 @@ class FormController extends _InspectorBasedController
             DB::rollback();
             throw new ServiceUnavailableHttpException(null, $e->getMessage(), $e);
         }
+    }
+
+
+    public function generate(Request $request){
+        $form_id = $request->input("form_id");
+        $valueDomain = $request->input("value_domain", "extends");
+
+        /** @var Form $formRecord */
+        $formRecord = Form::find($form_id);
+        if(is_null($formRecord)){
+            throw new NotFoundHttpException("不存在的表单！");
+        }
+
+        $form = $formRecord->toFormSection();
     }
 }

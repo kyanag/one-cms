@@ -42,26 +42,6 @@ class FormBuilder
      * @param bool $override
      */
     public function setMethod($method, $override = false){
-        if(strtoupper($method) != "GET"){
-            //post 表单要增加_token字段
-            $hidden = createElement("hidden", [
-                'name' => "_token",
-            ]);
-            $hidden->setValue(csrf_token());
-
-            $this->form->addChild($hidden);
-
-            //post 表单需要ajax上传
-            Asset::registerJs(<<<EOF
-$("#{$this->getId()}").ajaxForm({
-    success: function(data,statusText){
-        console.log(data, statusText);
-    },
-});
-EOF
-            );
-
-        }
         $this->form->method = $method;
         $this->form->methodOverride = $override;
     }

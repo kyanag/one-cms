@@ -17,13 +17,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-8">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="">
-                            {!! $form->render() !!}
-                        </div>
-                    </div>
-                </div>
+                {!! $form->render() !!}
             </div>
         </div>
     </div>

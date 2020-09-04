@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
-class ConfigController extends _InspectorController
+class ConfigController extends _InspectorBasedController
 {
 
     public function initialize()

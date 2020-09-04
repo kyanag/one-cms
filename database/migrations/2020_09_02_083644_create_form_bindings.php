@@ -19,6 +19,7 @@ class CreateFormBindings extends Migration
             $table->string("entity_type")->comment("实体类型");
             $table->integer("entity_id")->comment("实体id");
             $table->integer("form_id")->comment("表单id");
+            $table->tinyInteger("bind_type")->default(0)->comment("绑定类型 0为绑定自身 1为下属文章绑定");
             $table->boolean("is_collection")->default(false)->comment("是否绑定为集合");
             $table->tinyInteger("status")->default(0)->comment("-1删除 0正常 1停用");
             $table->timestamps();

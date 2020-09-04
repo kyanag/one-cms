@@ -6,7 +6,7 @@ use App\Admin\Supports\Factory;
 use App\Models\Group;
 use App\Admin\Grid\Interfaces\InspectorInterface;
 
-class GroupController extends _InspectorController
+class GroupController extends _InspectorBasedController
 {
 
     public function initialize()

@@ -13,4 +13,9 @@ class FormInput extends Model
     public function form(){
         return $this->belongsTo(Form::class, "id", "form_id");
     }
+
+
+    public function getPropertiesAttribute(){
+        return json_decode(@$this->attributes['properties'] ?: "[]", true);
+    }
 }

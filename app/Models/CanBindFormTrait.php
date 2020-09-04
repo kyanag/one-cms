@@ -13,11 +13,19 @@ use Illuminate\Database\Eloquent\Model;
 trait CanBindFormTrait
 {
 
-    public function forms(){
+    private function _forms(){
         return $this->hasMany(FormBinding::class, "entity_id", "id")
             ->where("entity_type", $this->getTable());
     }
 
+    public function forms(){
+        return $this->belongsToMany(Form::class, "form_bindings", "form_id", "entity_id");
+    }
+
+    public function form_bindings(){
+        return $this->hasMany(FormBinding::class, "entity_id", "id")
+            ->where("entity_type", $this->getTable());
+    }
 
     public function newFormBinding(Form $form){
         $attributes = [
