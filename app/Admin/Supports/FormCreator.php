@@ -20,20 +20,70 @@ class FormCreator
 {
 
     /**
+     * 主模型描述
      * @var InspectorInterface
      */
     protected $inspector;
 
     /**
+     * 附加关系
      * @var array<RelationInspectorInterface>
      */
     protected $activeRelatedNames = [];
 
+    /**
+     * 附加表单
+     * @var array<\App\Models\Form>
+     */
+    protected $forms = [];
 
-    public function __construct(InspectorInterface $inspector, $activeRelatedNames = [])
+
+    public function __construct(InspectorInterface $inspector, $activeRelatedNames = [], $forms = [])
     {
         $this->inspector = $inspector;
         $this->activeRelatedNames = $activeRelatedNames;
+        $this->forms = $forms;
+    }
+
+    public function withRelated($names = []){
+        $this->activeRelatedNames = $names;
+    }
+
+
+    public function withForms($forms = []){
+        $this->forms = $forms;
+    }
+
+    public function addForm($form){
+        $this->forms[] = $form;
+    }
+
+
+    public function toForm($scene){
+        /** @var Tabs $tab */
+        $tab = Admin::createElement("tabs", []);
+
+        $tab->addTab("主内容", $this->toMainFormSection($scene));
+
+        /** @var \App\Models\Form $form */
+        foreach ($this->forms as $form){
+            $tab->addTab($form->title, $form->toFormSection());
+        }
+        return $tab;
+    }
+
+
+    protected function toMainFormSection($scene){
+        /** @var FormSection $formSection */
+        $formSection = Admin::createElement("form-section", [
+            'value' => [],
+        ]);
+
+        $children = $this->getChildren($scene);
+        foreach ($children as $child){
+            $formSection->addChild($child);
+        }
+        return $formSection;
     }
 
     /**
@@ -79,25 +129,7 @@ class FormCreator
                 })
             ]);
         }
-
         return $children;
-    }
-
-    /**
-     * @param $scene int enum(FieldAttribute::$ABLE)
-     * @return Component
-     */
-    public function toForm($scene){
-        /** @var Form $form */
-        $form = \createElement("form", [
-            'id' => "OC-form-" . str_random(10),
-        ]);
-
-        $children = $this->getChildren($scene);
-        foreach ($children as $child){
-            $form->addChild($child);
-        }
-        return $form;
     }
 
 

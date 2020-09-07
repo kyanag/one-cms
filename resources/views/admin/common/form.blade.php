@@ -16,7 +16,7 @@
     {{--    <h2>Section title</h2>--}}
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-12">
                 {!! $form->render() !!}
             </div>
         </div>

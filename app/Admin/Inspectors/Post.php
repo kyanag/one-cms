@@ -3,11 +3,13 @@
 namespace App\Admin\Inspectors;
 
 
+use App\Admin\Annotations\CallableAttribute;
 use App\Admin\Annotations\FieldAttribute;
 use App\Admin\Annotations\SchemaAttribute;
 use App\Admin\Annotations\RelationAttribute;
 use App\Admin\Supports\Readable;
 use App\Admin\Annotations\BuildableObjectAttribute;
+use App\Supports\UrlCreator;
 
 /**
  * Class Post
@@ -227,6 +229,32 @@ class Post extends Readable{
      * )
      */
     public $updated_at;
-    
 
+
+    /**
+     * @FieldAttribute(
+     *     label="操作",
+     *     name="id",
+     *     ableTo=1,
+     *     input=@BuildableObjectAttribute(
+     *         provider="input",
+     *         name="text"
+     *     ),
+     *     column=@BuildableObjectAttribute(
+     *         provider="column",
+     *         name="action",
+     *         properties={
+     *             "urlCreator":@CallableAttribute(method="getUrlCreator"),
+     *         }
+     *     )
+     * )
+     */
+    public $_actionBar;
+
+
+    public function getUrlCreator(){
+        $urlCreator = new UrlCreator("post");
+        $urlCreator->setDefaultQuery(['category_id' => app("request")->input("category_id")]);
+        return $urlCreator;
+    }
 }

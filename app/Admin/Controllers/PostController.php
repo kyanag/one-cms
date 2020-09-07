@@ -38,6 +38,8 @@ class PostController extends _InspectorBasedController
             $model->category_id = $category->id;
             return $model;
         });
+
+        $this->category = $category;
     }
 
     protected function getForm($scene)

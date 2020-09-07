@@ -598,16 +598,16 @@
         },
         {
             "name": "egulias/email-validator",
-            "version": "2.1.19",
+            "version": "2.1.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/egulias/EmailValidator.git",
-                "reference": "840d5603eb84cc81a6a0382adac3293e57c1c64c"
+                "reference": "f46887bc48db66c7f38f668eb7d6ae54583617ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/840d5603eb84cc81a6a0382adac3293e57c1c64c",
-                "reference": "840d5603eb84cc81a6a0382adac3293e57c1c64c",
+                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/f46887bc48db66c7f38f668eb7d6ae54583617ff",
+                "reference": "f46887bc48db66c7f38f668eb7d6ae54583617ff",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -658,7 +658,7 @@
                 "validation",
                 "validator"
             ],
-            "time": "2020-08-08T21:28:19+00:00"
+            "time": "2020-09-06T13:44:32+00:00"
         },
         {
             "name": "erusev/parsedown",
@@ -1036,12 +1036,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kyanag/form.git",
-                "reference": "edb84bc1445331f039a7d9a5879a163ccf1131f9"
+                "reference": "c2cacee6dd91acb2af37c23ef508f01b86da21e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kyanag/form/zipball/edb84bc1445331f039a7d9a5879a163ccf1131f9",
-                "reference": "edb84bc1445331f039a7d9a5879a163ccf1131f9",
+                "url": "https://api.github.com/repos/kyanag/form/zipball/c2cacee6dd91acb2af37c23ef508f01b86da21e3",
+                "reference": "c2cacee6dd91acb2af37c23ef508f01b86da21e3",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1071,7 +1071,7 @@
                 }
             ],
             "description": "Form",
-            "time": "2020-09-01T09:36:52+00:00"
+            "time": "2020-09-07T08:59:06+00:00"
         },
         {
             "name": "kylekatarnls/update-helper",
@@ -3104,7 +3104,7 @@
         },
         {
             "name": "symfony/css-selector",
-            "version": "v4.4.12",
+            "version": "v4.4.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/css-selector.git",
@@ -3253,7 +3253,7 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v4.4.12",
+            "version": "v4.4.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
@@ -4972,16 +4972,16 @@
         },
         {
             "name": "voku/arrayy",
-            "version": "7.8.3",
+            "version": "7.8.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/voku/Arrayy.git",
-                "reference": "f8d0bcde0405d5814d8463224915b08a735254d4"
+                "reference": "1cf7833bf5408f6f5731083364d04abb6a25d9e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/voku/Arrayy/zipball/f8d0bcde0405d5814d8463224915b08a735254d4",
-                "reference": "f8d0bcde0405d5814d8463224915b08a735254d4",
+                "url": "https://api.github.com/repos/voku/Arrayy/zipball/1cf7833bf5408f6f5731083364d04abb6a25d9e6",
+                "reference": "1cf7833bf5408f6f5731083364d04abb6a25d9e6",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -5052,7 +5052,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-08-22T10:52:20+00:00"
+            "time": "2020-09-06T19:10:55+00:00"
         },
         {
             "name": "webmozart/assert",
