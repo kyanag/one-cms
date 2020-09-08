@@ -85,7 +85,7 @@
     <div class="row">
         <form class="form-signin" method="post" action="{{ route("admin.session.login") }}">
             {!! csrf_field() !!}
-            <img class="mb-4" src="{{ asset("images/logo-for-bootstrap4.png") }}" alt="" width="210" height="70">
+            <img class="mb-4" src="{{ asset("images/logo.png") }}" alt="" width="210" height="70">
             <h1 class="h3 mb-3 font-weight-normal">请登录</h1>
             <label for="username" class="sr-only">用户名</label>
             <input type="text" id="username" name="username" class="form-control" placeholder="请输入登录账号">

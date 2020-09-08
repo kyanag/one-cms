@@ -14,6 +14,7 @@ use Kyanag\Form\Components\Form;
 use Kyanag\Form\Components\Forms\HasOne;
 use Kyanag\Form\Components\FormSection;
 use Kyanag\Form\Components\Tabs;
+use function Kyanag\Form\randomString;
 use Kyanag\Form\Renderable;
 
 class FormCreator
@@ -29,7 +30,7 @@ class FormCreator
      * 附加关系
      * @var array<RelationInspectorInterface>
      */
-    protected $activeRelatedNames = [];
+    protected $activeRelations = [];
 
     /**
      * 附加表单
@@ -38,15 +39,15 @@ class FormCreator
     protected $forms = [];
 
 
-    public function __construct(InspectorInterface $inspector, $activeRelatedNames = [], $forms = [])
+    public function __construct(InspectorInterface $inspector, $activeRelations = [], $forms = [])
     {
         $this->inspector = $inspector;
-        $this->activeRelatedNames = $activeRelatedNames;
+        $this->activeRelations = $activeRelations;
         $this->forms = $forms;
     }
 
     public function withRelated($names = []){
-        $this->activeRelatedNames = $names;
+        $this->activeRelations = $names;
     }
 
 
@@ -61,7 +62,9 @@ class FormCreator
 
     public function toForm($scene){
         /** @var Tabs $tab */
-        $tab = Admin::createElement("tabs", []);
+        $tab = Admin::createElement("tabs", [
+            'id' => "form-" . randomString()
+        ]);
 
         $tab->addTab("主内容", $this->toMainFormSection($scene));
 
@@ -100,7 +103,7 @@ class FormCreator
             }
         }
 
-        foreach ($this->activeRelatedNames as $activeRelation){
+        foreach ($this->activeRelations as $activeRelation){
             $relationInspector = $this->inspector->getRelation($activeRelation);
             $foreignInspector = $relationInspector->getForeignInspector();
 

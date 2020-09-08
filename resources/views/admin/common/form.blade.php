@@ -1,3 +1,7 @@
+<?php
+/** @var \Kyanag\Form\Component $form */
+?>
+
 @extends('admin::layouts.main')
 
 @section('title', $title)
@@ -25,6 +29,16 @@
     @php
         \App\Supports\Asset::registerJs(<<<EOF
 $("#{$form->id}").former();
+$("#{$form->id}").ajaxForm({
+    success:function(d){
+        console.log(d);
+        if(d.jump){
+            bootbox.alert(d.msg, function(){
+                window.location.href = d.jump;
+            });
+        }
+    }
+});
 EOF
     );
     @endphp

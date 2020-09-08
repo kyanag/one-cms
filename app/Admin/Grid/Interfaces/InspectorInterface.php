@@ -10,6 +10,11 @@ interface InspectorInterface
     /**
      * @return string
      */
+    public function getPrimaryKey();
+
+    /**
+     * @return string
+     */
     public function getTitle();
 
 

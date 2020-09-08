@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 class FormController extends _InspectorBasedController
 {
 
-    protected $activeRelatedNames = [
+    protected $activeRelations = [
         "inputs"
     ];
 

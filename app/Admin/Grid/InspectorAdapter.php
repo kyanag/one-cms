@@ -56,6 +56,10 @@ class InspectorAdapter implements InspectorInterface
         return $this->schemaAttribute->title;
     }
 
+    public function getPrimaryKey()
+    {
+        return "id";
+    }
 
     public function getName()
     {

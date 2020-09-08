@@ -10,6 +10,7 @@ use App\Admin\Components\ActionBar;
 use App\Admin\Grid\Interfaces\FieldInspectorInterface;
 use App\Admin\Grid\Interfaces\InspectorInterface;
 use App\Admin\Grid\Interfaces\RelationInspectorInterface;
+use App\Admin\Repositories\BasicInspectorRepository;
 use App\Admin\Supports\Factory;
 use App\Admin\Supports\FormBuilder;
 use App\Admin\Supports\FormCreator;
@@ -19,8 +20,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Validator;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
 
 /**
@@ -39,13 +44,15 @@ trait InspectorControllerTrait
     /**
      * @var array<string>
      */
-    protected $activeRelatedNames = [];
+    protected $activeRelations = [];
 
     /**
      * @var UrlCreator
      */
     protected $urlCreator;
 
+
+    protected $repository;
 
     /**
      * @http
@@ -63,7 +70,7 @@ trait InspectorControllerTrait
         $actionBar->setQuery($request->query());
 
         /** @var Paginator $paginator */
-        $paginator = $this->newQuery()
+        $paginator = $this->getRepository()->getQuery()
             //->where($actionBar->toScope())
             ->withGlobalScope("__runtime__", $actionBar->toScope())
             ->paginate(static::PAGE_SIZE);
@@ -109,6 +116,134 @@ trait InspectorControllerTrait
     }
 
     /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws ValidationException
+     * @throws HttpException
+     */
+    public function store(Request $request)
+    {
+        $validator = $this->getValidator($request, FieldAttribute::ABLE_CREATE);
+
+        if($validator->fails() === false){
+            $inputs = $this->extractInputFromRules($request, $validator->getRules());
+            DB::beginTransaction();
+            try{
+                $model = $this->getRepository()->create($inputs);
+
+                DB::commit();
+                return \response()->json([
+                    'msg' => "保存成功!",
+                    'jump' => $this->urlCreator->index(),
+                ]);
+            }catch (\Exception $e){
+                DB::rollback();
+                throw new ServiceUnavailableHttpException(null, $e->getMessage(), $e);
+            }
+        }else{
+            throw new ValidationException($validator);
+        }
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function edit($id)
+    {
+        $model = $this->getRepository()->find($id);
+
+        if(is_null($model)){
+            flash("不存在的{$this->inspector->getTitle()}", "warning");
+            return back();
+        }
+
+        $form = $this->getForm(FieldAttribute::ABLE_UPDATE);
+
+        $formBuilder = new FormBuilder($form);
+        $formBuilder->setMethod("PUT", true);
+        $formBuilder->setAction(
+            $this->urlCreator->update(["id" => $id])
+        );
+        $formBuilder->setValue($model->toArray());
+
+        $form = $formBuilder->built();
+
+        $title = "{$model['title']} - 编辑{$this->inspector->getTitle()}";
+        $description = "";
+
+        $urlCreator = $this->urlCreator;
+
+        return view("admin::common.edit", compact("form", "title", "description", "urlCreator"));
+    }
+
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  Request  $request
+     * @param  int  $id
+     * @throws ValidationException
+     * @throws HttpException
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function update(Request $request, $id)
+    {
+        /** @var Model $model */
+        $model = $this->getRepository()->find($id);
+        if(is_null($model)){
+            flash("不存在的{$this->inspector->getTitle()}", "warning");
+            throw new NotFoundHttpException("不存在的{$this->inspector->getTitle()}");
+        }
+
+        $validator = $this->getValidator($request, FieldAttribute::ABLE_CREATE);
+
+        if($validator->fails() === false) {
+            $inputs = $this->extractInputFromRules($request, $validator->getRules());
+
+            DB::beginTransaction();
+            try{
+                $model = $this->getRepository()->updateModel($inputs, $model);
+                DB::commit();
+                return \response()->json([
+                    'msg' => "保存成功!",
+                    'jump' => $this->urlCreator->index(),
+                ]);
+            }catch (\Exception $e){
+                DB::rollback();
+                throw new ServiceUnavailableHttpException(null, $e->getMessage(), $e);
+            }
+        }else{
+            throw new ValidationException($validator);
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function destroy(Request $request, $id)
+    {
+        /** @var Model $model */
+        $model = $this->getRepository()->find($id);
+        if(is_null($model)){
+            throw new NotFoundHttpException("不存在的内容!");
+        }
+
+        DB::transaction(function() use($model){
+            $this->getRepository()->deleteModel($model);
+        });
+        return response()->json([
+            'msg' => "删除成功!",
+            'jump' => $request->header("REFERER"),
+        ]);
+    }
+
+    /**
      * @http
      * Display the specified resource.
      *
@@ -118,22 +253,6 @@ trait InspectorControllerTrait
     public function show($id)
     {
         return $this->edit($id);
-    }
-
-
-    /**
-     * @return Model
-     */
-    protected function newModel(){
-        $modelClass = $this->inspector->getModelClass();
-        return new $modelClass;
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    protected function newQuery(){
-        return $this->newModel()->newQuery()->with($this->activeRelatedNames);
     }
 
 
@@ -155,7 +274,7 @@ trait InspectorControllerTrait
             }
         }
 
-        foreach ($this->activeRelatedNames as $activeRelationName){
+        foreach ($this->activeRelations as $activeRelationName){
             /** @var RelationInspectorInterface $relationInspector */
             if($relationInspector = $this->inspector->getRelation($activeRelationName)){
                 $foreignInspector = $relationInspector->getForeignInspector();
@@ -181,11 +300,14 @@ trait InspectorControllerTrait
     }
 
     public function getRepository(){
-        //TODO
+        if(!$this->repository){
+            $this->repository = new BasicInspectorRepository($this->inspector, $this->activeRelations, []);
+        }
+        return $this->repository;
     }
 
     protected function getForm($scene){
-        return (new FormCreator($this->inspector, $this->activeRelatedNames))
+        return (new FormCreator($this->inspector, $this->activeRelations))
             ->toForm($scene);
     }
 

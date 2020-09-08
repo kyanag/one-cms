@@ -180,6 +180,8 @@ return [
         \Mews\Captcha\CaptchaServiceProvider::class,
 
         \App\Admin\Providers\AdminServiceProvider::class,
+
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class
     ],
 
     /*

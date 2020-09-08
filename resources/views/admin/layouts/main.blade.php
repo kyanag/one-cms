@@ -18,7 +18,7 @@
     <link href="https://cdn.bootcdn.net/ajax/libs/webuploader/0.1.1/webuploader.css" rel="stylesheet">
     <link href="https://cdn.staticfile.org/selectize.js/0.1.0/selectize.min.css" rel="stylesheet">
     <meta name="theme-color" content="#563d7c">
-    <link rel="icon" href="{{ asset("images/logo-for-bootstrap4.png") }}" type="image/png" />
+    <link rel="icon" href="{{ asset("images/logo.png") }}" type="image/png" />
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;

@@ -10,7 +10,9 @@ class Category extends Model
     use CanBindFormTrait;
     //
 
-    protected $guarded = [];
+    protected $guarded = [
+        "form_bindings"
+    ];
 
 
     protected static function boot()

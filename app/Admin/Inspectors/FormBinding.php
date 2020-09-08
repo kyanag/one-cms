@@ -5,6 +5,7 @@ namespace App\Admin\Inspectors;
 use App\Admin\Annotations\FieldAttribute;
 use App\Admin\Annotations\BuildableObjectAttribute;
 use App\Admin\Annotations\SchemaAttribute;
+use App\Admin\Annotations\CallableAttribute;
 
 /**
  * Class FormBinding
@@ -96,7 +97,10 @@ class FormBinding{
      *     ableTo=15,
      *     input=@BuildableObjectAttribute(
      *         provider="input",
-     *         name="text"
+     *         name="select",
+     *         properties={
+     *             "options":@CallableAttribute(method="getFormsOptions"),
+     *         }
      *     ),
      *     column=@BuildableObjectAttribute(
      *         provider="column",
@@ -114,7 +118,11 @@ class FormBinding{
      *     ableTo=15,
      *     input=@BuildableObjectAttribute(
      *         provider="input",
-     *         name="text"
+     *         name="radio",
+     *         properties={
+     *             "options":{0:"绑定自身", 1:"绑定文章"},
+     *             "value": 0,
+     *         }
      *     ),
      *     column=@BuildableObjectAttribute(
      *         provider="column",
@@ -145,12 +153,16 @@ class FormBinding{
 
     /**
      * @FieldAttribute(
-     *     label="status",
+     *     label="状态",
      *     name="status",
      *     ableTo=15,
      *     input=@BuildableObjectAttribute(
      *         provider="input",
-     *         name="text"
+     *         name="radio",
+     *         properties={
+     *             "options":{0:"显示", 1:"不显示"},
+     *             "value": 0,
+     *         }
      *     ),
      *     column=@BuildableObjectAttribute(
      *         provider="column",
@@ -197,4 +209,8 @@ class FormBinding{
     public $updated_at;
     
 
+
+    public function getFormsOptions(){
+        return \App\Models\Form::query()->pluck("title", "id")->toArray();
+    }
 }

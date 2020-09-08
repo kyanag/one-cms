@@ -24,7 +24,7 @@ class PostController extends _InspectorBasedController
 
         $this->inspector = Factory::buildInspector(new \App\Admin\Inspectors\Post());
 
-        $this->activeRelatedNames = [
+        $this->activeRelations = [
             $category['type']
         ];
 
@@ -44,7 +44,7 @@ class PostController extends _InspectorBasedController
 
     protected function getForm($scene)
     {
-        return (new FormCreator($this->inspector, $this->activeRelatedNames))
+        return (new FormCreator($this->inspector, $this->activeRelations))
             ->toForm($scene);
     }
 
