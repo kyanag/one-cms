@@ -17,16 +17,20 @@
         data = data ?? {};
 
         var files = sliceFile(file, chunkSize);
-
+        var filename = file.name;
         var fileid = `file-${randomString(7)}`;
 
         return new Promise((resolve, reject) => {
+            let progressRate = 0;
+            let progressRateCount = files.length;
+
             files.forEach( (file, index) => {
                 let formData = new FormData();
                 formData.append("id", fileid);
                 formData.append("file", file);
                 formData.append("chunk", index);
                 formData.append("chunks", files.length);
+                formData.append("name", filename);
                 for(let key in data){
                     formData.append(key, data[key]);
                 }
@@ -37,14 +41,19 @@
                     headers:headers,
                     data:formData,
                     dataType:"json",
+                    async:false,
                     processData:false,
                     contentType:false,
                     success:function(data){
-                        if(data.url){
+                        progressRate++;
+                        if(progressRate >= progressRateCount){
                             resolve(data);
                         }
                     },
-                    error:reject,
+                    error:function(){
+                        //TODO 中断后续分片上传
+                        reject(arguments)
+                    },
                 });
             })
         });

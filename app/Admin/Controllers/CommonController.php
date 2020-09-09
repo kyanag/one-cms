@@ -19,7 +19,11 @@ class CommonController extends Controller
             'tempDir' => storage_path("temp")
         ]);
         $file = $uploader->upload($request);
-
+        if($file === null){
+            return response()->json([
+                'msg' => "part success!",
+            ]);
+        }
         $url = str_replace($saveDir, "", $file);
         return response()->json([
             'msg' => "上传成功!",

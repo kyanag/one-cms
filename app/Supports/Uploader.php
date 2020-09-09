@@ -90,12 +90,10 @@ class Uploader
             $chunkFiles = array_map(function($index) use($fileid){
                 return $this->tempDir("{$fileid}.{$index}.part");
             }, range(0, $chunkIndex));
-
             $to = $this->saveDir("{$fileid}.{$this->getExtension($filename)}");
-
             return $this->mergeFiles($chunkFiles, $to);
         }else{
-            exit();
+            return null;
         }
     }
 

@@ -43,7 +43,6 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        \Illuminate\Filesystem\FilesystemAdapter::class
         var_dump(get_class(Storage::disk("admin")));exit();
     }
 
