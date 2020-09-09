@@ -23,10 +23,9 @@
         },
         uploader:{
             url:null,
-            resize: false,
-            chunked: true,
             chunkSize: 1024 * 1024 * 1,
-            threads: 1,
+            headers:{},
+            data:{},
         },
         ckeditor:{
             language: 'zh-cn'
@@ -85,30 +84,17 @@
         $(this).find(`.${selectorPrefix}ajaxfile`).each(function(){
             let btn = $(this).parent().find(".ajax-file-btn");
             $(btn).click(() => {
-                console.log($(this).data());
                 let upOptions = $.extend(options.uploader ,$(this).data());
-
-                let uploader = webUploader.create(upOptions);
-                uploader.on("uploadSuccess", (file, response) => {
-                    $(this).val(response.url);
-
-                    $(this).popover({
-                        content:"上传成功!",
-                        delay: {
-                            "show": 500,
-                            "hide": 100
-                        },
-                        placement: "top",
-                    });
-                });
 
                 let file = createFile();
                 $(file).change(function(){
                     let files = $(this).prop("files");
                     for(let i = 0; i < files.length; i++){
-                        uploader.addFile(files.item(i));
+                        uploader(files[i], upOptions)
+                            .then(function(data){
+                                console.log(data);
+                            });
                     }
-                    uploader.upload();
                 });
                 $(file).click();
             });
@@ -127,7 +113,7 @@
         $(this).find(`.${selectorPrefix}ckeditor`).each(function(){
             let editorOptions = $.extend(options.ckeditor, $(this).data());
 
-            ckEditor.create( this, editorOptions)
+            ClassicEditor.create( this, editorOptions)
                 .then( editor => {
                     console.log( editor );
                 } )

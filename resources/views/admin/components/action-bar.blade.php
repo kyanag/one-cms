@@ -15,10 +15,11 @@ $unique_id = uniqid("search-bar");
             </button>
             <ul class="dropdown-menu dropdown-menu-right">
                 @foreach($sortableFields as $field)
-                    <a class="dropdown-item" href="{{ $urlCreator->current([DESC_QUERY_NAME => $field->getName()]) }}">按 <b>{{ $field->getLabel() }}</b> 降序<i class="fa fa-sort-amount-down" aria-hidden="true"></i></a>
-                    <a class="dropdown-item" href="{{ $urlCreator->current([ASC_QUERY_NAME => $field->getName()]) }}">按 <b>{{ $field->getLabel() }}</b> 升序<i class="fa fa-sort-amount-up" aria-hidden="true"></i></a>
+                    <a class="dropdown-item" href="{{ $urlCreator->current([ORDER_BY_QUERY_NAME => "{$field->getName()}@desc" ]) }}">按 <b>{{ $field->getLabel() }}</b> 降序<i class="fa fa-sort-amount-down" aria-hidden="true"></i></a>
+                    <a class="dropdown-item" href="{{ $urlCreator->current([ORDER_BY_QUERY_NAME => "{$field->getName()}@asc" ]) }}">按 <b>{{ $field->getLabel() }}</b> 升序<i class="fa fa-sort-amount-up" aria-hidden="true"></i></a>
                     <div class="dropdown-divider"></div>
                 @endforeach
+
             </ul>
         </div>
     </div>

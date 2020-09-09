@@ -6,6 +6,7 @@ use App\Admin\Supports\Factory;
 use App\Admin\Supports\FormCreator;
 use App\Models\Category;
 use App\Models\Post;
+use Illuminate\Database\Eloquent\Model;
 
 class PostController extends _InspectorBasedController
 {
@@ -13,8 +14,10 @@ class PostController extends _InspectorBasedController
     /** @var Category */
     private $category;
 
+
     public function initialize()
     {
+        /** @var Model $category */
         $category = Category::query()
             ->where("id", app("request")->input("category_id"))
             ->first();
@@ -40,16 +43,11 @@ class PostController extends _InspectorBasedController
         });
 
         $this->category = $category;
-    }
 
-    protected function getForm($scene)
-    {
-        return (new FormCreator($this->inspector, $this->activeRelations))
-            ->toForm($scene);
-    }
+        $this->pastePapers = $this->category->form_bindings->where("bind_type", 1);
 
-    protected function newQuery()
-    {
-        return parent::newQuery()->where("category_id", $this->category['id']);
+        Post::addGlobalScope(function($query)use($category){
+            return $query->where("category_id", $category['id']);
+        });
     }
 }

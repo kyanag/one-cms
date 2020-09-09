@@ -47,6 +47,12 @@ trait InspectorControllerTrait
     protected $activeRelations = [];
 
     /**
+     * 贴纸系统
+     * @var array
+     */
+    protected $pastePapers = [];
+
+    /**
      * @var UrlCreator
      */
     protected $urlCreator;

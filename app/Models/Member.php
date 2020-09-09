@@ -20,7 +20,7 @@ class Member extends Model
     protected static function boot()
     {
         static::addGlobalScope("store", function($query){
-            return $query->where("store_id", app("env.store")['id']);
+            return $query->where("store_id", app("admin.site")['id']);
         });
 
         static::addGlobalScope("deleted", function($query){

@@ -88,4 +88,12 @@ class Admin extends Facade
     public static function createElement($type, $props = []){
         return app(InputBuilderProvider::class)->create($type, $props);
     }
+
+
+    /**
+     * @return
+     */
+    public static function site(){
+        return app("admin.site");
+    }
 }

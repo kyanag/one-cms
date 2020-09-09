@@ -43,9 +43,8 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        $objectBuilder = new ObjectCreator();
-
-
+        \Illuminate\Filesystem\FilesystemAdapter::class
+        var_dump(get_class(Storage::disk("admin")));exit();
     }
 
 }

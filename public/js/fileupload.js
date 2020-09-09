@@ -1,45 +1,55 @@
-var fileuploader = function(options){
+(function(g){
+    function sliceFile(file, size) {
+        var fileList = [];
 
-
-    this.showOpenDialog = function () {
-        var input = document.createElement("INPUT");
-        input.setAttribute("type", "file");
-        input.style.display = "none";
-
-
-        document.body.appendChild(link);
-        link.click();
-        setTimeout(input.remove, 5000); //5秒后删除
+        var location = 0;
+        while (location < file.size) {
+            fileList.push(file.slice(location, Math.min(location + size, file.size)));
+            location += size;
+        }
+        return fileList;
     }
 
-    this.onFileSelected = function( type/*, args...*/ ) {
-        var _events = [];
+    let uploader = function(file, options){
+        let {url, headers, chunkSize, data} = options
+        headers = headers ?? {};
+        chunkSize = chunkSize || 1024*1024*1;
+        data = data ?? {};
 
-        var args = [].slice.call( arguments, 1 ),
-            opts = this.options,
-            name = 'on' + type.substring( 0, 1 ).toUpperCase() +
-                type.substring( 1 );
+        var files = sliceFile(file, chunkSize);
 
-        if (
-            // 调用通过on方法注册的handler.
-            Mediator.trigger.apply( this, arguments ) === false ||
+        var fileid = `file-${randomString(7)}`;
 
-            // 调用opts.onEvent
-            $.isFunction( opts[ name ] ) &&
-            opts[ name ].apply( this, args ) === false ||
+        return new Promise((resolve, reject) => {
+            files.forEach( (file, index) => {
+                let formData = new FormData();
+                formData.append("id", fileid);
+                formData.append("file", file);
+                formData.append("chunk", index);
+                formData.append("chunks", files.length);
+                for(let key in data){
+                    formData.append(key, data[key]);
+                }
 
-            // 调用this.onEvent
-            $.isFunction( this[ name ] ) &&
-            this[ name ].apply( this, args ) === false ||
+                $.ajax({
+                    url:url,
+                    type:"post",
+                    headers:headers,
+                    data:formData,
+                    dataType:"json",
+                    processData:false,
+                    contentType:false,
+                    success:function(data){
+                        if(data.url){
+                            resolve(data);
+                        }
+                    },
+                    error:reject,
+                });
+            })
+        });
+    };
 
-            // 广播所有uploader的事件。
-            Mediator.trigger.apply( Mediator,
-                [ this, type ].concat( args ) ) === false ) {
+    g.uploader = uploader;
+})(window);
 
-            return false;
-        }
-
-        return true;
-    },
-
-};

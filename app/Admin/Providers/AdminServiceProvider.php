@@ -8,7 +8,7 @@ use App\Admin\Middleware\JsonWithJsonMiddleware;
 use App\Admin\Supports\Admin;
 use App\Admin\Grid\ColumnFactory;
 use App\Exceptions\Handler;
-use App\Models\Store;
+use App\Models\Site;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -56,8 +56,7 @@ class AdminServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        define("DESC_QUERY_NAME", "_descBy");
-        define("ASC_QUERY_NAME", "_ascBy");
+        define("ORDER_BY_QUERY_NAME", "orderBy");
 
         app('view')->prependNamespace('admin', resource_path('views/admin'));
 
@@ -106,12 +105,12 @@ class AdminServiceProvider extends ServiceProvider
 
     public function registerMock(){
         if(app()->environment('local')){
-            $this->app->singleton("env.store", function(){
+            $this->app->singleton("admin.site", function(){
                 $attributes = [
                     'id' => 0,
                     'title' => "默认门店",
                 ];
-                $store = new Store($attributes);
+                $store = new Site($attributes);
                 $store->exists = true;
 
                 return $store;

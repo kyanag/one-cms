@@ -37,13 +37,15 @@ class BasicInspectorRepository
      */
     protected function newModel()
     {
-        return new $this->inspector->getModelClass();
+        $modelClass = $this->inspector->getModelClass();
+        return new $modelClass;
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function getQuery(){
+    public function getQuery()
+    {
         return $this->newModel()->newQuery()->with($this->activeRelations);
     }
 

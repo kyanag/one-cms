@@ -76,10 +76,19 @@ class ActionBar implements Renderable
                     $query->where($field->getName(), "like", "%{$this->query[$field->getName()]}%");
                 }
             }
-            if(isset($this->query[DESC_QUERY_NAME])){
-                $query->orderByDesc($this->query[DESC_QUERY_NAME]);
-            }else if(isset($this->query[ASC_QUERY_NAME])){
-                $query->orderBy($this->query[ASC_QUERY_NAME]);
+            if(isset($this->query[ORDER_BY_QUERY_NAME])){
+                @list($field, $type) = explode("@", $this->query[ORDER_BY_QUERY_NAME]);
+                $type = $type ?: "desc";
+                $field = $field ?: null;
+
+                switch ($type){
+                    case "desc":
+                        $query->orderByDesc($field);
+                        break;
+                    case "asc":
+                        $query->orderBy($field);
+                        break;
+                }
             }
             return $query;
         };

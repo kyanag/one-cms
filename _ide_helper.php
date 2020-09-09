@@ -2875,7 +2875,7 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
-         * Store an item in the cache.
+         * Site an item in the cache.
          *
          * @param string $key
          * @param mixed $value
@@ -2909,7 +2909,7 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
-         * Store multiple items in the cache for a given number of minutes.
+         * Site multiple items in the cache for a given number of minutes.
          *
          * @param array $values
          * @param \DateTimeInterface|\DateInterval|float|int $minutes
@@ -2942,7 +2942,7 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
-         * Store an item in the cache if the key does not exist.
+         * Site an item in the cache if the key does not exist.
          *
          * @param string $key
          * @param mixed $value
@@ -2985,7 +2985,7 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
-         * Store an item in the cache indefinitely.
+         * Site an item in the cache indefinitely.
          *
          * @param string $key
          * @param mixed $value
@@ -3188,7 +3188,7 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
-         * Store an item in the cache for the default time.
+         * Site an item in the cache for the default time.
          *
          * @param string $key
          * @param mixed $value
@@ -12073,7 +12073,7 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
-         * Store the uploaded file on the disk.
+         * Site the uploaded file on the disk.
          *
          * @param string $path
          * @param \Illuminate\Http\File|\Illuminate\Http\UploadedFile $file
@@ -12088,7 +12088,7 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
-         * Store the uploaded file on the disk with a given name.
+         * Site the uploaded file on the disk with a given name.
          *
          * @param string $path
          * @param \Illuminate\Http\File|\Illuminate\Http\UploadedFile $file

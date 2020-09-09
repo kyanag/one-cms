@@ -25,7 +25,7 @@ class Category extends Model
         });
 
         static::addGlobalScope("store", function($query){
-            return $query->where("store_id", app("env.store")['id']);
+            return $query->where("store_id", app("admin.site")['id']);
         });
     }
 

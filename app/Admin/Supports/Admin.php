@@ -34,7 +34,7 @@ class Admin
 
             $inputProvider->registerComponent("tabs", \Kyanag\Form\Components\Tabs::class);
 
-            $inputProvider->registerComponent("column", \Kyanag\Form\Components\Decorators\ColumnDecorator::class);
+            $inputProvider->registerComponent("column", \Kyanag\Form\Components\Decorators\Div::class);
             return $inputProvider;
         });
 

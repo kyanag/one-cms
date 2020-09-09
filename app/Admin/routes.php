@@ -31,4 +31,6 @@ Route::group([], function () {
 
     Route::resource("form", "FormController")
         ->names("admin.form");
+
+    Route::post("common/upload", "CommonController@upload")->name("admin.common.upload");
 });

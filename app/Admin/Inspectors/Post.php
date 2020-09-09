@@ -9,6 +9,7 @@ use App\Admin\Annotations\SchemaAttribute;
 use App\Admin\Annotations\RelationAttribute;
 use App\Admin\Supports\Readable;
 use App\Admin\Annotations\BuildableObjectAttribute;
+use App\Supports\Tree;
 use App\Supports\UrlCreator;
 
 /**
@@ -70,14 +71,20 @@ class Post extends Readable{
      * @FieldAttribute(
      *     label="分类",
      *     name="category_id",
-     *     ableTo=0,
+     *     ableTo=3,
      *     input=@BuildableObjectAttribute(
      *         provider="input",
-     *         name="text"
+     *         name="select",
+     *         properties={
+     *             "options":@CallableAttribute(method="getCategoryIdOptions")
+     *         }
      *     ),
      *     column=@BuildableObjectAttribute(
      *         provider="column",
-     *         name="raw"
+     *         name="using",
+     *         properties={
+     *             "options":@CallableAttribute(method="getCategoryIdOptions")
+     *         }
      *     )
      * )
      */
@@ -251,6 +258,25 @@ class Post extends Readable{
      */
     public $_actionBar;
 
+
+    public function getCategoryIdOptions(){
+        $categories = \App\Models\Category::query()->select(
+            "id", "parent_id", "title"
+        )->get();
+
+        $tree = new Tree($categories->toArray());
+
+        $items = $tree->toTreeList();
+
+        $options = [
+            0 => "根"
+        ];
+
+        foreach ($items as $item){
+            $options[$item['id']] = str_repeat("—— ", $item['depth']) .  " {$item['title']}";
+        }
+        return $options;
+    }
 
     public function getUrlCreator(){
         $urlCreator = new UrlCreator("post");

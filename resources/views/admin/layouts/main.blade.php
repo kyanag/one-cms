@@ -4,7 +4,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
     <meta name="author" content="kyanag">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="autocomplete" content="off">
@@ -18,7 +17,7 @@
     <link href="https://cdn.bootcdn.net/ajax/libs/webuploader/0.1.1/webuploader.css" rel="stylesheet">
     <link href="https://cdn.staticfile.org/selectize.js/0.1.0/selectize.min.css" rel="stylesheet">
     <meta name="theme-color" content="#563d7c">
-    <link rel="icon" href="{{ asset("images/logo.png") }}" type="image/png" />
+    <link rel="icon" href="{{ asset("images/logo-mini.png") }}" type="image/png" />
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -106,7 +105,9 @@
 <script src="https://cdn.bootcss.com/bootbox.js/5.4.0/bootbox.min.js"></script>
 <script src="https://cdn.bootcdn.net/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"></script>
 
-<script src="https://cdn.bootcdn.net/ajax/libs/webuploader/0.1.1/webuploader.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/plupload/3.1.2/moxie.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/plupload/3.1.2/plupload.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/plupload/3.1.2/i18n/zh_CN.js"></script>
 
 <script src="https://cdn.bootcdn.net/ajax/libs/flatpickr/4.6.6/flatpickr.js"></script>
 <script src="https://cdn.bootcdn.net/ajax/libs/flatpickr/4.6.6/l10n/zh.min.js"></script>
@@ -116,8 +117,18 @@
 
 <script src="https://cdn.staticfile.org/selectize.js/0.1.0/selectize.min.js"></script>
 <script src="{{ asset("js/basic.js") }}?{{ time() }}"></script>
+<script src="{{ asset("js/fileupload.js") }}?{{ time() }}"></script>
 <script src="{{ asset("js/former.js") }}?{{ time() }}"></script>
 <script>
+    $.formerSetup({
+        uploader:{
+            url: "{{ route("admin.common.upload") }}",
+            headers:{
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+        },
+    });
+
 $(function(){
 
 @foreach(\App\Supports\Asset::$js as $js)
