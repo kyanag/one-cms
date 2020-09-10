@@ -9,7 +9,6 @@
         }
         return fileList;
     }
-
     let uploader = function(file, options){
         let {url, headers, chunkSize, data} = options
         headers = headers ?? {};
@@ -58,7 +57,6 @@
             })
         });
     };
-
     g.uploader = uploader;
 })(window);
 

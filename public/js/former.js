@@ -93,7 +93,9 @@
                         uploader(files[i], upOptions)
                             .then(function(data){
                                 console.log(data);
-                            }).catch((e) => {console.log(e)});
+                            }).catch((e) => {
+                                console.log(e)
+                            });
                     }
                 });
                 $(file).click();
